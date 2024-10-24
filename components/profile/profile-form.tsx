@@ -1,14 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { User } from '@supabase/supabase-js';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { useToast } from '@/components/ui/use-toast';
 import { useSupabase } from '@/components/providers/supabase-provider';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -25,6 +18,13 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { useToast } from '@/hooks/use-toast';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { User } from '@supabase/supabase-js';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
 
 const formSchema = z.object({
   full_name: z.string().min(2, 'Full name must be at least 2 characters'),
@@ -75,7 +75,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
   }
 
   return (
-    <Card>
+    <Card className="mx-auto w-full max-w-2xl">
       <CardHeader>
         <CardTitle>Profile Information</CardTitle>
         <CardDescription>
@@ -113,7 +113,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
             />
           </CardContent>
           <CardFooter>
-            <Button type="submit" disabled={isLoading}>
+            <Button type="submit" disabled={isLoading} className="w-full sm:w-auto">
               {isLoading ? 'Saving...' : 'Save Changes'}
             </Button>
           </CardFooter>

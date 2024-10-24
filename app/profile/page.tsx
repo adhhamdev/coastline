@@ -1,18 +1,18 @@
-import { redirect } from 'next/navigation';
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
-import { ProfileForm } from '@/components/profile/profile-form';
 import { DashboardHeader } from '@/components/dashboard/header';
 import { DashboardShell } from '@/components/dashboard/shell';
+import { ProfileForm } from '@/components/profile/profile-form';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
 export default async function ProfilePage() {
   const supabase = createServerComponentClient({ cookies });
-  
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
 
-  if (!session) {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
     redirect('/auth/login');
   }
 
@@ -23,7 +23,7 @@ export default async function ProfilePage() {
         text="Manage your profile settings and preferences."
       />
       <div className="grid gap-10">
-        <ProfileForm user={session.user} />
+        <ProfileForm user={user} />
       </div>
     </DashboardShell>
   );

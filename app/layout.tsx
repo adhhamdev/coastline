@@ -1,18 +1,19 @@
-import './globals.css';
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import { ThemeProvider } from '@/components/theme-provider';
-import { Toaster } from '@/components/ui/toaster';
 import { Navigation } from '@/components/navigation';
 import { SupabaseProvider } from '@/components/providers/supabase-provider';
+import { ThemeProvider } from '@/components/theme-provider';
+import { Toaster } from '@/components/ui/toaster';
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Modern Web Application',
+  metadataBase: new URL('http://localhost:3000'),
+  title: 'Coastline',
   description: 'A full-featured web application with Next.js and Supabase',
   openGraph: {
-    title: 'Modern Web Application',
+    title: 'Coastline',
     description: 'A full-featured web application with Next.js and Supabase',
     type: 'website',
     url: 'https://your-domain.com',
@@ -21,13 +22,13 @@ export const metadata: Metadata = {
         url: 'https://your-domain.com/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Modern Web Application',
+        alt: 'Coastline',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Modern Web Application',
+    title: 'Coastline',
     description: 'A full-featured web application with Next.js and Supabase',
     images: ['https://your-domain.com/og-image.jpg'],
   },
@@ -43,7 +44,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <SupabaseProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <div className="relative flex min-h-screen flex-col">
+            <div className="flex relative flex-col min-h-screen">
               <Navigation />
               <main className="flex-1">{children}</main>
             </div>
