@@ -3,6 +3,7 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 export async function middleware(request: NextRequest) {
+  console.log('Path middleware hit!');
   let response = NextResponse.next({
     request: {
       headers: request.headers,
@@ -36,12 +37,12 @@ export async function middleware(request: NextRequest) {
   );
 
   const {
-    data: { session },
-  } = await supabase.auth.getSession();
+    data: { user },
+  } = await supabase.auth.getUser();
 
   // If user is not signed in and the current path is not / or /auth/*, redirect to /auth/login
   if (
-    !session &&
+    !user &&
     !['/auth/login', '/auth/register', '/'].includes(request.nextUrl.pathname)
   ) {
     return NextResponse.redirect(new URL('/auth/login', request.url));
