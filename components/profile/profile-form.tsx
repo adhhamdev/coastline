@@ -20,6 +20,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
+import { Database } from '@/lib/database.types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { User } from '@supabase/supabase-js';
 import { useState } from 'react';
@@ -33,6 +34,7 @@ const formSchema = z.object({
 
 interface ProfileFormProps {
   user: User;
+  profile: Database['public']['Tables']['profiles']['Row'];
 }
 
 export default function ProfileForm({ user }: ProfileFormProps) {

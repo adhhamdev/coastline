@@ -1,29 +1,40 @@
 'use client';
 
-import { useSupabase } from '@/components/providers/supabase-provider';
 import ThemeToggle from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import UserNav from '@/components/user-nav';
+import { createClient } from '@/utils/supabase';
 import { User } from '@supabase/supabase-js';
 import { Compass, Home, Menu, MessageCircle, PlusSquare } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
 
 export default function Navigation() {
   const pathname = usePathname();
-  const { supabase } = useSupabase();
+  const router = useRouter();
   const [user, setUser] = React.useState<User | null>(null);
   const [isOpen, setIsOpen] = React.useState(false);
+  const supabase = createClient();
 
   React.useEffect(() => {
     const getUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       setUser(user);
     };
+
     getUser();
-  }, [supabase]);
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+      router.refresh();
+    });
+
+    return () => subscription.unsubscribe();
+  }, [supabase, router]);
 
   const navLinks = [
     { href: '/feed', label: 'Feed', icon: Home },

@@ -1,6 +1,5 @@
 'use client';
 
-import { useSupabase } from '@/components/providers/supabase-provider';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -20,6 +19,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
+import { createClient } from '@/utils/supabase';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -33,10 +33,10 @@ const formSchema = z.object({
 });
 
 export default function LoginPage() {
-  const router = useRouter();
-  const { supabase } = useSupabase();
-  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  const { toast } = useToast();
+  const supabase = createClient();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -46,9 +46,10 @@ export default function LoginPage() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setIsLoading(true);
+
     try {
-      setIsLoading(true);
       const { error } = await supabase.auth.signInWithPassword({
         email: values.email,
         password: values.password,
@@ -58,92 +59,80 @@ export default function LoginPage() {
         throw error;
       }
 
-      toast({
-        title: 'Success',
-        description: 'You have been logged in successfully.',
-      });
-
-      router.push('/dashboard');
       router.refresh();
+      router.push('/feed');
     } catch (error) {
       toast({
         title: 'Error',
-        description: 'Invalid login credentials.',
+        description: 'Invalid email or password',
         variant: 'destructive',
       });
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   return (
-    <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle>Login</CardTitle>
-          <CardDescription>
-            Enter your email and password to access your account
-          </CardDescription>
-        </CardHeader>
+    <Card className="w-full max-w-md">
+      <CardHeader>
+        <CardTitle>Login</CardTitle>
+        <CardDescription>
+          Welcome back! Please enter your credentials to continue.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <CardContent className="space-y-4">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="email"
-                        placeholder="Enter your email"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="Enter your password"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-            <CardFooter className="flex flex-col space-y-4">
-              <Button
-                type="submit"
-                className="w-full"
-                disabled={isLoading}
-              >
-                {isLoading ? 'Logging in...' : 'Login'}
-              </Button>
-              <p className="text-sm text-center text-muted-foreground">
-                Don&apos;t have an account?{' '}
-                <Link
-                  href="/auth/register"
-                  className="text-primary hover:underline"
-                >
-                  Register
-                </Link>
-              </p>
-            </CardFooter>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="email"
+                      placeholder="Enter your email"
+                      disabled={isLoading}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="password"
+                      placeholder="Enter your password"
+                      disabled={isLoading}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? 'Loading...' : 'Login'}
+            </Button>
           </form>
         </Form>
-      </Card>
-    </div>
+      </CardContent>
+      <CardFooter className="flex justify-center">
+        <p className="text-sm text-muted-foreground">
+          Don&apos;t have an account?{' '}
+          <Link href="/auth/register" className="text-emerald-600 hover:underline">
+            Register
+          </Link>
+        </p>
+      </CardFooter>
+    </Card>
   );
 }

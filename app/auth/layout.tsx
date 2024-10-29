@@ -1,9 +1,12 @@
-import CreateContent from '@/components/create/create-content';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
-export default async function CreatePage() {
+export default async function AuthLayout({
+    children,
+}: {
+    children: React.ReactNode;
+}) {
     const cookieStore = cookies();
 
     const supabase = createServerClient(
@@ -20,13 +23,13 @@ export default async function CreatePage() {
 
     const { data: { user } } = await supabase.auth.getUser();
 
-    if (!user) {
-        redirect('/auth/login');
+    if (user) {
+        redirect('/feed');
     }
 
     return (
-        <div className="container py-6 max-w-4xl">
-            <CreateContent user={user} />
+        <div className="container flex items-center justify-center min-h-screen py-10">
+            {children}
         </div>
     );
 } 

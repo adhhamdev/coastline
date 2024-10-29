@@ -1,9 +1,9 @@
 'use client';
 
 import PostCard from '@/components/feed/post-card';
-import { useSupabase } from '@/components/providers/supabase-provider';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { createClient } from '@/utils/supabase';
 import { User } from '@supabase/supabase-js';
 import { Loader2 } from 'lucide-react';
 import { useState } from 'react';
@@ -16,7 +16,7 @@ interface FeedContentProps {
 export default function FeedContent({ initialFeedItems, user }: FeedContentProps) {
     const [feedItems, setFeedItems] = useState(initialFeedItems);
     const [loading, setLoading] = useState(false);
-    const { supabase } = useSupabase();
+    const supabase = createClient();
 
     const loadMore = async () => {
         if (loading) return;
