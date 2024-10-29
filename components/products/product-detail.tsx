@@ -1,12 +1,12 @@
 'use client';
 
-import { useSupabase } from '@/components/providers/supabase-provider';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
+import { createClient } from '@/utils/supabase/client';
 import { User } from '@supabase/supabase-js';
 import { formatDistanceToNow } from 'date-fns';
 import { Bookmark, Heart, MapPin, MessageCircle, Share2, Star, User as UserIcon } from 'lucide-react';
@@ -24,7 +24,7 @@ interface ProductDetailProps {
 export default function ProductDetail({ product, similarProducts, currentUser }: ProductDetailProps) {
     const [selectedImage, setSelectedImage] = useState(0);
     const [isSaved, setIsSaved] = useState(false);
-    const { supabase } = useSupabase();
+    const supabase = createClient();
     const { toast } = useToast();
 
     const formatPrice = (price: number) => {

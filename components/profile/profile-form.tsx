@@ -1,6 +1,5 @@
 'use client';
 
-import { useSupabase } from '@/components/providers/supabase-provider';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -21,6 +20,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Database } from '@/lib/database.types';
+import { createClient } from '@/utils/supabase/client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { User } from '@supabase/supabase-js';
 import { useState } from 'react';
@@ -38,7 +38,7 @@ interface ProfileFormProps {
 }
 
 export default function ProfileForm({ user }: ProfileFormProps) {
-  const { supabase } = useSupabase();
+  const supabase = createClient();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
 

@@ -2,16 +2,12 @@ import DashboardHeader from '@/components/dashboard/header';
 import Overview from '@/components/dashboard/overview';
 import DashboardShell from '@/components/dashboard/shell';
 import DashboardTabs from '@/components/dashboard/tabs';
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
+import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 
 export default async function DashboardPage() {
-  const supabase = createServerComponentClient({ cookies });
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const supabase = createClient();
+  const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/auth/login');

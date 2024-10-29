@@ -19,11 +19,11 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { createClient } from '@/utils/supabase';
+import { createClient } from '@/utils/supabase/client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
@@ -37,7 +37,7 @@ const formSchema = z.object({
 });
 
 export default function RegisterPage() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const { toast } = useToast();
   const supabase = createClient();
@@ -53,18 +53,19 @@ export default function RegisterPage() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      setIsLoading(true);
-      const { error } = await supabase.auth.signUp({
-        email: values.email,
-        password: values.password,
-        options: {
-          emailRedirectTo: `${window.location.origin}/auth/callback`,
-        },
-      });
+      startTransition(async () => {
+        const { error } = await supabase.auth.signUp({
+          email: values.email,
+          password: values.password,
+          options: {
+            emailRedirectTo: `${window.location.origin}/auth/callback`,
+          },
+        });
 
-      if (error) {
-        throw error;
-      }
+        if (error) {
+          throw error;
+        }
+      });
 
       toast({
         title: 'Success',
@@ -78,8 +79,6 @@ export default function RegisterPage() {
         description: 'Something went wrong. Please try again.',
         variant: 'destructive',
       });
-    } finally {
-      setIsLoading(false);
     }
   }
 
@@ -105,7 +104,7 @@ export default function RegisterPage() {
                       {...field}
                       type="email"
                       placeholder="Enter your email"
-                      disabled={isLoading}
+                      disabled={isPending}
                     />
                   </FormControl>
                   <FormMessage />
@@ -123,7 +122,7 @@ export default function RegisterPage() {
                       {...field}
                       type="password"
                       placeholder="Create a password"
-                      disabled={isLoading}
+                      disabled={isPending}
                     />
                   </FormControl>
                   <FormMessage />
@@ -141,15 +140,15 @@ export default function RegisterPage() {
                       {...field}
                       type="password"
                       placeholder="Confirm your password"
-                      disabled={isLoading}
+                      disabled={isPending}
                     />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? 'Creating account...' : 'Register'}
+            <Button type="submit" className="w-full" disabled={isPending}>
+              {isPending ? 'Creating account...' : 'Register'}
             </Button>
           </form>
         </Form>

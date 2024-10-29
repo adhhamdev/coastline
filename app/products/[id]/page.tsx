@@ -1,7 +1,6 @@
 import ProductDetail from '@/components/products/product-detail';
-import { createServerClient } from '@supabase/ssr';
-import { cookies } from 'next/headers';
-import { notFound } from 'next/navigation';
+import { createClient } from '@/utils/supabase/server';
+import { notFound, redirect } from 'next/navigation';
 
 interface ProductPageProps {
     params: {
@@ -10,21 +9,12 @@ interface ProductPageProps {
 }
 
 export default async function ProductPage({ params }: ProductPageProps) {
-    const cookieStore = cookies();
-
-    const supabase = createServerClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-        {
-            cookies: {
-                get(name: string) {
-                    return cookieStore.get(name)?.value;
-                },
-            },
-        }
-    );
-
+    const supabase = createClient();
     const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+        redirect('/auth/login');
+    }
 
     // Fetch product details with seller information
     const { data: product } = await supabase

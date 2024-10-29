@@ -1,6 +1,5 @@
 'use client';
 
-import { useSupabase } from '@/components/providers/supabase-provider';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -11,6 +10,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import useDebounce from '@/hooks/use-debounce';
+import { createClient } from '@/utils/supabase/client';
 import { User } from '@supabase/supabase-js';
 import { Loader2, Search } from 'lucide-react';
 import Link from 'next/link';
@@ -28,7 +28,7 @@ export default function ProductsContent({ initialProducts, currentUser }: Produc
     const [category, setCategory] = useState('all');
     const [loading, setLoading] = useState(false);
     const debouncedSearch = useDebounce(searchQuery, 500);
-    const { supabase } = useSupabase();
+    const supabase = createClient();
 
     const handleSearch = async (query: string, selectedCategory: string) => {
         setLoading(true);

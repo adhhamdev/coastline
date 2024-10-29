@@ -3,7 +3,7 @@
 import PostCard from '@/components/feed/post-card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { createClient } from '@/utils/supabase';
+import { createClient } from '@/utils/supabase/client';
 import { User } from '@supabase/supabase-js';
 import { Loader2 } from 'lucide-react';
 import { useState } from 'react';
@@ -59,7 +59,7 @@ export default function FeedContent({ initialFeedItems, user }: FeedContentProps
                 </TabsList>
                 <TabsContent value="all" className="space-y-4">
                     {feedItems.map((item) => (
-                        <PostCard key={item.id} post={item} currentUser={user} />
+                        <PostCard key={item.id} post={item} currentUser={user} initialLiked={item.liked_by_user} />
                     ))}
                     <div className="flex justify-center">
                         <Button

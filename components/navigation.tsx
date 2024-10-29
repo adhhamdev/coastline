@@ -4,7 +4,7 @@ import ThemeToggle from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import UserNav from '@/components/user-nav';
-import { createClient } from '@/utils/supabase';
+import { createClient } from '@/utils/supabase/client';
 import { User } from '@supabase/supabase-js';
 import { Compass, Home, Menu, MessageCircle, PlusSquare } from 'lucide-react';
 import Link from 'next/link';
@@ -58,11 +58,10 @@ export default function Navigation() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`flex items-center space-x-2 ${
-                  pathname === link.href
+                className={`flex items-center space-x-2 ${pathname === link.href
                     ? 'text-emerald-600'
                     : 'text-foreground/60 hover:text-emerald-600'
-                }`}>
+                  }`}>
                 <link.icon className='w-4 h-4' />
                 <span>{link.label}</span>
               </Link>
@@ -96,11 +95,10 @@ export default function Navigation() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`flex items-center space-x-2 text-lg ${
-                      pathname === link.href
+                    className={`flex items-center space-x-2 text-lg ${pathname === link.href
                         ? 'text-emerald-600'
                         : 'text-foreground/60 hover:text-emerald-600'
-                    }`}
+                      }`}
                     onClick={() => setIsOpen(false)}>
                     <link.icon className='w-5 h-5' />
                     <span>{link.label}</span>

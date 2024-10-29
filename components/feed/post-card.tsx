@@ -1,65 +1,77 @@
 'use client';
 
+import { likePost, unlikePost } from '@/app/actions/posts';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { useToast } from '@/hooks/use-toast';
 import { User } from '@supabase/supabase-js';
 import { formatDistanceToNow } from 'date-fns';
-import { Heart, MessageCircle, MoreHorizontal, Share2 } from 'lucide-react';
+import { Heart, MessageCircle, Share2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 
 interface PostCardProps {
     post: any;
     currentUser: User;
+    initialLiked: boolean;
 }
 
-export default function PostCard({ post, currentUser }: PostCardProps) {
-    const [isLiked, setIsLiked] = useState(false);
+export default function PostCard({ post, currentUser, initialLiked }: PostCardProps) {
+    const [isLiked, setIsLiked] = useState(initialLiked);
     const [likesCount, setLikesCount] = useState(post.likes_count);
+    const [isPending, startTransition] = useTransition();
+    const { toast } = useToast();
 
     const handleLike = async () => {
-        setIsLiked(!isLiked);
-        setLikesCount(isLiked ? likesCount - 1 : likesCount + 1);
-        // TODO: Implement like functionality with Supabase
+        if (!currentUser) {
+            toast({
+                title: "Authentication required",
+                description: "Please login to like posts",
+                variant: "destructive"
+            });
+            return;
+        }
+
+        startTransition(async () => {
+            try {
+                if (isLiked) {
+                    await unlikePost(post.id);
+                    setLikesCount((prev: number) => prev - 1);
+                } else {
+                    await likePost(post.id);
+                    setLikesCount((prev: number) => prev + 1);
+                }
+                setIsLiked(!isLiked);
+            } catch (error) {
+                toast({
+                    title: "Error",
+                    description: "Failed to like post. Please try again.",
+                    variant: "destructive"
+                });
+            }
+        });
     };
 
     return (
         <Card className="overflow-hidden">
             <CardHeader className="p-4">
-                <div className="flex justify-between items-center">
-                    <Link href={`/${post.profiles.username}`} className="flex items-center space-x-3">
+                <div className="flex items-center space-x-3">
+                    <Link href={`/${post.profiles.username}`}>
                         <Avatar className="h-10 w-10">
                             <AvatarImage src={post.profiles.avatar_url} />
                             <AvatarFallback>{post.profiles.username[0].toUpperCase()}</AvatarFallback>
                         </Avatar>
-                        <div>
-                            <div className="font-semibold">{post.profiles.username}</div>
-                            <div className="text-sm text-muted-foreground">
-                                {formatDistanceToNow(new Date(post.created_at), { addSuffix: true })}
-                            </div>
-                        </div>
                     </Link>
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon">
-                                <MoreHorizontal className="h-5 w-5" />
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuItem>Report</DropdownMenuItem>
-                            {currentUser.id === post.profiles.id && (
-                                <DropdownMenuItem className="text-red-600">Delete</DropdownMenuItem>
-                            )}
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                    <div>
+                        <Link href={`/${post.profiles.username}`} className="font-semibold hover:underline">
+                            {post.profiles.username}
+                        </Link>
+                        <p className="text-sm text-muted-foreground">
+                            {formatDistanceToNow(new Date(post.created_at), { addSuffix: true })}
+                        </p>
+                    </div>
                 </div>
             </CardHeader>
             <CardContent className="p-4 pt-0">
@@ -86,6 +98,7 @@ export default function PostCard({ post, currentUser }: PostCardProps) {
                         size="sm"
                         className={`flex items-center space-x-2 ${isLiked ? 'text-red-500' : ''}`}
                         onClick={handleLike}
+                        disabled={isPending}
                     >
                         <Heart className={`h-5 w-5 ${isLiked ? 'fill-current' : ''}`} />
                         <span>{likesCount}</span>

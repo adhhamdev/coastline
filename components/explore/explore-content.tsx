@@ -2,14 +2,14 @@
 
 import UserCard from '@/components/explore/user-card';
 import ProductCard from '@/components/products/product-card';
-import { useSupabase } from '@/components/providers/supabase-provider';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import useDebounce from '@/hooks/use-debounce';
+import { createClient } from '@/utils/supabase/client';
 import { User } from '@supabase/supabase-js';
 import { Search } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 import PostCard from '../feed/post-card';
 
 interface ExploreContentProps {
@@ -25,9 +25,9 @@ export default function ExploreContent({ initialProducts, popularSellers, user }
         users: popularSellers,
         posts: []
     });
-    const [isLoading, setIsLoading] = useState(false);
+    const [isPending, startTransition] = useTransition();
     const debouncedSearch = useDebounce(searchQuery, 500);
-    const { supabase } = useSupabase();
+    const supabase = createClient();
     const router = useRouter();
 
     const handleSearch = async (query: string) => {
@@ -40,13 +40,13 @@ export default function ExploreContent({ initialProducts, popularSellers, user }
             return;
         }
 
-        setIsLoading(true);
         try {
-            const [productsRes, usersRes, postsRes] = await Promise.all([
-                // Search products
-                supabase
-                    .from('products')
-                    .select(`
+            startTransition(async () => {
+                const [productsRes, usersRes, postsRes] = await Promise.all([
+                    // Search products
+                    supabase
+                        .from('products')
+                        .select(`
             id,
             title,
             price,
@@ -59,20 +59,20 @@ export default function ExploreContent({ initialProducts, popularSellers, user }
               business_type
             )
           `)
-                    .textSearch('fts', query)
-                    .limit(10),
+                        .textSearch('fts', query)
+                        .limit(10),
 
-                // Search users
-                supabase
-                    .from('profiles')
-                    .select('*')
-                    .or(`username.ilike.%${query}%, full_name.ilike.%${query}%`)
-                    .limit(10),
+                    // Search users
+                    supabase
+                        .from('profiles')
+                        .select('*')
+                        .or(`username.ilike.%${query}%, full_name.ilike.%${query}%`)
+                        .limit(10),
 
-                // Search posts
-                supabase
-                    .from('posts')
-                    .select(`
+                    // Search posts
+                    supabase
+                        .from('posts')
+                        .select(`
             id,
             content,
             media_urls,
@@ -82,21 +82,20 @@ export default function ExploreContent({ initialProducts, popularSellers, user }
               username,
               avatar_url,
               business_type
-            )
-          `)
-                    .textSearch('content', query)
-                    .limit(10)
-            ]);
+                        )
+                    `)
+                        .textSearch('content', query)
+                        .limit(10)
+                ]);
 
-            setSearchResults({
-                products: productsRes.data || [],
-                users: usersRes.data || [],
-                posts: postsRes.data || []
+                setSearchResults({
+                    products: productsRes.data || [],
+                    users: usersRes.data || [],
+                    posts: postsRes.data || []
+                });
             });
         } catch (error) {
             console.error('Search error:', error);
-        } finally {
-            setIsLoading(false);
         }
     };
 
@@ -143,7 +142,7 @@ export default function ExploreContent({ initialProducts, popularSellers, user }
                 <TabsContent value="posts" className="space-y-4">
                     <div className="grid gap-6">
                         {searchResults.posts.map((post: any) => (
-                            <PostCard key={post.id} post={post} currentUser={user} />
+                            <PostCard key={post.id} post={post} currentUser={user} initialLiked={post.liked_by_user} />
                         ))}
                     </div>
                 </TabsContent>

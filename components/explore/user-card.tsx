@@ -1,10 +1,10 @@
 'use client';
 
-import { useSupabase } from '@/components/providers/supabase-provider';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
+import { createClient } from '@/utils/supabase/client';
 import { User } from '@supabase/supabase-js';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -16,7 +16,7 @@ interface UserCardProps {
 
 export default function UserCard({ profile, currentUser }: UserCardProps) {
     const [isFollowing, setIsFollowing] = useState(false);
-    const { supabase } = useSupabase();
+    const supabase = createClient();
     const { toast } = useToast();
 
     const handleFollow = async () => {
