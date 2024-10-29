@@ -68,7 +68,7 @@ export default function RegisterPage() {
 
       toast({
         title: 'Success',
-        description: 'Please check your email to verify your account.',
+        description: 'You have successfully created an account.',
       });
 
       router.push('/auth/login');
