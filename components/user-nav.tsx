@@ -1,6 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import {
   Avatar,
   AvatarFallback,
@@ -16,14 +15,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useSupabase } from './providers/supabase-provider';
 import { User } from '@supabase/supabase-js';
+import { useRouter } from 'next/navigation';
+import { useSupabase } from './providers/supabase-provider';
 
 interface UserNavProps {
   user: User;
 }
 
-export function UserNav({ user }: UserNavProps) {
+export default function UserNav({ user }: UserNavProps) {
   const router = useRouter();
   const { supabase } = useSupabase();
 

@@ -35,7 +35,7 @@ interface ProfileFormProps {
   user: User;
 }
 
-export function ProfileForm({ user }: ProfileFormProps) {
+export default function ProfileForm({ user }: ProfileFormProps) {
   const { supabase } = useSupabase();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);

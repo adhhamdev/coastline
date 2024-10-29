@@ -4,7 +4,7 @@ interface DashboardHeaderProps {
   children?: React.ReactNode;
 }
 
-export function DashboardHeader({
+export default function DashboardHeader({
   heading,
   text,
   children,

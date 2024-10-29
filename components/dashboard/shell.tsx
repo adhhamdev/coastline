@@ -2,7 +2,7 @@ interface DashboardShellProps {
   children: React.ReactNode;
 }
 
-export function DashboardShell({ children }: DashboardShellProps) {
+export default function DashboardShell({ children }: DashboardShellProps) {
   return (
     <div className="grid items-start gap-8 p-8">
       {children}

@@ -1,7 +1,7 @@
-import { Navigation } from '@/components/navigation';
-import { SupabaseProvider } from '@/components/providers/supabase-provider';
-import { ThemeProvider } from '@/components/theme-provider';
-import { Toaster } from '@/components/ui/toaster';
+import Navigation from '@/components/navigation';
+import SupabaseProvider from '@/components/providers/supabase-provider';
+import ThemeProvider from '@/components/theme-provider';
+import Toaster from '@/components/ui/toaster';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
@@ -11,26 +11,26 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   metadataBase: new URL('http://localhost:3000'),
   title: 'Coastline',
-  description: 'A full-featured web application with Next.js and Supabase',
+  description: 'Connect with verified businesses and traders across Sri Lanka',
   openGraph: {
-    title: 'Coastline',
-    description: 'A full-featured web application with Next.js and Supabase',
+    title: 'Coastline - Sri Lankan Business Marketplace',
+    description: 'Connect with verified businesses and traders across Sri Lanka. Join thousands of Sri Lankan businesses already on our platform.',
     type: 'website',
-    url: 'https://your-domain.com',
+    url: 'https://coastline.lk',
     images: [
       {
-        url: 'https://your-domain.com/og-image.jpg',
+        url: 'https://coastline.lk/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Coastline',
+        alt: 'Coastline - Sri Lankan Business Marketplace',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Coastline',
-    description: 'A full-featured web application with Next.js and Supabase',
-    images: ['https://your-domain.com/og-image.jpg'],
+    title: 'Coastline - Sri Lankan Business Marketplace',
+    description: 'Connect with verified businesses and traders across Sri Lanka. Join thousands of Sri Lankan businesses already on our platform.',
+    images: ['https://coastline.lk/og-image.jpg'],
   },
 };
 

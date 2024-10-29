@@ -1,7 +1,7 @@
-import { DashboardHeader } from '@/components/dashboard/header';
-import { Overview } from '@/components/dashboard/overview';
-import { DashboardShell } from '@/components/dashboard/shell';
-import { DashboardTabs } from '@/components/dashboard/tabs';
+import DashboardHeader from '@/components/dashboard/header';
+import Overview from '@/components/dashboard/overview';
+import DashboardShell from '@/components/dashboard/shell';
+import DashboardTabs from '@/components/dashboard/tabs';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';

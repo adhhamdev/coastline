@@ -1,9 +1,9 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import type { SupabaseClient } from '@supabase/auth-helpers-nextjs';
 import type { Database } from '@/lib/database.types';
+import type { SupabaseClient } from '@supabase/auth-helpers-nextjs';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 type SupabaseContext = {
   supabase: SupabaseClient<Database>;
@@ -11,13 +11,13 @@ type SupabaseContext = {
 
 const Context = createContext<SupabaseContext | undefined>(undefined);
 
-export function SupabaseProvider({ children }: { children: React.ReactNode }) {
+export default function SupabaseProvider({ children }: { children: React.ReactNode }) {
   const [supabase] = useState(() => createClientComponentClient());
 
   useEffect(() => {
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(() => {});
+    } = supabase.auth.onAuthStateChange(() => { });
 
     return () => {
       subscription.unsubscribe();

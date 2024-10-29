@@ -26,7 +26,7 @@ const activities = [
   },
 ];
 
-export function RecentActivity() {
+export default function RecentActivity() {
   return (
     <ScrollArea className="h-[300px]">
       <div className="space-y-4">

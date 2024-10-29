@@ -1,7 +1,6 @@
 'use client';
 
 import { Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { Card } from '@/components/ui/card';
 
 const data = [
   { name: 'Jan', total: 2400 },
@@ -13,7 +12,7 @@ const data = [
   { name: 'Jul', total: 4300 },
 ];
 
-export function Overview() {
+export default function Overview() {
   return (
     <ResponsiveContainer width="100%" height={350}>
       <LineChart data={data}>

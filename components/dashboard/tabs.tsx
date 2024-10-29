@@ -7,7 +7,7 @@ interface DashboardTabsProps {
   children: React.ReactNode;
 }
 
-export function DashboardTabs({ defaultValue, children }: DashboardTabsProps) {
+export default function DashboardTabs({ defaultValue, children }: DashboardTabsProps) {
   return (
     <Tabs defaultValue={defaultValue} className="space-y-4">
       <TabsList>

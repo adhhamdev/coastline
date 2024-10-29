@@ -1,6 +1,6 @@
-import { DashboardHeader } from '@/components/dashboard/header';
-import { DashboardShell } from '@/components/dashboard/shell';
-import { ProfileForm } from '@/components/profile/profile-form';
+import DashboardHeader from '@/components/dashboard/header';
+import DashboardShell from '@/components/dashboard/shell';
+import ProfileForm from '@/components/profile/profile-form';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';

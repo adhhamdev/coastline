@@ -58,7 +58,8 @@ export default function RegisterPage() {
         email: values.email,
         password: values.password,
         options: {
-          emailRedirectTo: `${window.location.origin}/auth/callback`,
+          // Redirect to origin/auth/callback page after registration
+          emailRedirectTo: `${window.location.origin}`,
         },
       });
 
