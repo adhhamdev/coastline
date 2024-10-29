@@ -1,12 +1,12 @@
 'use client';
 
-import { useSupabase } from '@/components/providers/supabase-provider';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
+import { createClient } from '@/utils/supabase/client';
 import { User } from '@supabase/supabase-js';
 import { ImagePlus, Loader2 } from 'lucide-react';
 import Image from 'next/image';
@@ -21,7 +21,7 @@ export default function CreateContent({ user }: CreateContentProps) {
     const [isLoading, setIsLoading] = useState(false);
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const router = useRouter();
-    const { supabase } = useSupabase();
+    const supabase = createClient();
     const { toast } = useToast();
 
     const handleCreatePost = async (event: React.FormEvent<HTMLFormElement>) => {
