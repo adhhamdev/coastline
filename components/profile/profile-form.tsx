@@ -28,7 +28,7 @@ import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
 const formSchema = z.object({
-  full_name: z.string().min(2, 'Full name must be at least 2 characters'),
+  name: z.string().min(2, 'Full name must be at least 2 characters'),
   website: z.string().url().optional().or(z.literal('')),
 });
 
@@ -45,7 +45,7 @@ export default function ProfileForm({ user }: ProfileFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      full_name: user.user_metadata?.full_name || '',
+      name: user.user_metadata?.name || '',
       website: user.user_metadata?.website || '',
     },
   });
@@ -89,7 +89,7 @@ export default function ProfileForm({ user }: ProfileFormProps) {
           <CardContent className="space-y-4">
             <FormField
               control={form.control}
-              name="full_name"
+              name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Full Name</FormLabel>

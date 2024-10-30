@@ -11,7 +11,7 @@ export async function GET(request: Request) {
     const supabase = createClient();
     const { error, data } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
-      const updatedUser = await supabase.auth.updateUser({
+      await supabase.auth.updateUser({
         data: { google_provider_token: data.session.provider_token },
       });
       const forwardedHost = request.headers.get('x-forwarded-host'); // original origin before load balancer
