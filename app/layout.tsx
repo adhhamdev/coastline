@@ -53,7 +53,7 @@ export default function RootLayout({
         </ThemeProvider>
         <Script
           src="https://accounts.google.com/gsi/client"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
       </body>
     </html>
