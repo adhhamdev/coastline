@@ -17,7 +17,7 @@ export default function Home() {
           </p>
           <div className="flex flex-col justify-center mt-5 space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
             <Button asChild size="lg" className="w-full bg-white text-emerald-600 hover:bg-gray-100 sm:w-auto">
-              <Link href="/auth/register">Join Now</Link>
+              <Link href="/auth/login">Join Now</Link>
             </Button>
             <Button variant="outline" asChild size="lg" className="w-full border-white text-white hover:bg-white/10 sm:w-auto">
               <Link href="#discover">Discover More</Link>
@@ -97,7 +97,7 @@ export default function Home() {
           <h2 className="mb-4 text-3xl font-bold">Ready to grow your business?</h2>
           <p className="mb-8 text-xl">Join thousands of Sri Lankan businesses already on our platform.</p>
           <Button asChild size="lg" className="bg-white text-emerald-600 hover:bg-gray-100">
-            <Link href="/auth/register">Get Started Now</Link>
+            <Link href="/auth/login">Get Started Now</Link>
           </Button>
         </div>
       </section>
