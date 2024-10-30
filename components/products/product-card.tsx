@@ -1,6 +1,6 @@
 'use client';
 
-import { saveProduct, unsaveProduct } from '@/app/actions/products';
+import { saveProduct, unsaveProduct } from '@/actions/products';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';

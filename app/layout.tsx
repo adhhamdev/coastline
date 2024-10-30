@@ -7,18 +7,20 @@ import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+
 export const metadata: Metadata = {
-  metadataBase: new URL('http://localhost:3000'),
+  metadataBase: new URL(siteUrl),
   title: 'Coastline',
   description: 'Connect with verified businesses and traders across Sri Lanka',
   openGraph: {
     title: 'Coastline - Sri Lankan Business Marketplace',
     description: 'Connect with verified businesses and traders across Sri Lanka. Join thousands of Sri Lankan businesses already on our platform.',
     type: 'website',
-    url: 'https://coastline.lk',
+    url: siteUrl,
     images: [
       {
-        url: 'https://coastline.lk/og-image.jpg',
+        url: `${siteUrl}/og-image.jpg`,
         width: 1200,
         height: 630,
         alt: 'Coastline - Sri Lankan Business Marketplace',
@@ -29,7 +31,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Coastline - Sri Lankan Business Marketplace',
     description: 'Connect with verified businesses and traders across Sri Lanka. Join thousands of Sri Lankan businesses already on our platform.',
-    images: ['https://coastline.lk/og-image.jpg'],
+    images: [`${siteUrl}/og-image.jpg`],
   },
 };
 

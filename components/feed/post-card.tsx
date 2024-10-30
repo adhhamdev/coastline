@@ -1,6 +1,6 @@
 'use client';
 
-import { likePost, unlikePost } from '@/app/actions/posts';
+import { likePost, unlikePost } from '@/actions/posts';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';

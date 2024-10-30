@@ -1,5 +1,6 @@
 'use client';
 
+import { register } from '@/actions/auth';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -19,31 +20,20 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { createClient } from '@/utils/supabase/client';
+import { registerFormSchema } from '@/lib/zod-schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2 } from "lucide-react";
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
-const formSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
-  confirmPassword: z.string(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ["confirmPassword"],
-});
-
 export default function RegisterPage() {
   const [isPending, startTransition] = useTransition();
-  const router = useRouter();
   const { toast } = useToast();
-  const supabase = createClient();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof registerFormSchema>>({
+    resolver: zodResolver(registerFormSchema),
     defaultValues: {
       email: '',
       password: '',
@@ -51,36 +41,18 @@ export default function RegisterPage() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-      startTransition(async () => {
-        const { error } = await supabase.auth.signUp({
-          email: values.email,
-          password: values.password,
-          options: {
-            emailRedirectTo: `${window.location.origin}/auth/callback`,
-          },
+  const handleSubmit = async (values: z.infer<typeof registerFormSchema>) => {
+    startTransition(async () => {
+      const { error } = await register(values);
+      if (error) {
+        toast({
+          variant: 'destructive',
+          title: 'Registration failed',
+          description: error,
         });
-
-        if (error) {
-          throw error;
-        }
-      });
-
-      toast({
-        title: 'Success',
-        description: 'You have successfully created an account.',
-      });
-
-      router.push('/auth/login');
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Something went wrong. Please try again.',
-        variant: 'destructive',
-      });
-    }
-  }
+      }
+    });
+  };
 
   return (
     <Card className="w-full max-w-md">
@@ -92,7 +64,7 @@ export default function RegisterPage() {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
             <FormField
               control={form.control}
               name="email"
@@ -148,7 +120,14 @@ export default function RegisterPage() {
               )}
             />
             <Button type="submit" className="w-full" disabled={isPending}>
-              {isPending ? 'Creating account...' : 'Register'}
+              {isPending ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Creating account...
+                </>
+              ) : (
+                "Register"
+              )}
             </Button>
           </form>
         </Form>
