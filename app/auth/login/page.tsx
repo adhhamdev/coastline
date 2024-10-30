@@ -55,6 +55,10 @@ export default function LoginPage({ searchParams }: { searchParams: { error?: st
           data-logo_alignment="left">
         </div>
       </CardContent>
+      <script
+        src="https://accounts.google.com/gsi/client"
+        async
+      />
     </Card>
   );
 }
