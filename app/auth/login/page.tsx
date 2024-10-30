@@ -1,7 +1,6 @@
 'use client';
 
 import { handleOAuth } from '@/actions/auth';
-import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -10,7 +9,6 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2 } from "lucide-react";
 import { useTransition } from 'react';
 
 export default function LoginPage({ searchParams }: { searchParams: { error?: string } }) {
@@ -33,35 +31,29 @@ export default function LoginPage({ searchParams }: { searchParams: { error?: st
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
-        <CardTitle>Login</CardTitle>
+        <CardTitle>Welcome</CardTitle>
         <CardDescription>
-          Welcome back! Please login to your account.
+          Sign in to your account to continue
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <form action={handleSubmit}>
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={isPending}
-          >
-            {isPending ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Connecting...
-              </>
-            ) : (
-              "Continue with Google"
-            )}
-          </Button>
-        </form>
-        <p className="text-sm text-muted-foreground text-center">
-          Don&apos;t have an account? No worries!<br />
-          You can sign up using Google too.
-        </p>
-        {searchParams.error && (
-          <p className="text-sm text-red-500 text-center">{searchParams.error}</p>
-        )}
+      <CardContent className='flex flex-col items-center justify-center'>
+        <div id="g_id_onload"
+          data-client_id="176527091847-khbmsfdpph3glccpv6s73sjhuku3rjs2.apps.googleusercontent.com"
+          data-context="use"
+          data-ux_mode="popup"
+          data-login_uri="https://coastlineapp.vercel.app/auth/callback"
+          data-close_on_tap_outside="false"
+          data-itp_support="true">
+        </div>
+
+        <div className="g_id_signin w-full"
+          data-type="standard"
+          data-shape="pill"
+          data-theme="outline"
+          data-text="continue_with"
+          data-size="large"
+          data-logo_alignment="left">
+        </div>
       </CardContent>
     </Card>
   );

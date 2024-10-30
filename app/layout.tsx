@@ -3,6 +3,7 @@ import ThemeProvider from '@/components/theme-provider';
 import Toaster from '@/components/ui/toaster';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import Script from 'next/script';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -50,6 +51,10 @@ export default function RootLayout({
           </div>
           <Toaster />
         </ThemeProvider>
+        <Script
+          src="https://accounts.google.com/gsi/client"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
