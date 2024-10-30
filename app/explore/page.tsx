@@ -1,7 +1,6 @@
 import ExploreContent from '@/components/explore/explore-content';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
-
 export default async function ExplorePage() {
     const supabase = createClient();
     const { data: { user } } = await supabase.auth.getUser();
@@ -44,7 +43,7 @@ export default async function ExplorePage() {
         (
           SELECT COUNT(*) FROM follows 
           WHERE following_id = profiles.id 
-          AND follower_id = '${user.id}'
+          AND follower_id = '${user?.id}'
         ) as is_following
       `)
             .eq('verified', true)

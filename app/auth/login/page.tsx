@@ -1,5 +1,6 @@
 'use client';
 
+import { handleOAuth } from '@/actions/auth';
 import {
   Card,
   CardContent,
@@ -7,9 +8,27 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import Script from 'next/script';
+import { GoogleButton } from '@/components/ui/google-button';
+import { useToast } from '@/hooks/use-toast';
+import { useTransition } from 'react';
 
 export default function LoginPage({ searchParams }: { searchParams: { error?: string } }) {
+  const [isPending, startTransition] = useTransition();
+  const { toast } = useToast();
+
+  const handleSubmit = () => {
+    startTransition(async () => {
+      const result = await handleOAuth();
+      if (result?.error) {
+        toast({
+          variant: 'destructive',
+          title: 'Login failed',
+          description: result.error,
+        });
+      }
+    });
+  };
+
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
@@ -18,29 +37,14 @@ export default function LoginPage({ searchParams }: { searchParams: { error?: st
           Sign in to your account to continue
         </CardDescription>
       </CardHeader>
-      <CardContent className='flex flex-col items-center justify-center'>
-        <div id="g_id_onload"
-          data-client_id="176527091847-khbmsfdpph3glccpv6s73sjhuku3rjs2.apps.googleusercontent.com"
-          data-context="signin"
-          data-ux_mode="popup"
-          data-login_uri="https://coastlineapp.vercel.app/auth/callback"
-          data-itp_support="true"
-          data-use_fedcm_for_prompt="true">
-        </div>
-
-        <div className="g_id_signin"
-          data-type="standard"
-          data-shape="rectangular"
-          data-theme="outline"
-          data-text="signin_with"
-          data-size="large"
-          data-logo_alignment="left">
-        </div>
+      <CardContent className="space-y-4">
+        <form action={handleSubmit}>
+          <GoogleButton type="submit" isLoading={isPending} />
+        </form>
+        {searchParams.error && (
+          <p className="text-sm text-red-500 text-center">{searchParams.error}</p>
+        )}
       </CardContent>
-      <Script
-        src="https://accounts.google.com/gsi/client"
-        async
-      />
     </Card>
   );
 }

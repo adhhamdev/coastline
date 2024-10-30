@@ -14,7 +14,7 @@ import { useState, useTransition } from 'react';
 
 interface PostCardProps {
     post: any;
-    currentUser: User;
+    currentUser: User | null;
     initialLiked: boolean;
 }
 

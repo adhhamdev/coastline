@@ -11,7 +11,7 @@ import { useState } from 'react';
 
 interface UserCardProps {
     profile: any;
-    currentUser: User;
+    currentUser: User | null;
 }
 
 export default function UserCard({ profile, currentUser }: UserCardProps) {
@@ -25,11 +25,11 @@ export default function UserCard({ profile, currentUser }: UserCardProps) {
                 await supabase
                     .from('follows')
                     .delete()
-                    .match({ follower_id: currentUser.id, following_id: profile.id });
+                    .match({ follower_id: currentUser?.id, following_id: profile.id });
             } else {
                 await supabase
                     .from('follows')
-                    .insert({ follower_id: currentUser.id, following_id: profile.id });
+                    .insert({ follower_id: currentUser?.id, following_id: profile.id });
             }
             setIsFollowing(!isFollowing);
 
@@ -79,7 +79,7 @@ export default function UserCard({ profile, currentUser }: UserCardProps) {
                             <p className="text-sm text-muted-foreground">Products</p>
                         </div>
                     </div>
-                    {currentUser.id !== profile.id && (
+                    {currentUser?.id !== profile.id && (
                         <Button
                             onClick={handleFollow}
                             variant={isFollowing ? "outline" : "default"}

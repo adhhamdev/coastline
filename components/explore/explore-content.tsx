@@ -15,7 +15,7 @@ import PostCard from '../feed/post-card';
 interface ExploreContentProps {
     initialProducts: any[];
     popularSellers: any[];
-    user: User;
+    user: User | null;
 }
 
 export default function ExploreContent({ initialProducts, popularSellers, user }: ExploreContentProps) {
