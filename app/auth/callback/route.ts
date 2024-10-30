@@ -44,6 +44,6 @@ export async function POST(request: Request) {
       `${origin}/auth/login?error=Failed to sign in with Google. Please try again.`
     );
   });
-
+  return NextResponse.redirect(`${origin}${next}`);
   // Return error if code is missing or authentication failed
 }
