@@ -2,11 +2,10 @@
 
 import ThemeToggle from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import UserNav from '@/components/user-nav';
 import { createClient } from '@/utils/supabase/client';
 import { User } from '@supabase/supabase-js';
-import { Compass, Home, Menu, MessageCircle, PlusSquare } from 'lucide-react';
+import { Compass, Home, MessageCircle, PlusSquare } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
@@ -15,7 +14,6 @@ export default function Navigation() {
   const pathname = usePathname();
   const router = useRouter();
   const [user, setUser] = React.useState<User | null>(null);
-  const [isOpen, setIsOpen] = React.useState(false);
   const supabase = createClient();
 
   React.useEffect(() => {
@@ -45,29 +43,31 @@ export default function Navigation() {
   ];
 
   return (
-    <header className='sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
-      <div className='container flex justify-between items-center px-4 h-14 md:px-6'>
-        <div className='flex items-center space-x-4'>
-          <Link href='/' className='flex items-center space-x-2'>
-            <span className='text-lg font-bold text-emerald-600'>
-              Coastline
-            </span>
-          </Link>
-          <nav className='hidden items-center space-x-4 text-sm font-medium md:flex'>
+    <header className='sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
+      <div className='container flex justify-between items-center px-4 h-14'>
+        {/* Logo - always visible */}
+        <Link href='/' className='flex items-center space-x-2'>
+          <span className='text-lg font-bold text-primary'>Coastline</span>
+        </Link>
+
+        {/* Desktop Navigation */}
+        {pathname !== '/' &&
+          (<nav className='hidden md:flex items-center space-x-6 text-sm font-medium'>
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 className={`flex items-center space-x-2 ${pathname === link.href
-                    ? 'text-emerald-600'
-                    : 'text-foreground/60 hover:text-emerald-600'
+                  ? 'text-primary'
+                  : 'text-foreground/60 hover:text-primary'
                   }`}>
                 <link.icon className='w-4 h-4' />
                 <span>{link.label}</span>
               </Link>
             ))}
-          </nav>
-        </div>
+          </nav>)}
+
+        {/* Right side items - always visible */}
         <div className='flex items-center space-x-4'>
           <ThemeToggle />
           {user ? (
@@ -76,45 +76,11 @@ export default function Navigation() {
             <Button
               asChild
               variant='default'
-              className='bg-emerald-600 hover:bg-emerald-700'>
+              size='sm'
+              className='bg-primary hover:bg-primary/90'>
               <Link href='/auth/login'>Login</Link>
             </Button>
           )}
-          <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild>
-              <Button
-                variant='ghost'
-                className='md:hidden'
-                onClick={() => setIsOpen(true)}>
-                <Menu className='w-5 h-5' />
-              </Button>
-            </SheetTrigger>
-            <SheetContent side='right' className='w-[300px] sm:w-[400px]'>
-              <nav className='flex flex-col space-y-4'>
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={`flex items-center space-x-2 text-lg ${pathname === link.href
-                        ? 'text-emerald-600'
-                        : 'text-foreground/60 hover:text-emerald-600'
-                      }`}
-                    onClick={() => setIsOpen(false)}>
-                    <link.icon className='w-5 h-5' />
-                    <span>{link.label}</span>
-                  </Link>
-                ))}
-                {!user && (
-                  <Button
-                    asChild
-                    className='mt-4 bg-emerald-600 hover:bg-emerald-700'
-                    onClick={() => setIsOpen(false)}>
-                    <Link href='/auth/login'>Login</Link>
-                  </Button>
-                )}
-              </nav>
-            </SheetContent>
-          </Sheet>
         </div>
       </div>
     </header>

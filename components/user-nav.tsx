@@ -17,10 +17,11 @@ import { CreditCard, LayoutDashboard, LogOut, Settings, User as UserIcon } from 
 import { useRouter } from 'next/navigation';
 
 interface UserNavProps {
-  user: User;
+  user: User | null;
+  [key: string]: any;
 }
 
-export default function UserNav({ user }: UserNavProps) {
+export default function UserNav({ user, ...props }: UserNavProps) {
   const router = useRouter();
   const supabase = createClient();
 
@@ -31,21 +32,21 @@ export default function UserNav({ user }: UserNavProps) {
   };
 
   return (
-    <DropdownMenu>
+    <DropdownMenu {...props}>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
-            <AvatarImage src={user.user_metadata.avatar_url} alt={user.email || ''} />
-            <AvatarFallback>{user.email?.[0].toUpperCase()}</AvatarFallback>
+            <AvatarImage src={user?.user_metadata.avatar_url || ''} alt={user?.email || ''} />
+            <AvatarFallback>{user?.email?.[0].toUpperCase() || ''}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">{user.user_metadata.full_name || user.email}</p>
+            <p className="text-sm font-medium leading-none">{user?.user_metadata.full_name || user?.email}</p>
             <p className="text-xs leading-none text-muted-foreground">
-              {user.email}
+              {user?.email || ''}
             </p>
           </div>
         </DropdownMenuLabel>

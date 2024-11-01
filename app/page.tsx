@@ -4,9 +4,9 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen dark:bg-gray-900">
+    <div className="flex flex-col min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative px-4 py-20 w-full text-white bg-gradient-to-r from-emerald-600 to-teal-700 sm:px-6 lg:px-8">
+      <section className="relative px-4 py-20 w-full text-primary-foreground bg-gradient-to-r from-primary to-primary/70 sm:px-6 lg:px-8">
         <div className="relative z-10 mx-auto space-y-8 max-w-4xl text-center">
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
             Sri Lanka&apos;s Premier Business Network
@@ -16,10 +16,10 @@ export default function Home() {
             Buy, sell, and grow your business in one place.
           </p>
           <div className="flex flex-col justify-center mt-5 space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
-            <Button asChild size="lg" className="w-full bg-white text-emerald-600 hover:bg-gray-100 sm:w-auto">
+            <Button asChild size="lg" className="w-full bg-card text-primary hover:bg-secondary sm:w-auto">
               <Link href="/auth/login">Join Now</Link>
             </Button>
-            <Button variant="outline" asChild size="lg" className="w-full border-white text-white hover:bg-white/10 sm:w-auto">
+            <Button variant="ghost" asChild size="lg" className="w-full border-card hover:bg-white/10 sm:w-auto">
               <Link href="#discover">Discover More</Link>
             </Button>
           </div>
@@ -28,9 +28,9 @@ export default function Home() {
       </section>
 
       {/* Business Categories */}
-      <section id="discover" className="px-4 py-16 w-full bg-white dark:bg-gray-800 sm:px-6 lg:px-8">
+      <section id="discover" className="px-4 py-16 w-full bg-card text-card-foreground sm:px-6 lg:px-8">
         <div className="mx-auto max-w-6xl">
-          <h2 className="mb-12 text-3xl font-bold text-center dark:text-white">Featured Categories</h2>
+          <h2 className="mb-12 text-3xl font-bold text-center">Featured Categories</h2>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {[
               {
@@ -49,10 +49,10 @@ export default function Home() {
                 description: "Discover and connect with various local businesses across Sri Lanka."
               }
             ].map((category, index) => (
-              <div key={index} className="p-6 bg-gray-50 rounded-lg border border-gray-100 transition-transform hover:scale-105 dark:bg-gray-700 dark:border-gray-600">
-                <category.icon className="mb-4 w-12 h-12 text-emerald-600 dark:text-emerald-400" />
-                <h3 className="mb-2 text-xl font-semibold dark:text-white">{category.title}</h3>
-                <p className="dark:text-gray-300">{category.description}</p>
+              <div key={index} className="p-6 bg-secondary rounded-lg border border-border">
+                <category.icon className="mb-4 w-12 h-12 text-primary" />
+                <h3 className="mb-2 text-xl font-semibold">{category.title}</h3>
+                <p className="text-muted-foreground">{category.description}</p>
               </div>
             ))}
           </div>
@@ -60,9 +60,9 @@ export default function Home() {
       </section>
 
       {/* Key Features */}
-      <section className="px-4 py-16 w-full bg-emerald-50 dark:bg-gray-900 sm:px-6 lg:px-8">
+      <section className="px-4 py-16 w-full bg-muted sm:px-6 lg:px-8">
         <div className="mx-auto max-w-6xl">
-          <h2 className="mb-12 text-3xl font-bold text-center dark:text-white">Why Choose Our Platform</h2>
+          <h2 className="mb-12 text-3xl font-bold text-center">Why Choose Our Platform</h2>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {[
               {
@@ -82,9 +82,9 @@ export default function Home() {
               }
             ].map((feature, index) => (
               <div key={index} className="flex flex-col items-center p-6 text-center">
-                <feature.icon className="mb-4 w-12 h-12 text-emerald-600 dark:text-emerald-400" />
-                <h3 className="mb-2 text-xl font-semibold dark:text-white">{feature.title}</h3>
-                <p className="dark:text-gray-300">{feature.description}</p>
+                <feature.icon className="mb-4 w-12 h-12 text-primary" />
+                <h3 className="mb-2 text-xl font-semibold">{feature.title}</h3>
+                <p className="text-muted-foreground">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -92,22 +92,22 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="px-4 py-16 w-full text-white bg-gradient-to-r from-teal-700 to-emerald-600 sm:px-6 lg:px-8">
+      <section className="px-4 py-16 w-full text-primary-foreground bg-gradient-to-r from-primary to-primary/80 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl text-center">
           <h2 className="mb-4 text-3xl font-bold">Ready to grow your business?</h2>
           <p className="mb-8 text-xl">Join thousands of Sri Lankan businesses already on our platform.</p>
-          <Button asChild size="lg" className="bg-white text-emerald-600 hover:bg-gray-100">
+          <Button asChild size="lg" className="bg-card text-primary hover:bg-secondary">
             <Link href="/auth/login">Get Started Now</Link>
           </Button>
         </div>
       </section>
 
-      {/* Footer with Sri Lankan context */}
-      <footer className="px-4 py-8 w-full text-white bg-gray-800 dark:bg-gray-900 sm:px-6 lg:px-8">
+      {/* Footer */}
+      <footer className="px-4 py-8 w-full bg-card text-card-foreground sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 gap-8 mx-auto max-w-6xl md:grid-cols-4">
           <div>
             <h4 className="mb-4 text-lg font-semibold">Marketplace</h4>
-            <ul className="space-y-2">
+            <ul className="space-y-2 text-muted-foreground">
               <li><Link href="/gems">Gems & Jewelry</Link></li>
               <li><Link href="/fishing">Fishing</Link></li>
               <li><Link href="/local">Local Products</Link></li>
@@ -115,7 +115,7 @@ export default function Home() {
           </div>
           {/* ... rest of the footer sections ... */}
         </div>
-        <div className="mt-8 text-sm text-center">
+        <div className="mt-8 text-sm text-center text-muted-foreground">
           {`© ${new Date().getFullYear()} Coastline. All rights reserved.`}
         </div>
       </footer>

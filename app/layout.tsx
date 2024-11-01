@@ -31,7 +31,6 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Coastline - Sri Lankan Business Marketplace',
     description: 'Connect with verified businesses and traders across Sri Lanka. Join thousands of Sri Lankan businesses already on our platform.',
-    images: [`${siteUrl}/og-image.jpg`],
   },
 };
 
@@ -46,7 +45,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <div className="flex relative flex-col min-h-screen">
             <Navigation />
-            <main className="flex-1">{children}</main>
+            <main className="flex-1 pb-[4rem] md:pb-0">{children}</main>
           </div>
           <Toaster />
         </ThemeProvider>
