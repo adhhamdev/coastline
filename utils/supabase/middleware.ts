@@ -42,9 +42,16 @@ export async function updateSession(request: NextRequest) {
     !request.nextUrl.pathname.startsWith('/auth/') &&
     request.nextUrl.pathname !== '/'
   ) {
-    // no user, potentially respond by redirecting the user to the login page
+    // no user, redirect to login page
     const url = request.nextUrl.clone();
     url.pathname = '/auth/login';
+    return NextResponse.redirect(url);
+  }
+
+  if (user && request.nextUrl.pathname === '/auth/login') {
+    // user is logged in, redirect to dashboard
+    const url = request.nextUrl.clone();
+    url.pathname = '/dashboard';
     return NextResponse.redirect(url);
   }
 

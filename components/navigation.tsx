@@ -51,7 +51,7 @@ export default function Navigation() {
         </Link>
 
         {/* Desktop Navigation */}
-        {pathname !== '/' &&
+        {pathname !== '/' && pathname !== '/auth/login' &&
           (<nav className='hidden md:flex items-center space-x-6 text-sm font-medium'>
             {navLinks.map((link) => (
               <Link
