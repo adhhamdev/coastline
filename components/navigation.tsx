@@ -3,37 +3,32 @@
 import ThemeToggle from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
 import UserNav from '@/components/user-nav';
-import { createClient } from '@/utils/supabase/client';
 import { User } from '@supabase/supabase-js';
 import { Compass, Home, MessageCircle, PlusSquare } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import React from 'react';
+import { usePathname } from 'next/navigation';
 
-export default function Navigation() {
+export default function Navigation({ user }: { user: User | null }) {
   const pathname = usePathname();
-  const router = useRouter();
-  const [user, setUser] = React.useState<User | null>(null);
-  const supabase = createClient();
 
-  React.useEffect(() => {
-    const getUser = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      setUser(user);
-    };
+  // React.useEffect(() => {
+  //   const getUser = async () => {
+  //     const {
+  //       data: { user },
+  //     } = await supabase.auth.getUser();
+  //     setUser(user);
+  //   };
 
-    getUser();
+  //   getUser();
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
+  //   const {
+  //     data: { subscription },
+  //   } = supabase.auth.onAuthStateChange((_event, session) => {
+  //     setUser(session?.user ?? null);
+  //   });
 
-    return () => subscription.unsubscribe();
-  }, [supabase, router]);
+  //   return () => subscription.unsubscribe();
+  // }, [supabase, router]);
 
   const navLinks = [
     { href: '/feed', label: 'Feed', icon: Home },
@@ -65,7 +60,8 @@ export default function Navigation() {
                 <span>{link.label}</span>
               </Link>
             ))}
-          </nav>)}
+          </nav>
+          )}
 
         {/* Right side items - always visible */}
         <div className='flex items-center space-x-4'>

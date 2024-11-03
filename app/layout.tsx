@@ -1,6 +1,7 @@
 import Navigation from '@/components/navigation';
 import ThemeProvider from '@/components/theme-provider';
 import Toaster from '@/components/ui/toaster';
+import { createClient } from '@/utils/supabase/server';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
@@ -55,17 +56,24 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <div className="flex relative flex-col min-h-screen">
-            <Navigation />
+            <Navigation user={user} />
             <main className="flex-1 pb-[4rem] md:pb-0">{children}</main>
           </div>
           <Toaster />

@@ -1,6 +1,6 @@
 'use client';
 
-import { handleOAuth } from '@/actions/auth';
+import { OAuthSignIn } from '@/actions/auth';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -17,9 +17,9 @@ export default function LoginPage({ searchParams }: { searchParams: { error?: st
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
 
-  const handleOAuthSubmit = () => {
+  const handleOAuth = () => {
     startTransition(async () => {
-      const result = await handleOAuth();
+      const result = await OAuthSignIn();
       if (result?.error) {
         toast({
           variant: 'destructive',
@@ -41,7 +41,7 @@ export default function LoginPage({ searchParams }: { searchParams: { error?: st
         </CardHeader>
         <CardContent className="space-y-4">
           {/* OAuth Options */}
-          <form action={handleOAuthSubmit} className="space-y-3">
+          <form action={handleOAuth} className="space-y-3">
             <GoogleButton type="submit" isLoading={isPending} />
 
             <Button

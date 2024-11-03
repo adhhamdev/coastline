@@ -17,7 +17,7 @@ export default function Home() {
           </p>
           <div className="flex flex-col justify-center mt-5 space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
             <Button asChild size="lg" className="w-full bg-card text-primary hover:bg-secondary sm:w-auto">
-              <Link href="/auth/login">Join Now</Link>
+              <Link href="/auth/login">Get Started</Link>
             </Button>
             <Button variant="ghost" asChild size="lg" className="w-full border-card hover:bg-white/10 sm:w-auto">
               <Link href="#discover">Discover More</Link>
