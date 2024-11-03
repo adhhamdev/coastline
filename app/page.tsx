@@ -1,8 +1,15 @@
 import { Button } from '@/components/ui/button';
+import { createClient } from '@/utils/supabase/server';
 import { Fish, Gem, MessageCircle, Store, TrendingUp, Users } from 'lucide-react';
 import Link from 'next/link';
 
-export default function Home() {
+export default async function Home() {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <div className="flex flex-col min-h-screen bg-background">
       {/* Hero Section */}
@@ -17,7 +24,7 @@ export default function Home() {
           </p>
           <div className="flex flex-col justify-center mt-5 space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
             <Button asChild size="lg" className="w-full bg-card text-primary hover:bg-secondary sm:w-auto">
-              <Link href="/auth/login">Get Started</Link>
+              <Link href="/auth/login">{user ? "Continue" : "Get Started"}</Link>
             </Button>
             <Button variant="ghost" asChild size="lg" className="w-full border-card hover:bg-white/10 sm:w-auto">
               <Link href="#discover">Discover More</Link>

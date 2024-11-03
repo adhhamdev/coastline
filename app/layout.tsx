@@ -74,7 +74,9 @@ export default async function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <div className="flex relative flex-col min-h-screen">
             <Navigation user={user} />
-            <main className="flex-1 pb-[4rem] md:pb-0">{children}</main>
+            <main className="flex-1 pb-[4rem] md:pb-0">
+              {children}
+            </main>
           </div>
           <Toaster />
         </ThemeProvider>
