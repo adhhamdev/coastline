@@ -68,7 +68,7 @@ export default function PostCard({ post, currentUser, initialLiked }: PostCardPr
                         <Link href={`/${post.profiles.username}`} className="font-semibold hover:underline">
                             {post.profiles.username}
                         </Link>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-muted-foreground" suppressHydrationWarning>
                             {formatDistanceToNow(new Date(post.created_at), { addSuffix: true })}
                         </p>
                     </div>
