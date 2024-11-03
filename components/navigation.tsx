@@ -11,25 +11,6 @@ import { usePathname } from 'next/navigation';
 export default function Navigation({ user }: { user: User | null }) {
   const pathname = usePathname();
 
-  // React.useEffect(() => {
-  //   const getUser = async () => {
-  //     const {
-  //       data: { user },
-  //     } = await supabase.auth.getUser();
-  //     setUser(user);
-  //   };
-
-  //   getUser();
-
-  //   const {
-  //     data: { subscription },
-  //   } = supabase.auth.onAuthStateChange((_event, session) => {
-  //     setUser(session?.user ?? null);
-  //   });
-
-  //   return () => subscription.unsubscribe();
-  // }, [supabase, router]);
-
   const navLinks = [
     { href: '/feed', label: 'Feed', icon: Home },
     { href: '/explore', label: 'Explore', icon: Compass },

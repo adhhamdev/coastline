@@ -21,7 +21,7 @@ export const OAuthSignIn = async () => {
   }
 };
 
-export const signOut = async () => {
+export const logOut = async () => {
   const supabase = createClient();
   await supabase.auth.signOut();
   redirect('/');

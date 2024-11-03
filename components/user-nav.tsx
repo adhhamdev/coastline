@@ -1,4 +1,3 @@
-import { signOut } from '@/actions/auth';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
@@ -11,8 +10,9 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { User } from '@supabase/supabase-js';
-import { CreditCard, LayoutDashboard, LogOut, Settings, User as UserIcon } from 'lucide-react';
+import { CreditCard, LayoutDashboard, Settings, User as UserIcon } from 'lucide-react';
 import Link from 'next/link';
+import LogoutBtn from './logout-btn';
 
 interface UserNavProps {
   user: User | null;
@@ -68,14 +68,11 @@ export default function UserNav({ user, ...props }: UserNavProps) {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <form action={signOut}>
-          <DropdownMenuItem asChild>
-            <button className="w-full flex items-center cursor-pointer">
-              <LogOut className="mr-2 h-4 w-4" />
-              <span>Log out</span>
-            </button>
-          </DropdownMenuItem>
-        </form>
+        <DropdownMenuItem asChild>
+          <div >
+            <LogoutBtn />
+          </div>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
