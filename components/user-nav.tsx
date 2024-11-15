@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { User } from '@supabase/supabase-js';
-import { CreditCard, LayoutDashboard, Settings, User as UserIcon } from 'lucide-react';
+import { Bookmark, CreditCard, LayoutDashboard, Settings, User as UserIcon } from 'lucide-react';
 import Link from 'next/link';
 import LogoutBtn from './logout-btn';
 
@@ -46,6 +46,12 @@ export default function UserNav({ user, ...props }: UserNavProps) {
             <Link href="/dashboard" className="w-full flex items-center cursor-pointer">
               <LayoutDashboard className="mr-2 h-4 w-4" />
               <span>Dashboard</span>
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href="/saved" className="w-full flex items-center cursor-pointer">
+              <Bookmark className="mr-2 h-4 w-4" />
+              <span>Saved</span>
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>

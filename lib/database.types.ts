@@ -9,95 +9,103 @@ export type Json =
 // UUID type for unique identifiers
 export type UUID = string;
 
-// Comment type
-export interface Comment {
-    id: UUID;
-    user_id: UUID;
-    post_id?: UUID;
-    content: string;
-    created_at: string; // ISO 8601 format
-    updated_at: string; // ISO 8601 format
-}
-
-// Follow type
-export interface Follow {
-    follower_id: UUID;
-    following_id: UUID;
-    created_at: string; // ISO 8601 format
-}
-
-// Like type
-export interface Like {
-    id: UUID;
-    user_id: UUID;
-    post_id?: UUID;
-    created_at: string; // ISO 8601 format
-}
-
-// Message type
-export interface Message {
-    id: UUID;
-    sender_id: UUID;
-    receiver_id: UUID;
-    content: string;
-    read?: boolean;
-    created_at: string; // ISO 8601 format
-}
-
-// Post type
-export interface Post {
-    id: UUID;
-    user_id: UUID;
-    content?: string;
-    images?: string[];
-    likes_count?: number;
-    comments_count?: number;
-    created_at: string; // ISO 8601 format
-    updated_at: string; // ISO 8601 format
-    videos?: string[];
-}
-
-// Product type
-export interface Product {
-    id: UUID;
-    user_id: UUID;
-    title: string;
-    description?: string;
-    price: number; // Numeric with 2 decimal places
-    category: string;
-    images?: string[];
-    status?: 'available' | 'sold' | 'hidden';
-    location?: string;
-    views_count?: number;
-    created_at: string; // ISO 8601 format
-    updated_at: string; // ISO 8601 format
-}
-
-// Profile type
+// profiles.ts
 export interface Profile {
-    id: UUID;
-    username: string;
-    full_name?: string;
-    avatar_url?: string;
-    banner_url?: string;
-    bio?: string;
-    location?: string;
-    business_type?: 'gems' | 'fishing' | 'other';
-    website?: string;
-    phone?: string;
-    email?: string;
-    verified: boolean;
-    created_at: string; // ISO 8601 format
-    updated_at: string; // ISO 8601 format
-    followers_count: number; // Numeric
-    products_count: number; // Numeric
-    following_count: number; // Numeric
+  id: string; // uuid
+  username: string; // text
+  full_name?: string; // text
+  avatar_url?: string; // text
+  banner_url?: string; // text
+  bio?: string; // text
+  location?: string; // text
+  business_type?: 'gems' | 'fishing' | 'other'; // text
+  website?: string; // text
+  phone?: string; // text
+  email?: string; // text
+  verified: boolean; // boolean
+  created_at: string; // timestamp with time zone
+  updated_at: string; // timestamp with time zone
+  followers_count: number; // numeric
+  products_count: number; // numeric
+  following_count: number; // numeric
 }
 
-// Saved Product type
+// posts.ts
+export interface Post {
+  id: string; // uuid
+  user_id: string; // uuid
+  content?: string; // text
+  images?: string[]; // text[]
+  likes_count?: number; // integer
+  comments_count?: number; // integer
+  created_at: string; // timestamp with time zone
+  updated_at: string; // timestamp with time zone
+  videos?: string[]; // text[]
+}
+
+// comments.ts
+export interface Comment {
+  id: string; // uuid
+  user_id: string; // uuid
+  post_id?: string; // uuid
+  content: string; // text
+  created_at: string; // timestamp with time zone
+  updated_at: string; // timestamp with time zone
+}
+
+// likes.ts
+export interface Like {
+  id: string; // uuid
+  user_id: string; // uuid
+  post_id?: string; // uuid
+  created_at: string; // timestamp with time zone
+}
+
+// follows.ts
+export interface Follow {
+  follower_id: string; // uuid
+  following_id: string; // uuid
+  created_at: string; // timestamp with time zone
+}
+
+// messages.ts
+export interface Message {
+  id: string; // uuid
+  sender_id: string; // uuid
+  receiver_id: string; // uuid
+  content: string; // text
+  read?: boolean; // boolean
+  created_at: string; // timestamp with time zone
+}
+
+// products.ts
+export interface Product {
+  id: string; // uuid
+  user_id: string; // uuid
+  title: string; // text
+  description?: string; // text
+  price: number; // numeric(10,2)
+  category: string; // text
+  images?: string[]; // text[]
+  status?: 'available' | 'sold' | 'hidden'; // text
+  location?: string; // text
+  views_count?: number; // integer
+  created_at: string; // timestamp with time zone
+  updated_at: string; // timestamp with time zone
+}
+
+// saved_posts.ts
+export interface SavedPost {
+  id: number; // bigint
+  created_at: string; // timestamp with time zone
+  user_id?: string; // uuid
+  post_id?: string; // uuid
+}
+
+// saved_products.ts
 export interface SavedProduct {
-    id: UUID; // bigint
-    created_at: string; // ISO 8601 format
-    user_id?: UUID;
-    product_id?: UUID;
+  created_at: string; // timestamp with time zone
+  user_id?: string; // uuid
+  product_id?: string; // uuid
+  id: string; // uuid
 }

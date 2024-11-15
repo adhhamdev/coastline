@@ -19,7 +19,7 @@ export default function Navigation({ user }: { user: User | null }) {
 
   return (
     <header className='fixed top-0 z-50 w-full backdrop-blur bg-transparent'>
-      <div className='container flex justify-between items-center px-4 h-14'>
+      <div className='flex justify-between items-center h-14 px-4'>
         <Link href='/' className='flex items-center space-x-2'>
           <span className='text-xl font-bold text-secondary'>Coastline.</span>
         </Link>
