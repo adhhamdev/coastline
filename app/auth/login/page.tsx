@@ -32,7 +32,7 @@ export default function LoginPage({ searchParams }: { searchParams: { error?: st
 
   return (
     <div className="w-full max-w-md px-4">
-      <Card className="border-none shadow-none md:border md:shadow-sm">
+      <Card className="border-none shadow-none md:border md:shadow-xl">
         <CardHeader className="space-y-3">
           <CardTitle className="text-2xl font-bold text-center">Sign in</CardTitle>
           <CardDescription className="text-center">
@@ -40,12 +40,11 @@ export default function LoginPage({ searchParams }: { searchParams: { error?: st
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          {/* OAuth Options */}
           <form action={handleOAuth} className="space-y-3">
             <GoogleButton type="submit" isLoading={isPending} />
 
             <Button
-              className="w-full bg-[#1877F2] hover:bg-[#1874EA] text-white"
+              className="w-full bg-[#1877F2] hover:bg-[#1874EA] text-white rounded-full"
               size="lg"
               type="submit"
             >
@@ -53,7 +52,7 @@ export default function LoginPage({ searchParams }: { searchParams: { error?: st
             </Button>
 
             <Button
-              className="w-full bg-black hover:bg-zinc-800 text-white"
+              className="w-full bg-black hover:bg-zinc-800 text-white rounded-full"
               size="lg"
               type="submit"
             >

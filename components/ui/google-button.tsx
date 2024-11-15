@@ -10,7 +10,7 @@ export function GoogleButton({ isLoading, ...props }: GoogleButtonProps) {
     return (
         <Button
             variant="outline"
-            className="w-full bg-white text-black font-normal flex items-center gap-2 h-12"
+            className="w-full bg-white text-black font-normal flex items-center gap-2 h-12 rounded-full"
             disabled={isLoading}
             {...props}
         >

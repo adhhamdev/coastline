@@ -56,7 +56,7 @@ export default async function Home() {
                 description: "Discover and connect with various local businesses across Sri Lanka."
               }
             ].map((category, index) => (
-              <div key={index} className="p-6 bg-secondary rounded-lg border border-border">
+              <div key={index} className="p-6 bg-secondary rounded-2xl border border-border">
                 <category.icon className="mb-4 w-12 h-12 text-primary" />
                 <h3 className="mb-2 text-xl font-semibold">{category.title}</h3>
                 <p className="text-muted-foreground">{category.description}</p>
@@ -103,7 +103,7 @@ export default async function Home() {
         <div className="mx-auto max-w-4xl text-center">
           <h2 className="mb-4 text-3xl font-bold">Ready to grow your business?</h2>
           <p className="mb-8 text-xl">Join thousands of Sri Lankan businesses already on our platform.</p>
-          <Button asChild size="lg" className="bg-card text-primary hover:bg-secondary">
+          <Button asChild size="lg" className="bg-card text-primary hover:bg-secondary rounded-full">
             <Link href="/auth/login">Get Started Now</Link>
           </Button>
         </div>

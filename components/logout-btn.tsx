@@ -5,18 +5,26 @@ import { useToast } from "@/hooks/use-toast";
 import { LogOut } from "lucide-react";
 import { useTransition } from "react";
 
-
 export default function LogoutBtn() {
     const [isPending, startTransition] = useTransition();
     const { toast } = useToast();
 
     const handleLogout = async () => {
         startTransition(async () => {
-            await logOut();
-        });
-        toast({
-            title: "Logged out",
-            description: "You have been logged out successfully.",
+            const result = await logOut();
+            
+            if (result?.error) {
+                toast({
+                    title: "Logout Failed",
+                    description: result.error,
+                    variant: "destructive",
+                });
+            } else {
+                toast({
+                    title: "Logged out",
+                    description: "You have been logged out successfully.",
+                });
+            }
         });
     }
     return (

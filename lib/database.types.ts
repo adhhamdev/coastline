@@ -6,236 +6,98 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[];
 
-export interface Database {
-  public: {
-    Tables: {
-      profiles: {
-        Row: {
-          id: string;
-          username: string;
-          full_name: string | null;
-          avatar_url: string | null;
-          banner_url: string | null;
-          bio: string | null;
-          location: string | null;
-          business_type: 'gems' | 'fishing' | 'other' | null;
-          website: string | null;
-          phone: string | null;
-          email: string | null;
-          verified: boolean;
-          followers_count: number;
-          products_count: number;
-          created_at: string;
-          updated_at: string;
-        };
-        Insert: {
-          id: string;
-          username: string;
-          full_name?: string | null;
-          avatar_url?: string | null;
-          banner_url?: string | null;
-          bio?: string | null;
-          location?: string | null;
-          business_type?: 'gems' | 'fishing' | 'other' | null;
-          website?: string | null;
-          phone?: string | null;
-          email?: string | null;
-          verified?: boolean;
-          followers_count?: number;
-          products_count?: number;
-          created_at?: string;
-          updated_at?: string;
-        };
-        Update: {
-          id?: string;
-          username?: string;
-          full_name?: string | null;
-          avatar_url?: string | null;
-          banner_url?: string | null;
-          bio?: string | null;
-          location?: string | null;
-          business_type?: 'gems' | 'fishing' | 'other' | null;
-          website?: string | null;
-          phone?: string | null;
-          email?: string | null;
-          verified?: boolean;
-          followers_count?: number;
-          products_count?: number;
-          created_at?: string;
-          updated_at?: string;
-        };
-      };
-      posts: {
-        Row: {
-          id: string;
-          user_id: string;
-          content: string;
-          media_urls: string[];
-          likes_count: number;
-          comments_count: number;
-          created_at: string;
-          updated_at: string;
-        };
-        Insert: {
-          id?: string;
-          user_id: string;
-          content: string;
-          media_urls?: string[];
-          likes_count?: number;
-          comments_count?: number;
-          created_at?: string;
-          updated_at?: string;
-        };
-        Update: {
-          id?: string;
-          user_id?: string;
-          content?: string;
-          media_urls?: string[];
-          likes_count?: number;
-          comments_count?: number;
-          created_at?: string;
-          updated_at?: string;
-        };
-      };
-      products: {
-        Row: {
-          id: string;
-          user_id: string;
-          title: string;
-          description: string;
-          price: number;
-          original_price: number | null;
-          category: string;
-          condition: string;
-          location: string;
-          images: string[];
-          views_count: number;
-          status: 'available' | 'sold' | 'hidden';
-          created_at: string;
-          updated_at: string;
-        };
-        Insert: {
-          id?: string;
-          user_id: string;
-          title: string;
-          description: string;
-          price: number;
-          original_price?: number | null;
-          category: string;
-          condition: string;
-          location: string;
-          images: string[];
-          views_count?: number;
-          status?: 'available' | 'sold' | 'hidden';
-          created_at?: string;
-          updated_at?: string;
-        };
-        Update: {
-          id?: string;
-          user_id?: string;
-          title?: string;
-          description?: string;
-          price?: number;
-          original_price?: number | null;
-          category?: string;
-          condition?: string;
-          location?: string;
-          images?: string[];
-          views_count?: number;
-          status?: 'available' | 'sold' | 'hidden';
-          created_at?: string;
-          updated_at?: string;
-        };
-      };
-      follows: {
-        Row: {
-          follower_id: string;
-          following_id: string;
-          created_at: string;
-        };
-        Insert: {
-          follower_id: string;
-          following_id: string;
-          created_at?: string;
-        };
-        Update: {
-          follower_id?: string;
-          following_id?: string;
-          created_at?: string;
-        };
-      };
-      chats: {
-        Row: {
-          id: string;
-          user1_id: string;
-          user2_id: string;
-          product_id: string | null;
-          created_at: string;
-        };
-        Insert: {
-          id?: string;
-          user1_id: string;
-          user2_id: string;
-          product_id?: string | null;
-          created_at?: string;
-        };
-        Update: {
-          id?: string;
-          user1_id?: string;
-          user2_id?: string;
-          product_id?: string | null;
-          created_at?: string;
-        };
-      };
-      saved_products: {
-        Row: {
-          id: string;
-          user_id: string;
-          product_id: string;
-          created_at: string;
-        };
-        Insert: {
-          id?: string;
-          user_id: string;
-          product_id: string;
-          created_at?: string;
-        };
-        Update: {
-          id?: string;
-          user_id?: string;
-          product_id?: string;
-          created_at?: string;
-        };
-      };
-      post_likes: {
-        Row: {
-          id: string;
-          user_id: string;
-          post_id: string;
-          created_at: string;
-        };
-        Insert: {
-          id?: string;
-          user_id: string;
-          post_id: string;
-          created_at?: string;
-        };
-        Update: {
-          id?: string;
-          user_id?: string;
-          post_id?: string;
-          created_at?: string;
-        };
-      };
-    };
-    Views: {
-      [_ in never]: never;
-    };
-    Functions: {
-      [_ in never]: never;
-    };
-    Enums: {
-      [_ in never]: never;
-    };
-  };
+// UUID type for unique identifiers
+export type UUID = string;
+
+// Comment type
+export interface Comment {
+    id: UUID;
+    user_id: UUID;
+    post_id?: UUID;
+    content: string;
+    created_at: string; // ISO 8601 format
+    updated_at: string; // ISO 8601 format
+}
+
+// Follow type
+export interface Follow {
+    follower_id: UUID;
+    following_id: UUID;
+    created_at: string; // ISO 8601 format
+}
+
+// Like type
+export interface Like {
+    id: UUID;
+    user_id: UUID;
+    post_id?: UUID;
+    created_at: string; // ISO 8601 format
+}
+
+// Message type
+export interface Message {
+    id: UUID;
+    sender_id: UUID;
+    receiver_id: UUID;
+    content: string;
+    read?: boolean;
+    created_at: string; // ISO 8601 format
+}
+
+// Post type
+export interface Post {
+    id: UUID;
+    user_id: UUID;
+    content?: string;
+    images?: string[];
+    likes_count?: number;
+    comments_count?: number;
+    created_at: string; // ISO 8601 format
+    updated_at: string; // ISO 8601 format
+    videos?: string[];
+}
+
+// Product type
+export interface Product {
+    id: UUID;
+    user_id: UUID;
+    title: string;
+    description?: string;
+    price: number; // Numeric with 2 decimal places
+    category: string;
+    images?: string[];
+    status?: 'available' | 'sold' | 'hidden';
+    location?: string;
+    views_count?: number;
+    created_at: string; // ISO 8601 format
+    updated_at: string; // ISO 8601 format
+}
+
+// Profile type
+export interface Profile {
+    id: UUID;
+    username: string;
+    full_name?: string;
+    avatar_url?: string;
+    banner_url?: string;
+    bio?: string;
+    location?: string;
+    business_type?: 'gems' | 'fishing' | 'other';
+    website?: string;
+    phone?: string;
+    email?: string;
+    verified: boolean;
+    created_at: string; // ISO 8601 format
+    updated_at: string; // ISO 8601 format
+    followers_count: number; // Numeric
+    products_count: number; // Numeric
+    following_count: number; // Numeric
+}
+
+// Saved Product type
+export interface SavedProduct {
+    id: UUID; // bigint
+    created_at: string; // ISO 8601 format
+    user_id?: UUID;
+    product_id?: UUID;
 }

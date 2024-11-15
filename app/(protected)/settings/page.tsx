@@ -13,14 +13,14 @@ export default async function SettingsPage() {
     }
 
     return (
-        <DashboardShell>
-            <DashboardHeader
-                heading="Settings"
-                text="Manage your account settings and preferences."
-            />
-            <div className="grid gap-10">
-                <SettingsTabs />
-            </div>
-        </DashboardShell>
+            <DashboardShell>
+                <DashboardHeader
+                    heading="Settings"
+                    text="Manage your account settings and preferences."
+                />
+                <div className="grid gap-10">
+                    <SettingsTabs />
+                </div>
+            </DashboardShell>
     );
 } 

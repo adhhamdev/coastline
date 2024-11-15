@@ -22,7 +22,26 @@ export const OAuthSignIn = async () => {
 };
 
 export const logOut = async () => {
-  const supabase = createClient();
-  await supabase.auth.signOut();
+  try {
+    const supabase = createClient();
+    
+    const { error } = await supabase.auth.signOut();
+    
+    if (error?.status) {
+      console.log(error);
+      if (error.status === 401) {
+        return { error: "Unauthorized. Please log in again." };
+      } else if (error.status === 403) {
+        return { error: "Forbidden. You don't have permission to perform this action." };
+      } else if (error.status >= 500) {
+        return { error: "Server error. Please try again later." };
+      } else {
+        return { error: "An unexpected error occurred." };
+      }
+    }
+    
+  } catch (err: any) {
+    return { error: "Check your internet connection." };
+  }
   redirect('/');
 };

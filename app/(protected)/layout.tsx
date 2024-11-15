@@ -7,9 +7,9 @@ export default function ProtectedLayout({
 }) {
 
     return (
-        <>
+        <div className='mt-12'>
             {children}
             <BottomNav />
-        </>
+        </div>
     );
 } 

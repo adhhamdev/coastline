@@ -9,6 +9,7 @@ export default function ThemeToggle() {
 
   return (
     <Button
+    className='hover:bg-accent-foreground/20'
       variant="ghost"
       size="icon"
       onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
