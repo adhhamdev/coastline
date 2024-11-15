@@ -4,13 +4,12 @@ import ThemeToggle from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
 import UserNav from '@/components/user-nav';
 import { User } from '@supabase/supabase-js';
-import { Compass, Home, MessageCircle, PlusSquare } from 'lucide-react';
+import { Compass, Home, MessageCircle, PlusSquare, LogIn } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 export default function Navigation({ user }: { user: User | null }) {
   const pathname = usePathname();
-
   const navLinks = [
     { href: '/feed', label: 'Feed', icon: Home },
     { href: '/explore', label: 'Explore', icon: Compass },
@@ -19,11 +18,10 @@ export default function Navigation({ user }: { user: User | null }) {
   ];
 
   return (
-    <header className='sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
+    <header className='fixed top-0 z-50 w-full backdrop-blur'>
       <div className='container flex justify-between items-center px-4 h-14'>
-        {/* Logo - always visible */}
         <Link href='/' className='flex items-center space-x-2'>
-          <span className='text-lg font-bold text-primary'>Coastline</span>
+          <span className='text-xl font-bold text-secondary'>Coastline.</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -51,10 +49,9 @@ export default function Navigation({ user }: { user: User | null }) {
             <UserNav user={user} />
           ) : (
             <Button
-              asChild
-              variant='default'
-              size='sm'
-              className='bg-primary hover:bg-primary/90'>
+            size="sm"
+              className='flex bg-primary hover:bg-primary/90 rounded-full px-5'>
+                <LogIn />
               <Link href='/auth/login'>Login</Link>
             </Button>
           )}

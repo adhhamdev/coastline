@@ -11,9 +11,9 @@ export default async function Home() {
   } = await supabase.auth.getUser();
 
   return (
-    <div className="flex flex-col min-h-screen bg-background">
+    <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="relative px-4 py-20 w-full text-primary-foreground bg-gradient-to-r from-primary to-primary/70 sm:px-6 lg:px-8">
+      <section className="relative px-4 py-32 w-full text-primary-foreground bg-gradient-to-r from-primary to-primary/70 sm:px-6 lg:px-8">
         <div className="relative z-10 mx-auto space-y-8 max-w-4xl text-center">
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
             Sri Lanka&apos;s Premier Business Network
@@ -23,10 +23,10 @@ export default async function Home() {
             Buy, sell, and grow your business in one place.
           </p>
           <div className="flex flex-col justify-center mt-5 space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
-            <Button asChild size="lg" className="w-full bg-card text-primary hover:bg-secondary sm:w-auto">
+            <Button asChild size="lg" className="w-full bg-card text-primary hover:bg-secondary sm:w-auto rounded-full">
               <Link href="/auth/login">{user ? "Continue" : "Get Started"}</Link>
             </Button>
-            <Button variant="ghost" asChild size="lg" className="w-full border-card hover:bg-white/10 sm:w-auto">
+            <Button variant="ghost" asChild size="lg" className="w-full border-card hover:bg-white/10 sm:w-auto rounded-full">
               <Link href="#discover">Discover More</Link>
             </Button>
           </div>
