@@ -15,11 +15,11 @@ export default async function DashboardPage() {
 
   return (
     <DashboardShell>
-      <DashboardHeader
-        heading="Dashboard"
-        text="Welcome back! Here's an overview of your account."
-      />
-      <div className="grid gap-10">
+      <div className="flex min-h-screen flex-col gap-8 py-8md:py-12">
+        <DashboardHeader
+          heading="Dashboard"
+          text="Welcome back! Here's an overview of your account."
+        />
         <DashboardTabs defaultValue="overview">
           <Overview />
         </DashboardTabs>

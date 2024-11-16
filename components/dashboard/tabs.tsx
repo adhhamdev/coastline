@@ -9,12 +9,12 @@ interface DashboardTabsProps {
 
 export default function DashboardTabs({ defaultValue, children }: DashboardTabsProps) {
   return (
-    <Tabs defaultValue={defaultValue} className="space-y-4">
-      <TabsList>
-        <TabsTrigger value="overview">Overview</TabsTrigger>
-        <TabsTrigger value="analytics">Analytics</TabsTrigger>
-        <TabsTrigger value="reports">Reports</TabsTrigger>
-        <TabsTrigger value="notifications">Notifications</TabsTrigger>
+    <Tabs defaultValue={defaultValue} className="w-full">
+      <TabsList className="w-full overflow-x-auto grid grid-cols-4">
+        <TabsTrigger value="overview" className="flex-shrink-0">Overview</TabsTrigger>
+        <TabsTrigger value="analytics" className="flex-shrink-0">Analytics</TabsTrigger>
+        <TabsTrigger value="reports" className="flex-shrink-0">Reports</TabsTrigger>
+        <TabsTrigger value="notifications" className="flex-shrink-0">Notifications</TabsTrigger>
       </TabsList>
       <TabsContent value="overview" className="space-y-4">
         {children}

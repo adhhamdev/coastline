@@ -88,6 +88,9 @@ const config: Config = {
         'accordion-up': 'accordion-up 0.2s ease-out',
         wave: 'wave 3s ease-in-out infinite',
       },
+      padding: {
+        safe: 'env(safe-area-inset-bottom)',
+      },
     },
   },
   plugins: [require('tailwindcss-animate')],

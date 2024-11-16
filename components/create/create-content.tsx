@@ -82,13 +82,13 @@ export default function CreateContent({ user }: CreateContentProps) {
     };
 
     return (
-        <Card>
+        <Card className='w-full max-w-2xl m-4'>
             <CardHeader>
                 <CardTitle>Create New Content</CardTitle>
             </CardHeader>
             <CardContent>
                 <Tabs defaultValue="post" className="space-y-4">
-                    <TabsList>
+                    <TabsList className='w-full overflow-x-auto grid grid-cols-2'>
                         <TabsTrigger value="post">Post</TabsTrigger>
                         <TabsTrigger value="product">Product</TabsTrigger>
                     </TabsList>
@@ -108,7 +108,7 @@ export default function CreateContent({ user }: CreateContentProps) {
                                 <Label>Add Photos</Label>
                                 <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
                                     <label className="flex flex-col justify-center items-center p-6 border-2 border-dashed rounded-lg cursor-pointer hover:border-emerald-600">
-                                        <ImagePlus className="w-8 h-8 text-gray-400" />
+                                        <ImagePlus className="w-12 h-12 text-gray-400 " />
                                         <span className="mt-2 text-sm text-gray-500">Upload Image</span>
                                         <input
                                             type="file"

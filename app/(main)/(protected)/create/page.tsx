@@ -11,7 +11,7 @@ export default async function CreatePage() {
     }
 
     return (
-        <div className="container py-6 max-w-4xl">
+        <div className="container mx-auto flex flex-col justify-end items-center py-8 md:py-12">
             <CreateContent user={user} />
         </div>
     );

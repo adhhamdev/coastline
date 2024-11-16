@@ -4,7 +4,7 @@ import ThemeToggle from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
 import UserNav from '@/components/user-nav';
 import { User } from '@supabase/supabase-js';
-import { Compass, Home, LogIn, MessageCircle, PlusSquare } from 'lucide-react';
+import { Compass, Home, LogIn, PlusSquare, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -14,14 +14,14 @@ export default function Navigation({ user }: { user: User | null }) {
     { href: '/feed', label: 'Feed', icon: Home },
     { href: '/explore', label: 'Explore', icon: Compass },
     { href: '/create', label: 'Create', icon: PlusSquare },
-    { href: '/messages', label: 'Messages', icon: MessageCircle },
+    { href: '/marketplace', label: 'Marketplace', icon: ShoppingBag },
   ];
 
   return (
-    <header className='fixed top-0 z-50 w-full backdrop-blur bg-transparent'>
+    <header className='fixed top-0 z-50 w-full backdrop-blur bg-background/80'>
       <div className='flex justify-between items-center h-14 px-4'>
         <Link href='/' className='flex items-center space-x-2'>
-          <span className='text-xl font-bold text-secondary'>Coastline.</span>
+          <span className='text-xl font-bold text-foreground'>Coastline.</span>
         </Link>
 
         {/* Desktop Navigation */}

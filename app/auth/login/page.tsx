@@ -31,7 +31,7 @@ export default function LoginPage({ searchParams }: { searchParams: { error?: st
   };
 
   return (
-    <div className="w-full max-w-md px-4">
+    <div className="w-full px-4 flex justify-center items-center h-screen">
       <Card className="border-none shadow-none md:border md:shadow-xl">
         <CardHeader className="space-y-3">
           <CardTitle className="text-2xl font-bold text-center">Sign in</CardTitle>

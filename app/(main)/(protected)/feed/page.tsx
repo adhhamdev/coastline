@@ -30,7 +30,7 @@ export default async function FeedContent() {
     }))
 
     return (
-        <div className="w-full px-0 sm:px-4 md:container md:py-6 md:max-w-xl mx-auto scrollbar-hide">
+        <div className="w-full px-0 md:container md:py-6 md:max-w-xl mx-auto scrollbar-hide">
             {!postsWithLikeStatus?.length ? (
                 <Card className="mx-0 rounded-none sm:mx-auto sm:rounded-lg p-6">
                     <div className="text-center space-y-2">

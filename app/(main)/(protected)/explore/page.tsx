@@ -52,7 +52,7 @@ export default async function ExplorePage() {
     ]);
 
     return (
-        <div className="container py-6 max-w-7xl">
+        <div className="container py-6 mx-auto px-4">
             <ExploreContent
                 initialProducts={trendingProducts || []}
                 popularSellers={popularSellers || []}

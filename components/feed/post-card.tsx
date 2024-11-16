@@ -64,7 +64,7 @@ export default function PostCard({
   };
 
   return (
-    <Card className="overflow-hidden md:max-w-xl">
+    <Card className="overflow-hidden w-full md:max-w-4xl">
       <CardHeader className="p-4">
         <div className="flex items-center space-x-3">
           <Link href={`/${post?.profiles?.username || "Adhham Safwan"}`}>

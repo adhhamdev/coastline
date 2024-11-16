@@ -16,7 +16,6 @@ import PostCard from "../feed/post-card";
 export default function SavedTabs() {
   const { toast } = useToast();
 
-  // Placeholder saved posts - replace with actual data fetching logic
   const [savedPosts, setSavedPosts] = useState<Post[]>([
     {
       id: "1",
@@ -51,13 +50,13 @@ export default function SavedTabs() {
   };
 
   return (
-    <Tabs defaultValue="posts" className="space-y-4">
-      <TabsList>
+    <Tabs defaultValue="posts" className="space-y-4 w-full">
+      <TabsList className="w-full overflow-x-auto grid grid-cols-2">
         <TabsTrigger value="posts">Saved Posts</TabsTrigger>
         <TabsTrigger value="products">Saved Products</TabsTrigger>
       </TabsList>
-      <TabsContent value="posts">
-        <div className="space-y-4">
+      <TabsContent value="posts" className="w-full">
+        <div className="space-y-4 flex flex-col items-center">
           {savedPosts.length === 0 ? (
             <Card>
               <CardContent className="pt-6 text-center text-muted-foreground">

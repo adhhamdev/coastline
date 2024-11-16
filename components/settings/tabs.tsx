@@ -20,7 +20,7 @@ export default function SettingsTabs() {
 
     return (
         <Tabs defaultValue="general" className="space-y-4">
-            <TabsList>
+            <TabsList className='w-full overflow-x-auto grid grid-cols-4'>
                 <TabsTrigger value="general">General</TabsTrigger>
                 <TabsTrigger value="notifications">Notifications</TabsTrigger>
                 <TabsTrigger value="security">Security</TabsTrigger>
