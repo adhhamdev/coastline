@@ -25,7 +25,7 @@ export default async function ProfilePage() {
         heading="Profile"
         text="Manage your profile settings and preferences."
       />
-      <div className="grid gap-10 mx-auto">
+      <div className='my-4'>
         <ProfileForm user={user} profile={profile} />
       </div>
     </DashboardShell>

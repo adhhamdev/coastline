@@ -77,7 +77,7 @@ export default function ProfileForm({ user }: ProfileFormProps) {
   }
 
   return (
-    <Card className="mx-auto w-full max-w-2xl">
+    <Card className="mx-auto">
       <CardHeader>
         <CardTitle>Profile Information</CardTitle>
         <CardDescription>
