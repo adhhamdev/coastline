@@ -1,6 +1,5 @@
 'use client';
 
-import { OAuthSignIn } from '@/actions/auth';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -10,7 +9,8 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { GoogleButton } from '@/components/ui/google-button';
-import { useToast } from '@/hooks/use-toast';
+import { OAuthSignIn } from '@/lib/actions/auth';
+import { useToast } from '@/lib/hooks/use-toast';
 import { useTransition } from 'react';
 
 export default function LoginPage({ searchParams }: { searchParams: { error?: string } }) {

@@ -4,7 +4,7 @@ import UserCard from '@/components/explore/user-card';
 import ProductCard from '@/components/products/product-card';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import useDebounce from '@/hooks/use-debounce';
+import useDebounce from '@/lib/hooks/use-debounce';
 import { createClient } from '@/utils/supabase/client';
 import { User } from '@supabase/supabase-js';
 import { Search } from 'lucide-react';

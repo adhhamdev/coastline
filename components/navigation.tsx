@@ -4,7 +4,7 @@ import ThemeToggle from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
 import UserNav from '@/components/user-nav';
 import { User } from '@supabase/supabase-js';
-import { Compass, Home, MessageCircle, PlusSquare, LogIn } from 'lucide-react';
+import { Compass, Home, LogIn, MessageCircle, PlusSquare } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -49,9 +49,9 @@ export default function Navigation({ user }: { user: User | null }) {
             <UserNav user={user} />
           ) : (
             <Button
-            size="sm"
+              size="sm"
               className='flex shadow-lg hover:bg-secondary-foreground rounded-full px-5'>
-                <LogIn />
+              <LogIn />
               <Link href='/auth/login'>Login</Link>
             </Button>
           )}

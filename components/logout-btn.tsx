@@ -1,7 +1,7 @@
 "use client"
 
-import { logOut } from "@/actions/auth";
-import { useToast } from "@/hooks/use-toast";
+import { logOut } from "@/lib/actions/auth";
+import { useToast } from "@/lib/hooks/use-toast";
 import { LogOut } from "lucide-react";
 import { useTransition } from "react";
 
@@ -12,7 +12,7 @@ export default function LogoutBtn() {
     const handleLogout = async () => {
         startTransition(async () => {
             const result = await logOut();
-            
+
             if (result?.error) {
                 toast({
                     title: "Logout Failed",

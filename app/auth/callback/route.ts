@@ -12,7 +12,7 @@ export async function GET(request: Request) {
       await supabase.auth.updateUser({
         data: { google_provider_token: data.session.provider_token },
       });
-      
+
       return NextResponse.redirect(`${origin}/feed`);
     }
   }

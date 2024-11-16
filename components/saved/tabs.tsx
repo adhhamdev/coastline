@@ -1,18 +1,16 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
-  CardTitle,
+  CardTitle
 } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Post } from "@/lib/database.types";
+import { useToast } from "@/lib/hooks/use-toast";
 import { useState } from "react";
-import { Post, SavedPost } from "@/lib/database.types";
 import PostCard from "../feed/post-card";
 
 export default function SavedTabs() {

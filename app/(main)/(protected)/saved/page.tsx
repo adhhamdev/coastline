@@ -1,6 +1,6 @@
 import DashboardHeader from '@/components/dashboard/header';
 import DashboardShell from '@/components/dashboard/shell';
-import SettingsTabs from '@/components/settings/tabs';
+import SavedTabs from '@/components/saved/tabs';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 
@@ -13,14 +13,14 @@ export default async function SettingsPage() {
     }
 
     return (
-            <DashboardShell>
-                <DashboardHeader
-                    heading="Settings"
-                    text="Manage your account settings and preferences."
-                />
-                <div className="grid gap-10">
-                    <SettingsTabs />
-                </div>
-            </DashboardShell>
+        <DashboardShell>
+            <DashboardHeader
+                heading="Saved"
+                text="Manage your saved content."
+            />
+            <div className="grid gap-10">
+                <SavedTabs />
+            </div>
+        </DashboardShell>
     );
 } 

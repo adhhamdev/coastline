@@ -1,6 +1,5 @@
 "use client";
 
-import { likePost, unlikePost } from "@/actions/posts";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,7 +8,8 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
+import { likePost, unlikePost } from "@/lib/actions/posts";
+import { useToast } from "@/lib/hooks/use-toast";
 import { User } from "@supabase/supabase-js";
 import { formatDistanceToNow } from "date-fns";
 import { Heart, MessageCircle, Share2 } from "lucide-react";
@@ -118,9 +118,8 @@ export default function PostCard({
           <Button
             variant="ghost"
             size="sm"
-            className={`flex items-center space-x-2 ${
-              isLiked ? "text-red-500" : ""
-            }`}
+            className={`flex items-center space-x-2 ${isLiked ? "text-red-500" : ""
+              }`}
             onClick={handleLike}
             disabled={isPending}
           >

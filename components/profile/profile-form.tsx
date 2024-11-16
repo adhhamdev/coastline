@@ -18,8 +18,8 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useToast } from '@/hooks/use-toast';
 import { Profile } from '@/lib/database.types';
+import { useToast } from '@/lib/hooks/use-toast';
 import { createClient } from '@/utils/supabase/client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { User } from '@supabase/supabase-js';
