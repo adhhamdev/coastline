@@ -1,10 +1,10 @@
 'use client';
 
-import { saveProduct, unsaveProduct } from '@/actions/products';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
+import { saveProduct, unsaveProduct } from '@/lib/actions/products';
 import { useToast } from '@/lib/hooks/use-toast';
 import { User } from '@supabase/supabase-js';
 import { formatDistanceToNow } from 'date-fns';
