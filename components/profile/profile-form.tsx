@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -8,7 +8,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -16,20 +16,20 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Profile } from '@/lib/database.types';
-import { useToast } from '@/lib/hooks/use-toast';
-import { createClient } from '@/utils/supabase/client';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { User } from '@supabase/supabase-js';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Profile } from "@/lib/types/database.types";
+import { useToast } from "@/lib/hooks/use-toast";
+import { createClient } from "@/utils/supabase/client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { User } from "@supabase/supabase-js";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 const formSchema = z.object({
-  name: z.string().min(2, 'Full name must be at least 2 characters'),
-  website: z.string().url().optional().or(z.literal('')),
+  name: z.string().min(2, "Full name must be at least 2 characters"),
+  website: z.string().url().optional().or(z.literal("")),
 });
 
 interface ProfileFormProps {
@@ -45,8 +45,8 @@ export default function ProfileForm({ user }: ProfileFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: user.user_metadata?.name || '',
-      website: user.user_metadata?.website || '',
+      name: user.user_metadata?.name || "",
+      website: user.user_metadata?.website || "",
     },
   });
 
@@ -62,14 +62,14 @@ export default function ProfileForm({ user }: ProfileFormProps) {
       }
 
       toast({
-        title: 'Success',
-        description: 'Your profile has been updated.',
+        title: "Success",
+        description: "Your profile has been updated.",
       });
     } catch (error) {
       toast({
-        title: 'Error',
-        description: 'Failed to update profile. Please try again.',
-        variant: 'destructive',
+        title: "Error",
+        description: "Failed to update profile. Please try again.",
+        variant: "destructive",
       });
     } finally {
       setIsLoading(false);
@@ -115,8 +115,12 @@ export default function ProfileForm({ user }: ProfileFormProps) {
             />
           </CardContent>
           <CardFooter>
-            <Button type="submit" disabled={isLoading} className="w-full sm:w-auto">
-              {isLoading ? 'Saving...' : 'Save Changes'}
+            <Button
+              type="submit"
+              disabled={isLoading}
+              className="w-full sm:w-auto"
+            >
+              {isLoading ? "Saving..." : "Save Changes"}
             </Button>
           </CardFooter>
         </form>
