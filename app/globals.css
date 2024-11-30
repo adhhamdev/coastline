@@ -45,40 +45,72 @@
     --radius: 0.5rem;
   }
   .dark {
-    --background: 200 50% 3.9%;
-    --foreground: 200 20% 98%;
-    --card: 200 50% 3.9%;
-    --card-foreground: 200 20% 98%;
-    --popover: 200 50% 3.9%;
-    --popover-foreground: 200 20% 98%;
-    --primary: 200 85% 60%;
-    --primary-foreground: 200 50% 9%;
-    --secondary: 200 30% 14.9%;
-    --secondary-foreground: 200 20% 98%;
-    --muted: 200 30% 14.9%;
-    --muted-foreground: 200 30% 63.9%;
-    --accent: 200 30% 14.9%;
-    --accent-foreground: 200 20% 98%;
+    --background: 222 47% 6%;
+    --foreground: 213 31% 88%;
+    --card: 222 47% 6%;
+    --card-foreground: 213 31% 88%;
+    --popover: 222 47% 6%;
+    --popover-foreground: 213 31% 88%;
+    --primary: 210 40% 92%;
+    --primary-foreground: 222 47% 6%;
+    --secondary: 217 32% 12%;
+    --secondary-foreground: 210 40% 92%;
+    --muted: 217 32% 12%;
+    --muted-foreground: 215 20% 60%;
+    --accent: 217 32% 12%;
+    --accent-foreground: 210 40% 92%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 200 20% 98%;
-    --border: 200 30% 14.9%;
-    --input: 200 30% 14.9%;
-    --ring: 200 85% 60%;
-    --chart-1: 200 85% 60%; /* Ocean blue */
-    --chart-2: 16 85% 70%; /* Coral */
-    --chart-3: 160 50% 70%; /* Seafoam */
-    --chart-4: 200 70% 40%; /* Deep sea */
-    --chart-5: 35 40% 90%; /* Sandy beige */
+    --destructive-foreground: 210 40% 92%;
+    --border: 217 32% 12%;
+    --input: 217 32% 12%;
+    --ring: 224 76% 48%;
+    --chart-1: 210 100% 52%;
+    --chart-2: 16 85% 70%;
+    --chart-3: 160 50% 70%;
+    --chart-4: 200 70% 40%;
+    --chart-5: 35 40% 90%;
   }
 }
 
 @layer base {
+  :root {
+  }
   * {
     @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
   }
   body {
     @apply bg-background text-foreground;
     font-feature-settings: 'rlig' 1, 'calt' 1;
+    overflow-y: overlay;
+  }
+
+  /* Customize scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 5px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
+  }
+
+  /* For Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
   }
 }
 
@@ -86,8 +118,4 @@
   .text-balance {
     text-wrap: balance;
   }
-}
-
-::-webkit-scrollbar {
-  display: none;
 }
