@@ -1,151 +1,110 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
-import { likePost, unlikePost } from "@/lib/actions/posts";
-import { useToast } from "@/lib/hooks/use-toast";
-import { User } from "@supabase/supabase-js";
-import { formatDistanceToNow } from "date-fns";
-import { Heart, MessageCircle, Share2 } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { useState, useTransition } from "react";
+import { Comment, Post, Profile } from "@/lib/types/database.types"
+import Image from "next/image"
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { MessageCircle, Share2 } from "lucide-react"
+import { formatRelativeTime } from "@/lib/utils/date"
+import { LikeButton } from "./like-button"
+import { ShareButton } from "./share-button";
+import { AuthUser } from "@/lib/types/auth.types";
 
-interface PostCardProps {
-  post: any;
-  currentUser: User | null;
-  initialLiked: boolean;
+interface ExtendedPost extends Post {
+  profiles: Profile | null
+  likes: { user_id: string }[]
+  comments: Comment[]
 }
 
-export default function PostCard({
-  post,
-  currentUser,
-  initialLiked,
-}: PostCardProps) {
-  const [isLiked, setIsLiked] = useState(initialLiked);
-  const [likesCount, setLikesCount] = useState(post.likes_count);
-  const [isPending, startTransition] = useTransition();
-  const { toast } = useToast();
+interface PostCardProps {
+  post: ExtendedPost
+  user: AuthUser
+}
 
-  const handleLike = async () => {
-    if (!currentUser) {
-      toast({
-        title: "Authentication required",
-        description: "Please login to like posts",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    startTransition(async () => {
-      try {
-        if (isLiked) {
-          await unlikePost(post.id);
-          setLikesCount((prev: number) => prev - 1);
-        } else {
-          await likePost(post.id);
-          setLikesCount((prev: number) => prev + 1);
-        }
-        setIsLiked(!isLiked);
-      } catch (error) {
-        toast({
-          title: "Error",
-          description: "Failed to like post. Please try again.",
-          variant: "destructive",
-        });
-      }
-    });
-  };
-
+export function PostCard({ post, user }: PostCardProps) {
+  const isLiked = post.likes.some((like: { user_id: string }) => like.user_id === user.id)
   return (
-    <Card className="overflow-hidden w-full md:max-w-4xl">
-      <CardHeader className="p-4">
-        <div className="flex items-center space-x-3">
-          <Link href={`/${post?.profiles?.username || "Adhham Safwan"}`}>
-            <Avatar className="h-10 w-10">
-              <AvatarImage src={post?.profiles?.avatar_url} />
-              <AvatarFallback>
-                {post?.profiles?.username[0].toUpperCase() || "A"}
-              </AvatarFallback>
-            </Avatar>
-          </Link>
-          <div>
+    <article className="p-4">
+      <div className="flex gap-4">
+        <Link
+          href={`/profile/${post.profiles?.username || post.user_id}`}
+          className="relative h-10 w-10 rounded-full bg-muted overflow-hidden hover:opacity-80 transition"
+        >
+          {post.profiles?.avatar_url && (
+            <Image
+              src={post.profiles.avatar_url}
+              alt={post.profiles.username || 'User'}
+              fill
+              className="object-cover"
+              sizes="40px"
+            />
+          )}
+        </Link>
+        <div className="flex-1">
+          <div className="flex items-center gap-2 flex-wrap">
             <Link
-              href={`/${post?.profiles?.username || "Adhham Safwan"}`}
-              className="font-semibold hover:underline"
+              href={`/profile/${post.profiles?.username || post.user_id}`}
+              className="hover:underline"
             >
-              {post?.profiles?.username || "Adhham Safwan"}
+              <span className="font-semibold">
+                {post.profiles?.full_name || post.profiles?.username || 'Anonymous'}
+              </span>
             </Link>
-            <p
-              className="text-sm text-muted-foreground"
-              suppressHydrationWarning
+            <Link
+              href={`/profile/${post.profiles?.username || post.user_id}`}
+              className="hover:underline"
             >
-              {formatDistanceToNow(new Date(post?.created_at), {
-                addSuffix: true,
-              })}
-            </p>
+              <span className="text-muted-foreground">
+                @{post.profiles?.username || 'user'}
+              </span>
+            </Link>
+            {post.profiles?.verified && (
+              <span className="text-primary" title="Verified">
+                ✓
+              </span>
+            )}
+            <span className="text-muted-foreground">·</span>
+            <span className="text-muted-foreground">
+              {formatRelativeTime(post.created_at)}
+            </span>
           </div>
-        </div>
-      </CardHeader>
-      <CardContent className="p-4 pt-0">
-        <p className="whitespace-pre-wrap">{post.content}</p>
-        {post.media_urls && post.media_urls.length > 0 && (
-          <div className="mt-3 grid gap-2">
-            {post.media_urls.map((url: string, index: number) => (
-              <div
-                key={index}
-                className="relative aspect-video rounded-lg overflow-hidden"
-              >
-                <Image
-                  src={url}
-                  alt={`Post media ${index + 1}`}
-                  fill
-                  className="object-cover"
-                />
+          <p className="mt-2 whitespace-pre-wrap break-words">{post.content}</p>
+          {
+            post.images && post.images.length > 0 && (
+              <div className={`mt-3 grid gap-2 ${post.images.length === 1 ? 'grid-cols-1' : 'grid-cols-2'}`}>
+                {post.images.map((image, index) => (
+                  <div
+                    key={index}
+                    className={`relative bg-muted overflow-hidden rounded-lg ${post.images?.length === 1 ? 'aspect-video' : 'aspect-square'
+                      }`}
+                  >
+                    <Image
+                      src={image}
+                      alt={`Post image ${index + 1}`}
+                      fill
+                      className="object-cover"
+                      sizes="(min-width: 640px) 400px, 200px"
+                    />
+                  </div>
+                ))}
               </div>
-            ))}
+            )}
+          <div className="flex gap-6 mt-4">
+            <LikeButton
+              postId={post.id}
+              initialLiked={isLiked}
+              initialCount={post.likes.length}
+            />
+            <Button variant="ghost" size="sm" className="gap-2" asChild>
+              <Link href={`/post/${post.id}`}>
+                <MessageCircle className="h-4 w-4" />
+                {post.comments_count}
+              </Link>
+            </Button>
+            <ShareButton postId={post.id} />
           </div>
-        )}
-      </CardContent>
-      <CardFooter className="p-4 pt-0">
-        <div className="flex items-center space-x-4">
-          <Button
-            variant="ghost"
-            size="sm"
-            className={`flex items-center space-x-2 ${isLiked ? "text-red-500" : ""
-              }`}
-            onClick={handleLike}
-            disabled={isPending}
-          >
-            <Heart className={`h-5 w-5 ${isLiked ? "fill-current" : ""}`} />
-            <span>{likesCount}</span>
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="flex items-center space-x-2"
-            asChild
-          >
-            <Link href={`/post/${post.id}`}>
-              <MessageCircle className="h-5 w-5" />
-              <span>{post.comments_count}</span>
-            </Link>
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="flex items-center space-x-2"
-          >
-            <Share2 className="h-5 w-5" />
-          </Button>
         </div>
-      </CardFooter>
-    </Card>
-  );
+      </div>
+    </article>
+  )
 }

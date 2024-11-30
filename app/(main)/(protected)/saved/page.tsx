@@ -1,16 +1,37 @@
 import DashboardHeader from '@/components/dashboard/header';
 import DashboardShell from '@/components/dashboard/shell';
 import SavedTabs from '@/components/saved/tabs';
+import { getUser } from '@/lib/actions/auth';
+import { AuthUser } from '@/lib/types/auth.types';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 
-export default async function SettingsPage() {
-    const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+export default async function SavedPage() {
+    const user = await getUser()
 
     if (!user) {
         redirect('/auth/login');
     }
+
+
+    const getSavedPosts = async (userId: string) => {
+        const supabase = createClient();
+        const { data, error } = await supabase
+            .from('saved_posts')
+            .select(`
+                *,
+                profiles:user_id (*),
+                likes (
+                    user_id
+                ),
+                comments:comments_count
+            `)
+            .eq('user_id', userId);
+
+        return data;
+    }
+
+    const savedPosts = await getSavedPosts(user.id);
 
     return (
         <DashboardShell>
@@ -19,7 +40,7 @@ export default async function SettingsPage() {
                 text="Manage your saved content."
             />
             <div className="grid gap-10">
-                <SavedTabs />
+                <SavedTabs savedPosts={savedPosts || []} user={user as AuthUser} />
             </div>
         </DashboardShell>
     );

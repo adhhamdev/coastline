@@ -2,7 +2,7 @@ import ProductsContent from '@/components/products/products-content';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 
-export default async function ProductsPage() {
+export default async function MarketPage() {
     const supabase = createClient();
     const { data: { user } } = await supabase.auth.getUser();
 

@@ -8,41 +8,21 @@ import {
   CardTitle
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Post } from "@/lib/database.types";
+import { Post, Profile, Comment } from "@/lib/types/database.types";
 import { useToast } from "@/lib/hooks/use-toast";
-import { useState } from "react";
-import PostCard from "../feed/post-card";
+import { PostCard } from "../feed/post-card";
+import { AuthUser } from "@/lib/types/auth.types";
 
-export default function SavedTabs() {
+interface ExtendedPost extends Post {
+  profiles: Profile | null
+  likes: { user_id: string }[]
+  comments: Comment[]
+}
+
+export default function SavedTabs({ savedPosts, user }: { savedPosts: ExtendedPost[], user: AuthUser }) {
   const { toast } = useToast();
 
-  const [savedPosts, setSavedPosts] = useState<Post[]>([
-    {
-      id: "1",
-      user_id: "user1",
-      content: "This is a sample saved post",
-      images: ["https://example.com/image1.jpg"],
-      likes_count: 10,
-      comments_count: 5,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    },
-    {
-      id: "2",
-      user_id: "user2",
-      content: "Another saved post example",
-      videos: ["https://example.com/video1.mp4"],
-      likes_count: 15,
-      comments_count: 8,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    },
-  ]);
-
   const handleRemoveSavedPost = (postId: string) => {
-    setSavedPosts((currentPosts) =>
-      currentPosts.filter((post) => post.id !== postId)
-    );
     toast({
       title: "Post Removed",
       description: "The post has been removed from your saved list.",
@@ -68,8 +48,7 @@ export default function SavedTabs() {
               <PostCard
                 key={post.id}
                 post={post}
-                currentUser={null}
-                initialLiked={false}
+                user={user}
               />
             ))
           )}

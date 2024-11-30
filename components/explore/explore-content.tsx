@@ -10,7 +10,7 @@ import { User } from '@supabase/supabase-js';
 import { Search } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState, useTransition } from 'react';
-import PostCard from '../feed/post-card';
+import { PostCard } from '../feed/post-card';
 
 interface ExploreContentProps {
     initialProducts: any[];
@@ -142,7 +142,7 @@ export default function ExploreContent({ initialProducts, popularSellers, user }
                 <TabsContent value="posts" className="space-y-4">
                     <div className="grid gap-6">
                         {searchResults.posts.map((post: any) => (
-                            <PostCard key={post.id} post={post} currentUser={user} initialLiked={post.liked_by_user} />
+                            <PostCard key={post.id} post={post} />
                         ))}
                     </div>
                 </TabsContent>
