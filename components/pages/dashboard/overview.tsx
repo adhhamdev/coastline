@@ -1,7 +1,7 @@
 'use client';
 
-import OverviewChart from '@/components/dashboard/overview-chart';
-import RecentActivity from '@/components/dashboard/recent-activity';
+import OverviewChart from '@/components/pages/dashboard/overview-chart';
+import RecentActivity from '@/components/pages/dashboard/recent-activity';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function Overview() {

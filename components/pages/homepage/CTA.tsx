@@ -1,8 +1,8 @@
 import { Waves } from "lucide-react";
 
 import { ArrowRight } from "lucide-react";
-import { MotionDiv } from "../common/motion";
-import { Button } from "../ui/button";
+import { MotionDiv } from "../../common/motion";
+import { Button } from "../../ui/button";
 import Link from "next/link";
 
 export default function CTA() {

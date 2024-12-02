@@ -1,7 +1,7 @@
 "use client";
 
-import UserCard from "@/components/explore/user-card";
-import ProductCard from "@/components/products/product-card";
+import UserCard from "@/components/pages/explore/user-card";
+import ProductCard from "@/components/pages/products/product-card";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import useDebounce from "@/lib/hooks/use-debounce";

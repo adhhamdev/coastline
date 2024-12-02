@@ -1,4 +1,4 @@
-import CreateContent from '@/components/create/create-content';
+import CreateContent from '@/components/pages/create/create-content';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 

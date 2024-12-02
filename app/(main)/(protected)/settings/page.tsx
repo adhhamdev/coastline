@@ -1,6 +1,6 @@
-import DashboardHeader from '@/components/dashboard/header';
-import DashboardShell from '@/components/dashboard/shell';
-import SettingsTabs from '@/components/settings/tabs';
+import DashboardHeader from '@/components/pages/dashboard/header';
+import DashboardShell from '@/components/pages/dashboard/shell';
+import SettingsTabs from '@/components/pages/settings/tabs';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 

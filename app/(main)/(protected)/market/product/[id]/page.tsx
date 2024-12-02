@@ -1,4 +1,4 @@
-import ProductDetail from '@/components/products/product-detail';
+import ProductDetail from '@/components/pages/products/product-detail';
 import { createClient } from '@/utils/supabase/server';
 import { notFound, redirect } from 'next/navigation';
 

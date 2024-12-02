@@ -1,7 +1,7 @@
-import DashboardHeader from '@/components/dashboard/header';
-import Overview from '@/components/dashboard/overview';
-import DashboardShell from '@/components/dashboard/shell';
-import DashboardTabs from '@/components/dashboard/tabs';
+import DashboardHeader from '@/components/pages/dashboard/header';
+import Overview from '@/components/pages/dashboard/overview';
+import DashboardShell from '@/components/pages/dashboard/shell';
+import DashboardTabs from '@/components/pages/dashboard/tabs';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 

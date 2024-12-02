@@ -1,6 +1,6 @@
-import DashboardHeader from '@/components/dashboard/header';
-import DashboardShell from '@/components/dashboard/shell';
-import ProfileForm from '@/components/profile/profile-form';
+import DashboardHeader from '@/components/pages/dashboard/header';
+import DashboardShell from '@/components/pages/dashboard/shell';
+import ProfileForm from '@/components/pages/profile/profile-form';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 

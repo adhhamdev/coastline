@@ -1,4 +1,4 @@
-import ExploreContent from '@/components/explore/explore-content';
+import ExploreContent from '@/components/pages/explore/explore-content';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 export default async function ExplorePage() {

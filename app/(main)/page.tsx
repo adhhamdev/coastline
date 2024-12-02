@@ -1,9 +1,7 @@
-import { createClient } from '@/utils/supabase/server';
-
-import Hero from '@/components/homepage/Hero';
-import BusinessCategories from '@/components/homepage/BusinessCategories';
-import KeyFeatures from '@/components/homepage/KeyFeatures';
-import CTA from '@/components/homepage/CTA';
+import Hero from '@/components/pages/homepage/Hero';
+import BusinessCategories from '@/components/pages/homepage/BusinessCategories';
+import KeyFeatures from '@/components/pages/homepage/KeyFeatures';
+import CTA from '@/components/pages/homepage/CTA';
 import Footer from '@/components/common/Footer';
 
 export default async function Home() {

@@ -1,8 +1,8 @@
 import { ArrowRight } from "lucide-react";
 
 import { Waves } from "lucide-react";
-import { MotionDiv } from "../common/motion";
-import { Button } from "../ui/button";
+import { MotionDiv } from "../../common/motion";
+import { Button } from "../../ui/button";
 import Image from "next/image";
 import { createClient } from "@/utils/supabase/server";
 import Link from "next/link";

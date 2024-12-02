@@ -1,6 +1,6 @@
 import { Users } from "lucide-react";
 import { MessageCircle, TrendingUp } from "lucide-react";
-import { MotionDiv } from "../common/motion";
+import { MotionDiv } from "../../common/motion";
 
 export default function KeyFeatures() {
     return (

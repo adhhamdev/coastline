@@ -1,6 +1,6 @@
 import { Gem, Store } from "lucide-react";
 import { Fish } from "lucide-react";
-import { MotionDiv } from "../common/motion";
+import { MotionDiv } from "../../common/motion";
 import Image from "next/image";
 
 const categoryImages = {

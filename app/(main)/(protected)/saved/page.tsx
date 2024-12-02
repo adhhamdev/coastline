@@ -1,6 +1,6 @@
-import DashboardHeader from '@/components/dashboard/header';
-import DashboardShell from '@/components/dashboard/shell';
-import SavedTabs from '@/components/saved/tabs';
+import DashboardHeader from '@/components/pages/dashboard/header';
+import DashboardShell from '@/components/pages/dashboard/shell';
+import SavedTabs from '@/components/pages/saved/tabs';
 import { getUser } from '@/lib/actions/auth';
 import { AuthUser } from '@/lib/types/auth.types';
 import { createClient } from '@/utils/supabase/server';

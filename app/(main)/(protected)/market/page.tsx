@@ -1,4 +1,4 @@
-import ProductsContent from '@/components/products/products-content';
+import ProductsContent from '@/components/pages/products/products-content';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 
