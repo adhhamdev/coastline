@@ -1,4 +1,4 @@
-import Navigation from '@/components/navigation';
+import Navigation from '@/components/common/navigation';
 import { createClient } from '@/utils/supabase/server';
 
 export default async function MainLayout({

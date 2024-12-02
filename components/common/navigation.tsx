@@ -1,8 +1,8 @@
 'use client';
 
-import ThemeToggle from '@/components/theme-toggle';
+import ThemeToggle from '@/components/common/theme-toggle';
 import { Button } from '@/components/ui/button';
-import UserNav from '@/components/user-nav';
+import UserNav from '@/components/common/user-nav';
 import { User } from '@supabase/supabase-js';
 import { Compass, Home, LogIn, PlusSquare, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
