@@ -21,6 +21,7 @@ import { CreatePost } from "@/components/pages/feed/create-post";
 import { Post, Profile } from "@/lib/types/database.types";
 import { getUser } from "@/lib/actions/auth";
 import { AuthUser } from "@/lib/types/auth.types";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const metadata: Metadata = {
   title: "Feed | Coastline",
@@ -124,7 +125,7 @@ export default async function FeedPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Main container with responsive grid */}
-      <div className="mx-auto grid grid-cols-1 md:grid-cols-[auto,1fr] lg:grid-cols-[250px,1fr,350px] gap-4 md:p-4">
+      <div className="mx-auto grid grid-cols-1 md:grid-cols-[auto,1fr] lg:grid-cols-[300px,1fr,1fr] gap-5 md:p-4">
         {/* Left Column - Navigation */}
         <div className="hidden md:flex flex-col gap-4 h-[calc(100vh-2rem)] sticky top-4">
           <ScrollArea className="h-full">
@@ -176,10 +177,12 @@ export default async function FeedPage() {
         <main className="min-h-screen md:border-x">
           <div className="sticky top-0 z-10 bg-background/95 backdrop-blur">
             <div className="flex items-center justify-between p-4">
-              <h1 className="text-xl font-semibold">Home</h1>
-              <Button variant="ghost" size="icon">
-                <MoreHorizontal className="h-5 w-5" />
-              </Button>
+              <Tabs defaultValue="for-you" className="w-full">
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="for-you">For You</TabsTrigger>
+                  <TabsTrigger value="following">Following</TabsTrigger>
+                </TabsList>
+              </Tabs>
             </div>
             <Separator />
           </div>
