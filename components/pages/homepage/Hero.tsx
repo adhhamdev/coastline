@@ -59,7 +59,7 @@ export default async function Hero() {
                   className="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-6 sm:px-8 py-5 sm:py-6 text-base sm:text-lg font-medium transition-all duration-300 shadow-lg hover:shadow-xl"
                 >
                   <Link href="/auth/login">
-                    {user ? "Dashboard" : "Get Started"}
+                    {user ? "Continue" : "Get Started"}
                   </Link>
                 </Button>
               </MotionDiv>

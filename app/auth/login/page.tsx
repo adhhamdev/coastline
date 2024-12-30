@@ -1,33 +1,37 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { GoogleButton } from '@/components/ui/google-button';
-import { OAuthSignIn } from '@/lib/actions/auth';
-import { useToast } from '@/lib/hooks/use-toast';
-import { useTransition } from 'react';
-import { MotionDiv } from '@/components/common/motion';
-import { Waves } from 'lucide-react';
-import Image from 'next/image';
+} from "@/components/ui/card";
+import { GoogleButton } from "@/components/ui/custom/google-button";
+import { OAuthSignIn } from "@/lib/actions/auth";
+import { useToast } from "@/lib/hooks/use-toast";
+import { useTransition } from "react";
+import { MotionDiv } from "@/components/common/motion";
+import { Waves } from "lucide-react";
+import Image from "next/image";
 
 // Animation variants
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.5 }
+  transition: { duration: 0.5 },
 };
 
 const staggerContainer = {
-  animate: { transition: { staggerChildren: 0.1 } }
+  animate: { transition: { staggerChildren: 0.1 } },
 };
 
-export default function LoginPage({ searchParams }: { searchParams: { error?: string } }) {
+export default function LoginPage({
+  searchParams,
+}: {
+  searchParams: { error?: string };
+}) {
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
 
@@ -36,8 +40,8 @@ export default function LoginPage({ searchParams }: { searchParams: { error?: st
       const result = await OAuthSignIn();
       if (result?.error) {
         toast({
-          variant: 'destructive',
-          title: 'Login failed',
+          variant: "destructive",
+          title: "Login failed",
           description: result.error,
         });
       }
@@ -67,24 +71,22 @@ export default function LoginPage({ searchParams }: { searchParams: { error?: st
         variants={staggerContainer}
         className="relative z-10 w-full max-w-md"
       >
-        <Card className="backdrop-blur-sm bg-background/80 border-none shadow-2xl">
+        <Card className="backdrop-blur-sm bg-background/80 border-none shadow-2xl p-2">
           <MotionDiv variants={fadeInUp}>
             <CardHeader className="space-y-3">
               <CardTitle className="text-3xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
-                Welcome Back
+                Welcome to Coastline
               </CardTitle>
               <CardDescription className="text-center text-base">
-                Choose your sign in method to continue
+                Choose your sign in method to continue exploring Sri Lankan
+                businesses.
               </CardDescription>
             </CardHeader>
           </MotionDiv>
 
           <CardContent className="space-y-6">
             <form action={handleOAuth} className="space-y-4">
-              <MotionDiv
-                variants={fadeInUp}
-                className="space-y-4"
-              >
+              <MotionDiv variants={fadeInUp} className="space-y-4">
                 <GoogleButton
                   type="submit"
                   isLoading={isPending}

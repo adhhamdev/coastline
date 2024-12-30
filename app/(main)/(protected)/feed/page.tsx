@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 };
 
 // Revalidate the page every 60 seconds
-export const revalidate = 60;
+export const revalidate = 10;
 
 interface ExtendedPost extends Post {
   profiles: Profile | null;

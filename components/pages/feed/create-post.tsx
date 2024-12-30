@@ -14,6 +14,7 @@ interface CreatePostProps {
 export function CreatePost({ user }: CreatePostProps) {
   const [content, setContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -32,25 +33,45 @@ export function CreatePost({ user }: CreatePostProps) {
   };
 
   return (
-    <form ref={formRef} action={handleSubmit} className="p-4 border-b">
-      <div className="flex gap-4 p-4">
-        <div className="relative h-10 w-10 rounded-full bg-muted overflow-hidden">
+    <form
+      ref={formRef}
+      action={handleSubmit}
+      className={`p-2 border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-10 transition-all duration-200 ${
+        isFocused ? "shadow-md" : ""
+      }`}
+    >
+      <div
+        className={`flex gap-4 transition-all duration-200 ${
+          isFocused ? "flex-col items-start p-4" : "p-2"
+        }`}
+      >
+        <div className="relative h-8 w-8 shrink-0 rounded-full bg-muted overflow-hidden">
           {user.user_metadata?.avatar_url && (
             <Image
               src={user.user_metadata.avatar_url}
               alt={user.user_metadata?.full_name || "User"}
               fill
               className="object-cover"
-              sizes="40px"
+              sizes="32px"
             />
           )}
         </div>
-        <div className="flex-1">
+        <div
+          className={`flex-1 w-full ${
+            isFocused ? "space-y-4" : "flex items-center gap-4"
+          }`}
+        >
           <textarea
             name="content"
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className="w-full min-h-[100px] bg-transparent border-none resize-none focus:outline-none"
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            className={`w-full bg-transparent border-none resize-none focus:outline-none transition-all duration-200 ${
+              isFocused
+                ? "min-h-[150px]"
+                : "min-h-[32px] max-h-[32px] overflow-hidden whitespace-nowrap"
+            }`}
             placeholder="What's on your mind?"
           />
           <input
@@ -61,16 +82,25 @@ export function CreatePost({ user }: CreatePostProps) {
             multiple
             className="hidden"
           />
-          <div className="flex justify-between items-center mt-4">
+          <div
+            className={`flex items-center gap-2 ${
+              isFocused ? "justify-between" : ""
+            }`}
+          >
             <Button
               type="button"
               variant="outline"
               size="icon"
+              className="h-8 w-8"
               onClick={() => fileInputRef.current?.click()}
             >
-              <PlusCircle className="h-5 w-5" />
+              <PlusCircle className="h-4 w-4" />
             </Button>
-            <Button type="submit" disabled={!content.trim() || isSubmitting}>
+            <Button
+              type="submit"
+              disabled={!content.trim() || isSubmitting}
+              size={isFocused ? "default" : "sm"}
+            >
               Post
             </Button>
           </div>
