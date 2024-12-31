@@ -67,7 +67,7 @@ export function CreatePost({ user }: CreatePostProps) {
             onChange={(e) => setContent(e.target.value)}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
-            className={`w-full bg-transparent border-none resize-none focus:outline-none transition-all duration-200 ${
+            className={`w-full bg-transparent border-none resize-none focus:outline-none transition-all duration-200 placeholder:text-lg ${
               isFocused
                 ? "min-h-[150px]"
                 : "min-h-[32px] max-h-[32px] overflow-hidden whitespace-nowrap"
