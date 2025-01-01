@@ -4,7 +4,12 @@ import { NextResponse } from 'next/server';
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get('code');
-
+  const userAgent = request.headers.get('user-agent') || '';
+  const isNativeApp = searchParams.get('isNativeApp');
+  
+  // Check if the request is from a mobile app
+  const isMobileApp = userAgent.toLowerCase().includes('coastlineapp');
+  
   if (code) {
     const supabase = createClient();
     const { error, data } = await supabase.auth.exchangeCodeForSession(code);
@@ -12,6 +17,11 @@ export async function GET(request: Request) {
       await supabase.auth.updateUser({
         data: { google_provider_token: data.session.provider_token },
       });
+
+      // If it's a mobile app request, redirect to the app's URL scheme
+      if (isMobileApp || isNativeApp) {
+        return NextResponse.redirect(`coastlineapp.https://coastlineapp.vercel.app`);
+      }
 
       return NextResponse.redirect(`${origin}/feed`);
     }
