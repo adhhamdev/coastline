@@ -13,7 +13,7 @@ export async function GET(request: Request) {
         data: { google_provider_token: data.session.provider_token },
       });
 
-      return NextResponse.redirect(`coastlineapp://${origin}/feed`);
+      return NextResponse.redirect(`${origin}/feed`);
     }
   }
 

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import Image from "next/image";
 import { createPost } from "@/lib/actions/posts";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { User } from "@supabase/supabase-js";
 
 interface CreatePostProps {
@@ -31,6 +31,18 @@ export function CreatePost({ user }: CreatePostProps) {
       setIsSubmitting(false);
     }
   };
+
+  useEffect(() => {
+    const redirectToApp = () => {
+      const isMobile = navigator.userAgent.includes("Mobile");
+      if (isMobile) {
+        window.location.href = `coastlineapp.${window.location.href}`;
+        console.log("Redirecting to feed...");
+      }
+    };
+
+    redirectToApp();
+  }, []);
 
   return (
     <form
