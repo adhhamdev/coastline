@@ -67,7 +67,7 @@ export function PostCard({ post, user }: PostCardProps) {
                     post.profiles?.username ||
                     "Anonymous"}
                 </span>
-              </Link>
+              </Link>{" "}
               <Link
                 href={`/profile/${post.profiles?.username || post.user_id}`}
                 className="hover:underline"

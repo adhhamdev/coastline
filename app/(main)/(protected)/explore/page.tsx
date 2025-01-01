@@ -1,19 +1,23 @@
-import ExploreContent from '@/components/pages/explore/explore-content';
-import { createClient } from '@/utils/supabase/server';
-import { redirect } from 'next/navigation';
+import ExploreContent from "@/components/pages/explore/explore-content";
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 export default async function ExplorePage() {
-    const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-    if (!user) {
-        redirect('/auth/login');
-    }
+  if (!user) {
+    redirect("/auth/login");
+  }
 
-    // Fetch initial trending data
-    const [{ data: trendingProducts }, { data: popularSellers }] = await Promise.all([
-        supabase
-            .from('products')
-            .select(`
+  // Fetch initial trending data
+  const [{ data: trendingProducts }, { data: popularSellers }] =
+    await Promise.all([
+      supabase
+        .from("products")
+        .select(
+          `
         id,
         title,
         price,
@@ -25,13 +29,15 @@ export default async function ExplorePage() {
           avatar_url,
           business_type
         )
-      `)
-            .order('views_count', { ascending: false })
-            .limit(6),
+      `
+        )
+        .order("views_count", { ascending: false })
+        .limit(6),
 
-        supabase
-            .from('profiles')
-            .select(`
+      supabase
+        .from("profiles")
+        .select(
+          `
         id,
         username,
         avatar_url,
@@ -45,19 +51,20 @@ export default async function ExplorePage() {
           WHERE following_id = profiles.id 
           AND follower_id = '${user?.id}'
         ) as is_following
-      `)
-            .eq('verified', true)
-            .order('followers_count', { ascending: false })
-            .limit(6)
+      `
+        )
+        .eq("verified", true)
+        .order("followers_count", { ascending: false })
+        .limit(6),
     ]);
 
-    return (
-        <div className="container py-6 mx-auto px-4">
-            <ExploreContent
-                initialProducts={trendingProducts || []}
-                popularSellers={popularSellers || []}
-                user={user}
-            />
-        </div>
-    );
-} 
+  return (
+    <div className="container mx-auto px-4 pt-4">
+      <ExploreContent
+        initialProducts={trendingProducts || []}
+        popularSellers={popularSellers || []}
+        user={user}
+      />
+    </div>
+  );
+}

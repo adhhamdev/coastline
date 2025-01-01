@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import Image from "next/image";
 import { createPost } from "@/lib/actions/posts";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { User } from "@supabase/supabase-js";
 
 interface CreatePostProps {
@@ -14,7 +14,7 @@ interface CreatePostProps {
 export function CreatePost({ user }: CreatePostProps) {
   const [content, setContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -32,29 +32,29 @@ export function CreatePost({ user }: CreatePostProps) {
     }
   };
 
-  useEffect(() => {
-    const redirectToApp = () => {
-      const isMobile = navigator.userAgent.includes("Mobile");
-      if (isMobile) {
-        window.location.href = `coastlineapp.${window.location.href}`;
-        console.log("Redirecting to feed...");
-      }
-    };
+  // useEffect(() => {
+  //   const redirectToApp = () => {
+  //     const isMobile = navigator.userAgent.includes("Mobile");
+  //     if (isMobile) {
+  //       window.location.href = `coastlineapp.${window.location.href}`;
+  //       console.log("Redirecting to feed...");
+  //     }
+  //   };
 
-    redirectToApp();
-  }, []);
+  //   redirectToApp();
+  // }, []);
 
   return (
     <form
       ref={formRef}
       action={handleSubmit}
       className={`p-2 border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-10 transition-all duration-200 ${
-        isFocused ? "shadow-md" : ""
+        isExpanded ? "shadow-md" : ""
       }`}
     >
       <div
         className={`flex gap-4 transition-all duration-200 ${
-          isFocused ? "flex-col items-start p-4" : "p-2"
+          isExpanded ? "flex-col items-start p-4" : "p-2"
         }`}
       >
         <div className="relative h-8 w-8 shrink-0 rounded-full bg-muted overflow-hidden">
@@ -70,17 +70,16 @@ export function CreatePost({ user }: CreatePostProps) {
         </div>
         <div
           className={`flex-1 w-full ${
-            isFocused ? "space-y-4" : "flex items-center gap-4"
+            isExpanded ? "space-y-4" : "flex items-center gap-4"
           }`}
         >
           <textarea
             name="content"
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
+            onFocus={() => setIsExpanded(true)}
             className={`w-full bg-transparent border-none resize-none focus:outline-none transition-all duration-200 placeholder:text-lg ${
-              isFocused
+              isExpanded
                 ? "min-h-[150px]"
                 : "min-h-[32px] max-h-[32px] overflow-hidden whitespace-nowrap"
             }`}
@@ -96,9 +95,22 @@ export function CreatePost({ user }: CreatePostProps) {
           />
           <div
             className={`flex items-center gap-2 ${
-              isFocused ? "justify-between" : ""
+              isExpanded ? "justify-end w-full" : ""
             }`}
           >
+            {isExpanded && (
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={() => {
+                  setIsExpanded(false);
+                  setContent("");
+                }}
+                className="text-muted-foreground"
+              >
+                Cancel
+              </Button>
+            )}
             <Button
               type="button"
               variant="outline"
@@ -111,7 +123,7 @@ export function CreatePost({ user }: CreatePostProps) {
             <Button
               type="submit"
               disabled={!content.trim() || isSubmitting}
-              size={isFocused ? "default" : "sm"}
+              size={isExpanded ? "default" : "sm"}
             >
               Post
             </Button>

@@ -125,9 +125,9 @@ export default async function FeedPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Main container with responsive grid */}
-      <div className="mx-auto grid grid-cols-1 md:grid-cols-[auto,1fr] lg:grid-cols-[300px,1fr,1fr] gap-5 md:p-4">
+      <div className="mx-auto grid grid-cols-1 md:grid-cols-[300px,1fr] lg:grid-cols-[300px,1fr,1fr] gap-5 md:p-4">
         {/* Left Column - Navigation */}
-        <div className="hidden md:flex flex-col gap-4 h-[calc(100vh-2rem)] sticky top-4">
+        <div className="hidden md:flex flex-col gap-4 h-[calc(100vh-5rem)] sticky top-16">
           <ScrollArea className="h-full">
             <div className="space-y-2 py-2">
               <Button
@@ -205,43 +205,51 @@ export default async function FeedPage() {
         </main>
 
         {/* Right Column - Trending */}
-        <div className="hidden lg:block space-y-4">
-          <div className="sticky top-4">
-            <div className="rounded-lg bg-muted p-4">
-              <h2 className="font-semibold mb-4">Trending Topics</h2>
-              <div className="space-y-4">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <div key={i} className="space-y-1">
-                    <p className="text-sm text-muted-foreground">
-                      Trending in Tech
+        <div className="hidden lg:block space-y-4 h-[calc(100vh-5rem)] sticky top-16 overflow-y-auto scrollbar-hide">
+          <div className="rounded-lg bg-muted p-4">
+            <h2 className="font-semibold mb-4">Trending Products</h2>
+            <div>
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Link
+                  key={i}
+                  href={`/market/product/${i + 1}`}
+                  className="flex items-center gap-3 hover:bg-primary/10 p-1 rounded-lg"
+                >
+                  <div className="h-16 w-16 rounded-lg bg-background shrink-0" />
+                  <div className="space-y-1 flex-1">
+                    <p className="font-medium line-clamp-1">
+                      Product Name {i + 1}
                     </p>
-                    <p className="font-medium">#{`TrendingTopic${i + 1} `}</p>
-                    <p className="text-sm text-muted-foreground">10.5K posts</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="rounded-lg bg-muted p-4 mt-4">
-              <h2 className="font-semibold mb-4">Who to follow</h2>
-              <div className="space-y-4">
-                {Array.from({ length: 3 }).map((_, i) => (
-                  <div key={i} className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className="h-10 w-10 rounded-full bg-background" />
-                      <div>
-                        <p className="font-medium">User Name</p>
-                        <p className="text-sm text-muted-foreground">
-                          @username
-                        </p>
-                      </div>
+                    <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                      <span>$9.99</span>
+                      <span>•</span>
+                      <span>⭐ 4.5</span>
+                      <span>•</span>
+                      <span>150 reviews</span>
                     </div>
-                    <Button variant="outline" size="sm">
-                      Follow
-                    </Button>
                   </div>
-                ))}
-              </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-lg bg-muted p-4 mt-4">
+            <h2 className="font-semibold mb-4">Suggested Users</h2>
+            <div className="space-y-4">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="h-10 w-10 rounded-full bg-background" />
+                    <div>
+                      <p className="font-medium">User Name</p>
+                      <p className="text-sm text-muted-foreground">@username</p>
+                    </div>
+                  </div>
+                  <Button variant="outline" size="sm">
+                    Follow
+                  </Button>
+                </div>
+              ))}
             </div>
           </div>
         </div>

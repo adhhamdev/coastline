@@ -73,8 +73,6 @@
 }
 
 @layer base {
-  :root {
-  }
   * {
     @apply border-border;
   }
@@ -107,10 +105,8 @@
     background: hsl(var(--muted-foreground) / 0.5);
   }
 
-  /* For Firefox */
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
 }
 
