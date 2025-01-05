@@ -13,17 +13,11 @@ import { useToast } from "@/lib/hooks/use-toast";
 import { PostCard } from "../feed/post-card";
 import { User } from "@supabase/supabase-js";
 
-interface ExtendedPost extends Post {
-  profiles: Profile | null;
-  likes: { user_id: string }[];
-  comments: Comment[];
-}
-
 export default function SavedTabs({
   savedPosts,
   user,
 }: {
-  savedPosts: ExtendedPost[];
+  savedPosts: Post<true, true>[];
   user: User;
 }) {
   const { toast } = useToast();
