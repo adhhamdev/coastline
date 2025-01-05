@@ -26,11 +26,11 @@ export default function UserCard({ profile, currentUser }: UserCardProps) {
         await supabase
           .from("follows")
           .delete()
-          .match({ follower_id: currentUser?.id, following_id: profile.id });
+          .match({ follower: currentUser?.id, following: profile.id });
       } else {
         await supabase
           .from("follows")
-          .insert({ follower_id: currentUser?.id, following_id: profile.id });
+          .insert({ follower: currentUser?.id, following: profile.id });
       }
       setIsFollowing(!isFollowing);
 
@@ -58,7 +58,7 @@ export default function UserCard({ profile, currentUser }: UserCardProps) {
       <CardContent className="pt-0">
         <div className="flex flex-col items-center -mt-12">
           <Avatar className="h-24 w-24 border-4 border-background">
-            <AvatarImage src={profile.avatar_url} />
+            <AvatarImage src={""} />
             <AvatarFallback>{profile.username[0].toUpperCase()}</AvatarFallback>
           </Avatar>
           <div className="mt-4 text-center">

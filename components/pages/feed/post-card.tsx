@@ -11,7 +11,7 @@ import { ShareButton } from "./share-button";
 import { User } from "@supabase/supabase-js";
 
 interface PostCardProps {
-  post: Post;
+  post: Post<true, true>;
   user: User | null;
 }
 
@@ -20,22 +20,19 @@ export function PostCard({ post, user }: PostCardProps) {
   return (
     <article className="p-4">
       <div className="flex gap-4">
-        <Link
-          href={`/profile/${post.profile?.username || post.user_id}`}
-          className="group relative h-8 w-8"
-        >
+        <Link href={`/profile/`} className="group relative h-8 w-8">
           <div className="relative h-full w-full rounded-full bg-muted overflow-hidden ring-2 ring-transparent transition-all group-hover:ring-primary/20">
-            {post.profile?.avatar_url && (
+            {post.user?.avatar_url && (
               <Image
-                src={post.profile.avatar_url}
-                alt={post.profile.username || "User"}
+                src={post.user.avatar_url}
+                alt={post.user.username || "User"}
                 fill
                 className="object-cover transition-transform group-hover:scale-105"
                 sizes="32px"
               />
             )}
           </div>
-          {post.profile?.verified && (
+          {post.user?.verified && (
             <div className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-primary ring-1 ring-background flex items-center justify-center">
               <CheckIcon className="w-1.5 h-1.5 text-primary-foreground" />
             </div>
@@ -45,21 +42,19 @@ export function PostCard({ post, user }: PostCardProps) {
           <div className="flex items-center justify-between gap-1 flex-wrap text-sm">
             <div>
               <Link
-                href={`/profile/${post.profile?.username || post.user_id}`}
+                href={`/profile/${post.user?.username || post.user?.id}`}
                 className="hover:underline"
               >
                 <span className="font-semibold truncate max-w-[150px]">
-                  {post.profile?.full_name ||
-                    post.profile?.username ||
-                    "Anonymous"}
+                  {post.user?.full_name || post.user?.username || "Anonymous"}
                 </span>
               </Link>{" "}
               <Link
-                href={`/profile/${post.profile?.username || post.user_id}`}
+                href={`/profile/${post.user?.username || post.user?.id}`}
                 className="hover:underline"
               >
                 <span className="text-muted-foreground truncate max-w-[100px]">
-                  @{post.profile?.username || "user"}
+                  @{post.user?.username || "user"}
                 </span>
               </Link>
             </div>

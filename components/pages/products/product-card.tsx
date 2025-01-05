@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/card";
 import { saveProduct, unsaveProduct } from "@/lib/actions/products";
 import { useToast } from "@/lib/hooks/use-toast";
+import { Product } from "@/lib/types/database.types";
 import { User } from "@supabase/supabase-js";
 import { formatDistanceToNow } from "date-fns";
 import { Bookmark } from "lucide-react";
@@ -19,7 +20,7 @@ import Link from "next/link";
 import { useState, useTransition } from "react";
 
 interface ProductCardProps {
-  product: any;
+  product: Product<true>;
   currentUser: User | null;
   initialSaved?: boolean;
 }
@@ -67,7 +68,7 @@ export default function ProductCard({
         <Link href={`/products/${product.id}`}>
           <div className="relative aspect-square">
             <Image
-              src={product.images[0]}
+              src={product?.images ? product.images[0] : ""}
               alt={product.title}
               fill
               className="object-cover transition-transform hover:scale-105"
@@ -89,17 +90,17 @@ export default function ProductCard({
         </div>
         <div className="mt-4">
           <Link
-            href={`/${product.user_id.username}`}
+            href={`/${product.user.username}`}
             className="flex items-center space-x-2"
           >
             <Avatar className="h-6 w-6">
-              <AvatarImage src={product.user_id.avatar_url} />
+              <AvatarImage src={product.user.avatar_url} />
               <AvatarFallback>
-                {product.user_id.username[0].toUpperCase()}
+                {product.user.username[0].toUpperCase()}
               </AvatarFallback>
             </Avatar>
             <span className="text-sm text-muted-foreground">
-              {product.user_id.username}
+              {product.user.username}
             </span>
           </Link>
           <p className="mt-1 text-sm text-muted-foreground">
