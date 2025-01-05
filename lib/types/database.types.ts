@@ -45,16 +45,16 @@ export interface Post {
   user_id: string; // uuid
   content?: string; // text | null
   images?: string[]; // text[] | null
-  likes_count?: number; // integer | null
-  comments_count?: number; // integer | null
   created_at: string; // timestamp with time zone
   updated_at: string; // timestamp with time zone
   videos?: string[]; // text[] | null
+  profile: Profile | null;
+  product: Product | null;
 }
 
 export interface Product {
   id: string; // uuid
-  user_id: string; // uuid
+  user_id: Profile; // uuid
   title: string; // text
   description?: string; // text | null
   price: number; // numeric(10,2)

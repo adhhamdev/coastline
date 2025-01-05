@@ -5,21 +5,27 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Post, Profile, Comment } from "@/lib/types/database.types";
 import { useToast } from "@/lib/hooks/use-toast";
 import { PostCard } from "../feed/post-card";
-import { AuthUser } from "@/lib/types/auth.types";
+import { User } from "@supabase/supabase-js";
 
 interface ExtendedPost extends Post {
-  profiles: Profile | null
-  likes: { user_id: string }[]
-  comments: Comment[]
+  profiles: Profile | null;
+  likes: { user_id: string }[];
+  comments: Comment[];
 }
 
-export default function SavedTabs({ savedPosts, user }: { savedPosts: ExtendedPost[], user: AuthUser }) {
+export default function SavedTabs({
+  savedPosts,
+  user,
+}: {
+  savedPosts: ExtendedPost[];
+  user: User;
+}) {
   const { toast } = useToast();
 
   const handleRemoveSavedPost = (postId: string) => {
@@ -45,11 +51,7 @@ export default function SavedTabs({ savedPosts, user }: { savedPosts: ExtendedPo
             </Card>
           ) : (
             savedPosts.map((post) => (
-              <PostCard
-                key={post.id}
-                post={post}
-                user={user}
-              />
+              <PostCard key={post.id} post={post} user={user} />
             ))
           )}
         </div>

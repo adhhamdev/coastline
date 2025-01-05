@@ -1,6 +1,6 @@
 "use client";
 
-import { Comment, Post, Profile } from "@/lib/types/database.types";
+import { Comment, Post, Product, Profile } from "@/lib/types/database.types";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -8,48 +8,34 @@ import { CheckIcon, MessageCircle, Eye, ExternalLink } from "lucide-react";
 import { formatRelativeTime } from "@/lib/utils/date";
 import { LikeButton } from "./like-button";
 import { ShareButton } from "./share-button";
-import { AuthUser } from "@/lib/types/auth.types";
-
-interface ExtendedPost extends Post {
-  profiles: Profile | null;
-  likes: { user_id: string }[];
-  comments: Comment[];
-  product?: {
-    id: string;
-    name: string;
-    image_url: string;
-    price?: string;
-  };
-}
+import { User } from "@supabase/supabase-js";
 
 interface PostCardProps {
-  post: ExtendedPost;
-  user: AuthUser;
+  post: Post;
+  user: User | null;
 }
 
 export function PostCard({ post, user }: PostCardProps) {
-  const isLiked = post.likes.some(
-    (like: { user_id: string }) => like.user_id === user.id
-  );
+  const isLiked = true;
   return (
     <article className="p-4">
       <div className="flex gap-4">
         <Link
-          href={`/profile/${post.profiles?.username || post.user_id}`}
+          href={`/profile/${post.profile?.username || post.user_id}`}
           className="group relative h-8 w-8"
         >
           <div className="relative h-full w-full rounded-full bg-muted overflow-hidden ring-2 ring-transparent transition-all group-hover:ring-primary/20">
-            {post.profiles?.avatar_url && (
+            {post.profile?.avatar_url && (
               <Image
-                src={post.profiles.avatar_url}
-                alt={post.profiles.username || "User"}
+                src={post.profile.avatar_url}
+                alt={post.profile.username || "User"}
                 fill
                 className="object-cover transition-transform group-hover:scale-105"
                 sizes="32px"
               />
             )}
           </div>
-          {post.profiles?.verified && (
+          {post.profile?.verified && (
             <div className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-primary ring-1 ring-background flex items-center justify-center">
               <CheckIcon className="w-1.5 h-1.5 text-primary-foreground" />
             </div>
@@ -59,21 +45,21 @@ export function PostCard({ post, user }: PostCardProps) {
           <div className="flex items-center justify-between gap-1 flex-wrap text-sm">
             <div>
               <Link
-                href={`/profile/${post.profiles?.username || post.user_id}`}
+                href={`/profile/${post.profile?.username || post.user_id}`}
                 className="hover:underline"
               >
                 <span className="font-semibold truncate max-w-[150px]">
-                  {post.profiles?.full_name ||
-                    post.profiles?.username ||
+                  {post.profile?.full_name ||
+                    post.profile?.username ||
                     "Anonymous"}
                 </span>
               </Link>{" "}
               <Link
-                href={`/profile/${post.profiles?.username || post.user_id}`}
+                href={`/profile/${post.profile?.username || post.user_id}`}
                 className="hover:underline"
               >
                 <span className="text-muted-foreground truncate max-w-[100px]">
-                  @{post.profiles?.username || "user"}
+                  @{post.profile?.username || "user"}
                 </span>
               </Link>
             </div>
@@ -89,8 +75,8 @@ export function PostCard({ post, user }: PostCardProps) {
             >
               <div className="relative h-12 w-12 rounded-md bg-background overflow-hidden shrink-0">
                 <Image
-                  src={post.product.image_url}
-                  alt={post.product.name}
+                  src={post.product.images?.[0] || ""}
+                  alt={post.product.title}
                   fill
                   className="object-cover"
                   sizes="48px"
@@ -99,7 +85,7 @@ export function PostCard({ post, user }: PostCardProps) {
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-1">
                   <span className="font-medium truncate">
-                    {post.product.name}
+                    {post.product.title}
                   </span>
                   <ExternalLink className="w-3.5 h-3.5 text-muted-foreground opacity-0 group-hover:opacity-100 transition" />
                 </div>
@@ -144,12 +130,12 @@ export function PostCard({ post, user }: PostCardProps) {
               <LikeButton
                 postId={post.id}
                 initialLiked={isLiked}
-                initialCount={post.likes.length}
+                initialCount={22}
               />
               <Button variant="ghost" size="sm" className="h-8 px-2" asChild>
                 <Link href={`/post/${post.id}`}>
                   <MessageCircle className="h-3.5 w-3.5" />
-                  <span className="ml-1 text-sm">{post.comments_count}</span>
+                  <span className="ml-1 text-sm">{22}</span>
                 </Link>
               </Button>
               <ShareButton postId={post.id} />

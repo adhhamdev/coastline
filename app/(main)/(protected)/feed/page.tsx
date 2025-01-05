@@ -6,7 +6,7 @@ import {
   Home,
   Bell,
   Mail,
-  User,
+  User as UserIcon,
   MoreHorizontal,
   AlertCircle,
 } from "lucide-react";
@@ -20,8 +20,8 @@ import { PostCard } from "@/components/pages/feed/post-card";
 import { CreatePost } from "@/components/pages/feed/create-post";
 import { Post, Profile } from "@/lib/types/database.types";
 import { getUser } from "@/lib/actions/auth";
-import { AuthUser } from "@/lib/types/auth.types";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { User } from "@supabase/supabase-js";
 
 export const metadata: Metadata = {
   title: "Feed | Coastline",
@@ -94,7 +94,7 @@ function ErrorMessage() {
   );
 }
 
-async function FeedPosts({ user }: { user: AuthUser }) {
+async function FeedPosts({ user }: { user: User | null }) {
   const { posts, error } = await getPosts();
 
   if (error) {
@@ -160,7 +160,7 @@ export default async function FeedPage() {
                 asChild
               >
                 <Link href="/profile" prefetch>
-                  <User className="h-5 w-5" />
+                  <UserIcon className="h-5 w-5" />
                   Profile
                 </Link>
               </Button>
@@ -200,7 +200,7 @@ export default async function FeedPage() {
               </div>
             }
           >
-            <FeedPosts user={user as AuthUser} />
+            <FeedPosts user={user} />
           </Suspense>
         </main>
 
