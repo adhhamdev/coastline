@@ -18,7 +18,7 @@ import { Metadata } from "next";
 import { PostSkeleton } from "@/components/skeletons/post-skeleton";
 import { PostCard } from "@/components/pages/feed/post-card";
 import { CreatePost } from "@/components/pages/feed/create-post";
-import { Post, Profile } from "@/lib/types/database.types";
+import { Post, Product, Profile } from "@/lib/types/database.types";
 import { getUser } from "@/lib/actions/auth";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { User } from "@supabase/supabase-js";
@@ -31,27 +31,16 @@ export const metadata: Metadata = {
 // Revalidate the page every 60 seconds
 export const revalidate = 10;
 
-interface ExtendedPost extends Post {
-  profiles: Profile | null;
-}
-
 async function getPosts() {
   const supabase = createClient();
-
   const { data: posts, error } = await supabase
     .from("posts")
-    .select(
-      `
-            *,
-            profiles:user_id (*),
-            likes (
-                user_id
-            ),
-            comments:comments_count
-        `
-    )
+    .select("*, user:profiles(*), product:products(*)")
     .order("created_at", { ascending: false })
-    .limit(10);
+    .limit(10)
+    .returns<
+      (Post<true, true> & { user: Profile; products: Product<true>[] })[]
+    >();
 
   console.log(posts);
 

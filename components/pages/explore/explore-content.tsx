@@ -49,65 +49,61 @@ export default function ExploreContent({ user, profile }: ExploreContentProps) {
   const supabase = createClient();
   const router = useRouter();
 
-  const handleSearch = async (query: string) => {
-    if (!query.trim()) {
-      setSearchResults({
-        products: [],
-        users: [],
-        posts: [],
-      });
-      return;
-    }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let productsQuery = supabase
+          .from("products")
+          .select("*, user: profiles(*)")
+          .order("created_at", { ascending: false })
+          .limit(10);
 
-    try {
-      startTransition(async () => {
+        let usersQuery = supabase
+          .from("profiles")
+          .select()
+          .order("followers_count", { ascending: false })
+          .limit(10);
+
+        let postsQuery = supabase
+          .from("posts")
+          .select("*, user:profiles(*), product:products(*)")
+          .order("created_at", { ascending: false })
+          .limit(10);
+
+        // Add search filters if query exists
+        if (debouncedSearch) {
+          productsQuery = productsQuery.textSearch("title", debouncedSearch, {
+            type: "websearch",
+            config: "english",
+          });
+
+          usersQuery = usersQuery.textSearch("username", debouncedSearch);
+
+          postsQuery = postsQuery.textSearch("content", debouncedSearch, {
+            type: "websearch",
+            config: "english",
+          });
+        }
+
         const [productsRes, usersRes, postsRes] = await Promise.all([
-          // Search products
-          supabase
-            .from("products")
-            .select("*, user(*)")
-            .textSearch("title", query, {
-              type: "websearch",
-              config: "english",
-            })
-            .limit(10),
-
-          // Search users
-          supabase
-            .from("profiles")
-            .select("*")
-            .or(`username.ilike.%${query}%, full_name.ilike.%${query}%`)
-            .limit(10),
-
-          // Search posts
-          supabase
-            .from("posts")
-            .select("*, user(*)")
-            .textSearch("content", query, {
-              type: "websearch",
-              config: "english",
-            })
-            .limit(10),
+          productsQuery,
+          usersQuery,
+          postsQuery,
         ]);
-
-        console.log(productsRes);
-        console.log(usersRes);
-        console.log(postsRes);
 
         setSearchResults({
           products: productsRes.data || [],
           users: usersRes.data || [],
           posts: postsRes.data || [],
         });
-      });
-    } catch (error) {
-      console.error("Search error:", error);
-    }
-  };
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
-  // Effect for debounced search
-  useEffect(() => {
-    handleSearch(debouncedSearch);
+    startTransition(() => {
+      fetchData();
+    });
   }, [debouncedSearch]);
 
   return (
