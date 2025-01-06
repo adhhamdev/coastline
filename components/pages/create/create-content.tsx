@@ -13,10 +13,18 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Post } from "@/lib/types/database.types";
 
 interface CreateContentProps {
   user: User;
+  profile: Profile | null;
 }
 
 interface Profile {
@@ -25,30 +33,13 @@ interface Profile {
   avatar_url: string;
 }
 
-export default function CreateContent({ user }: CreateContentProps) {
+export default function CreateContent({ user, profile }: CreateContentProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [visibility, setVisibility] = useState("public");
-  const [profile, setProfile] = useState<Profile | null>(null);
   const router = useRouter();
   const supabase = createClient();
   const { toast } = useToast();
-
-  useEffect(() => {
-    async function getProfile() {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('username, full_name, avatar_url')
-        .eq('id', user.id)
-        .single();
-      
-      if (!error && data) {
-        setProfile(data);
-      }
-    }
-    
-    getProfile();
-  }, [user.id, supabase]);
 
   const handleCreatePost = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -58,47 +49,66 @@ export default function CreateContent({ user }: CreateContentProps) {
       const formData = new FormData(event.currentTarget);
       const content = formData.get("content") as string;
 
-      // Upload images if any
-      const mediaUrls = [];
-      for (const file of selectedFiles) {
-        const fileExt = file.name.split(".").pop();
-        const fileName = `${Math.random()}.${fileExt}`;
-        const filePath = `${user.id}/${fileName}`;
-
-        const { error: uploadError } = await supabase.storage
-          .from("posts")
-          .upload(filePath, file);
-
-        if (uploadError) throw uploadError;
-
-        const {
-          data: { publicUrl },
-        } = supabase.storage.from("posts").getPublicUrl(filePath);
-
-        mediaUrls.push(publicUrl);
+      if (!content.trim()) {
+        throw new Error("Content cannot be empty");
       }
 
-      // Create post
-      const { error } = await supabase.from("posts").insert({
-        user_id: user.id,
-        content,
-        media_urls: mediaUrls,
-        visibility,
-      });
+      // Upload images if any
+      const images: string[] = [];
+      if (selectedFiles.length > 0) {
+        for (const file of selectedFiles) {
+          const fileExt = file.name.split(".").pop();
+          const fileName = `${Math.random()}.${fileExt}`;
+          const filePath = `${user.id}/${fileName}`;
 
-      if (error) throw error;
+          const { error: uploadError } = await supabase.storage
+            .from("post-images")
+            .upload(filePath, file);
+
+          if (uploadError) throw uploadError;
+
+          const {
+            data: { publicUrl },
+          } = supabase.storage.from("post-images").getPublicUrl(filePath);
+
+          images.push(publicUrl);
+        }
+      }
+
+      // Create post with proper types
+      const postData: Partial<Post<false, false>> = {
+        user: user.id,
+        content,
+        images: images.length > 0 ? images : undefined,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+        likes_count: 0,
+        comments_count: 0,
+      };
+
+      const { error: postError, data: newPost } = await supabase
+        .from("posts")
+        .insert(postData)
+        .select()
+        .single();
+
+      if (postError) throw postError;
 
       toast({
         title: "Success",
-        description: "Your post has been created.",
+        description: "Your post has been created successfully.",
       });
 
-      router.push("/feed");
+      // router.push(`/post/${newPost.id}`);
       router.refresh();
     } catch (error) {
+      console.error("Error creating post:", error);
       toast({
         title: "Error",
-        description: "Something went wrong. Please try again.",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Something went wrong. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -113,7 +123,10 @@ export default function CreateContent({ user }: CreateContentProps) {
           <div className="flex items-center gap-3">
             <Avatar className="h-8 w-8">
               <AvatarImage src={profile?.avatar_url} />
-              <AvatarFallback>{profile?.username?.[0]?.toUpperCase() || user.email?.[0]?.toUpperCase()}</AvatarFallback>
+              <AvatarFallback>
+                {profile?.username?.[0]?.toUpperCase() ||
+                  user.email?.[0]?.toUpperCase()}
+              </AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium truncate">
@@ -121,7 +134,7 @@ export default function CreateContent({ user }: CreateContentProps) {
               </p>
             </div>
           </div>
-          
+
           <div className="flex items-center justify-between gap-2">
             <Select defaultValue={visibility} onValueChange={setVisibility}>
               <SelectTrigger className="h-9 text-sm bg-muted/50 hover:bg-muted">
@@ -152,12 +165,8 @@ export default function CreateContent({ user }: CreateContentProps) {
                 </SelectItem>
               </SelectContent>
             </Select>
-            
-            <Button
-              type="submit"
-              form="create-form"
-              disabled={isLoading}
-            >
+
+            <Button type="submit" form="create-form" disabled={isLoading}>
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Post
             </Button>

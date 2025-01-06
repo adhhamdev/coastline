@@ -63,7 +63,7 @@ export default function ProductCard({
   };
 
   return (
-    <Card className="overflow-hidden">
+    <Card className="overflow-hidden group">
       <CardHeader className="p-0">
         <Link href={`/products/${product.id}`}>
           <div className="relative aspect-square">
@@ -71,60 +71,57 @@ export default function ProductCard({
               src={product?.images ? product.images[0] : ""}
               alt={product.title}
               fill
-              className="object-cover transition-transform hover:scale-105"
+              className="object-cover transition-transform group-hover:scale-105"
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             />
           </div>
         </Link>
       </CardHeader>
-      <CardContent className="p-4">
-        <div className="flex justify-between items-start">
-          <div>
+      <CardContent className="p-3 sm:p-4 space-y-3">
+        <div className="flex justify-between items-start gap-2">
+          <div className="min-w-0">
             <Link href={`/products/${product.id}`} className="hover:underline">
-              <h3 className="font-semibold">{product.title}</h3>
+              <h3 className="font-semibold truncate text-sm sm:text-base">{product.title}</h3>
             </Link>
-            <p className="text-lg font-bold text-emerald-600">
+            <p className="text-base sm:text-lg font-bold text-emerald-600">
               ${product.price.toLocaleString()}
             </p>
           </div>
-          <Badge variant="outline">{product.category}</Badge>
+          <Badge variant="outline" className="text-xs whitespace-nowrap">{product.category}</Badge>
         </div>
-        <div className="mt-4">
-          <Link
-            href={`/${product.user.username}`}
-            className="flex items-center space-x-2"
-          >
-            <Avatar className="h-6 w-6">
-              <AvatarImage src={product.user.avatar_url} />
-              <AvatarFallback>
-                {product.user.username[0].toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
-            <span className="text-sm text-muted-foreground">
-              {product.user.username}
-            </span>
-          </Link>
-          <p className="mt-1 text-sm text-muted-foreground">
-            {formatDistanceToNow(new Date(product.created_at), {
-              addSuffix: true,
-            })}
-          </p>
-        </div>
+        <Link
+          href={`/${product.user.username}`}
+          className="flex items-center space-x-2 text-sm"
+        >
+          <Avatar className="h-5 w-5 sm:h-6 sm:w-6">
+            <AvatarImage src={product.user.avatar_url} />
+            <AvatarFallback>
+              {product.user.username[0].toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+          <span className="text-muted-foreground truncate">
+            {product.user.username}
+          </span>
+        </Link>
       </CardContent>
-      <CardFooter className="p-4 pt-0">
-        <div className="flex items-center space-x-2">
-          <Button variant="ghost" size="sm" className="flex-1" asChild>
-            <Link href={`/products/${product.id}`}>View Details</Link>
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={handleSave}
-            disabled={isPending}
-            className={isSaved ? "text-emerald-600" : ""}
-          >
-            <Bookmark className={`h-5 w-5 ${isSaved ? "fill-current" : ""}`} />
-          </Button>
-        </div>
+      <CardFooter className="p-3 sm:p-4 pt-0 flex justify-between items-center">
+        <span className="text-xs text-muted-foreground">
+          {formatDistanceToNow(new Date(product.created_at), {
+            addSuffix: true,
+          })}
+        </span>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8"
+          onClick={handleSave}
+          disabled={isPending}
+        >
+          <Bookmark
+            className={`h-4 w-4 ${isSaved ? "fill-primary" : ""}`}
+            strokeWidth={1.5}
+          />
+        </Button>
       </CardFooter>
     </Card>
   );

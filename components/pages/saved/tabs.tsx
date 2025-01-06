@@ -10,7 +10,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Post, Profile, Comment } from "@/lib/types/database.types";
 import { useToast } from "@/lib/hooks/use-toast";
-import { PostCard } from "../feed/post-card";
+import { PostCard } from "../../common/post-card";
 import { User } from "@supabase/supabase-js";
 
 export default function SavedTabs({

@@ -6,8 +6,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { CheckIcon, MessageCircle, Eye, ExternalLink } from "lucide-react";
 import { formatRelativeTime } from "@/lib/utils/date";
-import { LikeButton } from "./like-button";
-import { ShareButton } from "./share-button";
+import { LikeButton } from "../pages/feed/like-button";
+import { ShareButton } from "../pages/feed/share-button";
 import { User } from "@supabase/supabase-js";
 
 interface PostCardProps {
@@ -127,10 +127,10 @@ export function PostCard({ post, user }: PostCardProps) {
                 initialLiked={isLiked}
                 initialCount={22}
               />
-              <Button variant="ghost" size="sm" className="h-8 px-2" asChild>
+              <Button variant="ghost" size="sm" className="gap-2" asChild>
                 <Link href={`/post/${post.id}`}>
-                  <MessageCircle className="h-3.5 w-3.5" />
-                  <span className="ml-1 text-sm">{22}</span>
+                  <MessageCircle className="h-4 w-4" />
+                  <span>{22}</span>
                 </Link>
               </Button>
               <ShareButton postId={post.id} />

@@ -1,7 +1,7 @@
 "use client";
 
-import UserCard from "@/components/pages/explore/user-card";
-import ProductCard from "@/components/pages/products/product-card";
+import UserCard from "@/components/common/user-card";
+import ProductCard from "@/components/common/product-card";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
-import { PostCard } from "../feed/post-card";
+import { PostCard } from "../../common/post-card";
 import { Post, Product, Profile } from "@/lib/types/database.types";
 
 interface ExploreContentProps {
@@ -131,32 +131,32 @@ export default function ExploreContent({ user, profile }: ExploreContentProps) {
             onValueChange={(value: any) => setActiveFilter(value)}
             className="w-full"
           >
-            <TabsList className="w-full grid grid-cols-4 h-12">
+            <TabsList className="w-full grid grid-cols-4 h-9 md:h-12">
               <TabsTrigger
                 value="all"
-                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-xs md:text-sm px-1 md:px-4"
               >
                 All
               </TabsTrigger>
               <TabsTrigger
                 value="posts"
-                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-xs md:text-sm px-1 md:px-4"
               >
-                <MessageSquare className="h-4 w-4 mr-2 md:hidden" />
+                <MessageSquare className="h-3.5 w-3.5 md:h-4 md:w-4 mr-2 md:hidden" />
                 <span className="hidden md:inline">Posts</span>
               </TabsTrigger>
               <TabsTrigger
                 value="products"
-                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-xs md:text-sm px-1 md:px-4"
               >
-                <ShoppingBag className="h-4 w-4 mr-2 md:hidden" />
+                <ShoppingBag className="h-3.5 w-3.5 md:h-4 md:w-4 mr-2 md:hidden" />
                 <span className="hidden md:inline">Products</span>
               </TabsTrigger>
               <TabsTrigger
                 value="users"
-                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-xs md:text-sm px-1 md:px-4"
               >
-                <Users className="h-4 w-4 mr-2 md:hidden" />
+                <Users className="h-3.5 w-3.5 md:h-4 md:w-4 mr-2 md:hidden" />
                 <span className="hidden md:inline">People</span>
               </TabsTrigger>
             </TabsList>

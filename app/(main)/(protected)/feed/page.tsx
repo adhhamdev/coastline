@@ -16,7 +16,7 @@ import Link from "next/link";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Metadata } from "next";
 import { PostSkeleton } from "@/components/skeletons/post-skeleton";
-import { PostCard } from "@/components/pages/feed/post-card";
+import { PostCard } from "@/components/common/post-card";
 import { CreatePost } from "@/components/pages/feed/create-post";
 import { Post, Product, Profile } from "@/lib/types/database.types";
 import { getUser } from "@/lib/actions/auth";
