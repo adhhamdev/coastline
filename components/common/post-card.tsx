@@ -4,12 +4,7 @@ import { Comment, Post, Product, Profile } from "@/lib/types/database.types";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import {
-  CheckIcon,
-  MessageCircle,
-  Eye,
-  ExternalLink,
-} from "lucide-react";
+import { CheckIcon, MessageCircle, Eye, ExternalLink } from "lucide-react";
 import { formatRelativeTime } from "@/lib/utils/date";
 import { LikeButton } from "../pages/feed/like-button";
 import { ShareButton } from "../pages/feed/share-button";
@@ -117,25 +112,24 @@ export function PostCard({ post, user }: PostCardProps) {
               ))}
             </div>
           )}
-          <div className="flex justify-between items-center mt-4">
-            <div className="flex items-center gap-1 text-muted-foreground">
-              <Eye className="h-3.5 w-3.5" />
-              <span className="text-sm">1.2k</span>
-            </div>
-            <div className="flex gap-2">
-              <LikeButton
-                postId={post.id}
-                initialLiked={isLiked}
-                initialCount={22}
-              />
-              <Button variant="ghost" size="sm" className="gap-2" asChild>
-                <Link href={`/post/${post.id}`}>
-                  <MessageCircle className="h-4 w-4" />
-                  <span>{22}</span>
-                </Link>
-              </Button>
-              <ShareButton postId={post.id} />
-            </div>
+          <div className="flex justify-end items-center gap-2 mt-4">
+            <LikeButton
+              postId={post.id}
+              initialLiked={isLiked}
+              initialCount={post.likes_count || 0}
+            />
+            <Button
+              variant="ghost"
+              size="sm"
+              className="px-3"
+              onClick={() => {
+                // Handle comment action
+              }}
+            >
+              <MessageCircle className="h-4 w-4" />
+              <span className="ml-1.5 text-sm">{post.comments_count || 0}</span>
+            </Button>
+            <ShareButton postId={post.id} />
           </div>
         </div>
       </div>

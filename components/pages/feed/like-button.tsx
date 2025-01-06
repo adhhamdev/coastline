@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Heart } from "lucide-react";
 import { useState } from "react";
 import { likePost, unlikePost } from "@/lib/actions/posts";
+import { cn } from "@/lib/utils";
 
 interface LikeButtonProps {
   postId: string;
@@ -44,12 +45,15 @@ export function LikeButton({
     <Button
       variant="ghost"
       size="sm"
-      className="gap-2"
+      className={cn(
+        "px-3 hover:text-red-500 flex items-center gap-1.5",
+        isLiked && "text-red-500"
+      )}
       onClick={handleLike}
       disabled={isLiking}
     >
       <Heart className={`h-4 w-4 ${isLiked ? "fill-current" : ""}`} />
-      {likeCount}
+      <span className="text-sm">{likeCount}</span>
     </Button>
   );
 }

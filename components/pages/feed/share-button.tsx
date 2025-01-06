@@ -24,11 +24,10 @@ export function ShareButton({ postId }: ShareButtonProps) {
         <Button
             variant="ghost"
             size="sm"
-            className="gap-2"
+            className="px-3"
             onClick={handleShare}
         >
             <Share2 className="h-4 w-4" />
-            Share
         </Button>
     )
-} 
+}
