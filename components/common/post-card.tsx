@@ -4,11 +4,20 @@ import { Comment, Post, Product, Profile } from "@/lib/types/database.types";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { CheckIcon, MessageCircle, Eye, ExternalLink } from "lucide-react";
+import {
+  CheckIcon,
+  MessageCircle,
+  Eye,
+  ExternalLink,
+  Download,
+} from "lucide-react";
 import { formatRelativeTime } from "@/lib/utils/date";
 import { LikeButton } from "../pages/feed/like-button";
 import { ShareButton } from "../pages/feed/share-button";
 import { User } from "@supabase/supabase-js";
+import "react-medium-image-zoom/dist/styles.css";
+import Zoom from "react-medium-image-zoom";
+import { createClient } from "@/utils/supabase/client";
 
 interface PostCardProps {
   post: Post<true, true>;
@@ -16,6 +25,7 @@ interface PostCardProps {
 }
 
 export function PostCard({ post, user }: PostCardProps) {
+  const supabase = createClient();
   const isLiked = true;
   return (
     <article className="p-4">
@@ -99,19 +109,48 @@ export function PostCard({ post, user }: PostCardProps) {
               }`}
             >
               {post.images.map((image, index) => (
-                <div
-                  key={index}
-                  className={`relative bg-muted overflow-hidden rounded-lg ${
-                    post.images?.length === 1 ? "aspect-video" : "aspect-square"
-                  }`}
-                >
-                  <Image
-                    src={image}
-                    alt={`Post image ${index + 1}`}
-                    fill
-                    className="object-cover"
-                    sizes="(min-width: 640px) 400px, 200px"
-                  />
+                <div key={index} className="relative group">
+                  <Zoom>
+                    <div className="relative aspect-square rounded-lg bg-muted overflow-hidden">
+                      <Image
+                        src={image}
+                        alt={`Post image ${index + 1}`}
+                        fill
+                        className="object-cover transition-transform group-hover:scale-[1.02]"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                    </div>
+                  </Zoom>
+                  <Button
+                    size="icon"
+                    variant="secondary"
+                    className="absolute bottom-2 right-2 md:opacity-0 md:group-hover:opacity-100 transition-opacity"
+                    onClick={async (e) => {
+                      e.preventDefault();
+                      try {
+                        const imagePath = image.split("/").slice(-2).join("/"); // Get the storage path from URL
+                        const { data, error } = await supabase.storage
+                          .from("post-images")
+                          .download(imagePath);
+
+                        if (error) throw error;
+
+                        // Create a download link
+                        const url = window.URL.createObjectURL(data);
+                        const a = document.createElement("a");
+                        a.href = url;
+                        a.download = imagePath.split("/").pop() || "image";
+                        document.body.appendChild(a);
+                        a.click();
+                        window.URL.revokeObjectURL(url);
+                        document.body.removeChild(a);
+                      } catch (error) {
+                        console.error("Error downloading image:", error);
+                      }
+                    }}
+                  >
+                    <Download className="h-4 w-4" />
+                  </Button>
                 </div>
               ))}
             </div>
