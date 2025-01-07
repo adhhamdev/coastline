@@ -57,6 +57,7 @@ export function ImageViewer({
           <div className="relative">
             {img}
             <Button
+              title="Save"
               size="icon"
               variant="secondary"
               className="fixed top-4 right-4 z-[999] bg-background/80 backdrop-blur-sm hover:bg-background/90"

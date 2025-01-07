@@ -43,6 +43,7 @@ export function LikeButton({
 
   return (
     <Button
+      title="Like Post"
       variant="ghost"
       size="sm"
       className={cn(

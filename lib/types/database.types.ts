@@ -66,10 +66,9 @@ export interface Product<WithProfile extends boolean = false> {
   description?: string; // Text | null
   price: number; // Numeric
   category: string; // Text
+  stock: number; // Integer | null
   images?: string[]; // Array of Text | null
-  status?: 'available' | 'sold' | 'hidden'; // Text | null
   location?: string; // Text | null
-  views_count?: number; // Integer | null
   created_at: string; // timestamp with time zone
   updated_at: string; // timestamp with time zone
 }

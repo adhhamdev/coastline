@@ -69,6 +69,7 @@ export function PostCard({ post, user }: PostCardProps) {
           <p className="mt-2 whitespace-pre-wrap break-words">{post.content}</p>
           {post.product && (
             <Link
+              title={post.product.title}
               href={`/product/${post.product.id}`}
               className="mt-3 flex items-center gap-3 p-3 rounded-lg border bg-muted/30 hover:bg-muted/50 transition group"
             >
@@ -119,6 +120,7 @@ export function PostCard({ post, user }: PostCardProps) {
               initialCount={post.likes_count || 0}
             />
             <Button
+              title="Comment Post"
               variant="ghost"
               size="sm"
               className="px-3"
