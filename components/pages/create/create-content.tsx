@@ -21,6 +21,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Post } from "@/lib/types/database.types";
+import { Input } from "@/components/ui/input";
+import { Product } from "@/lib/types/database.types";
 
 interface CreateContentProps {
   user: User;
@@ -37,6 +39,7 @@ export default function CreateContent({ user, profile }: CreateContentProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [visibility, setVisibility] = useState("public");
+  const [productImages, setProductImages] = useState<File[]>([]);
   const router = useRouter();
   const supabase = createClient();
   const { toast } = useToast();
@@ -103,6 +106,97 @@ export default function CreateContent({ user, profile }: CreateContentProps) {
       router.refresh();
     } catch (error) {
       console.error("Error creating post:", error);
+      toast({
+        title: "Error",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleCreateProduct = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const formData = new FormData(event.currentTarget);
+      const title = formData.get("title") as string;
+      const description = formData.get("description") as string;
+      const price = parseFloat(formData.get("price") as string);
+      const category = formData.get("category") as string;
+      const stock = parseInt(formData.get("stock") as string);
+      const location = formData.get("location") as string;
+
+      if (!title.trim()) {
+        throw new Error("Title cannot be empty");
+      }
+
+      if (isNaN(price) || price <= 0) {
+        throw new Error("Price must be a valid positive number");
+      }
+
+      if (isNaN(stock) || stock < 0) {
+        throw new Error("Stock must be a valid non-negative number");
+      }
+
+      // Upload images if any
+      const images: string[] = [];
+      if (productImages.length > 0) {
+        for (const file of productImages) {
+          const fileExt = file.name.split(".").pop();
+          const fileName = `${Math.random()}.${fileExt}`;
+          const filePath = `${user.id}/${fileName}`;
+
+          const { error: uploadError } = await supabase.storage
+            .from("product-images")
+            .upload(filePath, file);
+
+          if (uploadError) throw uploadError;
+
+          const {
+            data: { publicUrl },
+          } = supabase.storage.from("product-images").getPublicUrl(filePath);
+
+          images.push(publicUrl);
+        }
+      }
+
+      // Create product with proper types
+      const productData: Partial<Product<false>> = {
+        user: user.id,
+        title,
+        description: description.trim() || undefined,
+        price,
+        category,
+        stock,
+        images: images.length > 0 ? images : undefined,
+        location: location.trim() || undefined,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      };
+
+      const { error: productError, data: newProduct } = await supabase
+        .from("products")
+        .insert(productData)
+        .select()
+        .single();
+
+      if (productError) throw productError;
+
+      toast({
+        title: "Success",
+        description: "Your product has been created successfully.",
+      });
+
+      router.refresh();
+      setProductImages([]);
+    } catch (error) {
+      console.error("Error creating product:", error);
       toast({
         title: "Error",
         description:
@@ -246,11 +340,132 @@ export default function CreateContent({ user, profile }: CreateContentProps) {
             </form>
           </TabsContent>
           <TabsContent value="product" className="mt-0 p-4 md:p-0">
-            <div className="flex items-center justify-center h-[50vh]">
-              <p className="text-muted-foreground">
-                Product creation coming soon...
-              </p>
-            </div>
+            <form
+              id="create-product-form"
+              onSubmit={handleCreateProduct}
+              className="space-y-4"
+            >
+              <div className="space-y-2">
+                <Label htmlFor="title">Title</Label>
+                <Input
+                  id="title"
+                  name="title"
+                  placeholder="Product title"
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="description">Description</Label>
+                <Textarea
+                  id="description"
+                  name="description"
+                  placeholder="Product description"
+                  className="min-h-[100px] resize-none"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="price">Price</Label>
+                  <Input
+                    id="price"
+                    name="price"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    placeholder="0.00"
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="stock">Stock</Label>
+                  <Input
+                    id="stock"
+                    name="stock"
+                    type="number"
+                    min="0"
+                    placeholder="0"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="category">Category</Label>
+                <Select name="category" defaultValue="other">
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="gems">Gems</SelectItem>
+                    <SelectItem value="fishing">Fishing</SelectItem>
+                    <SelectItem value="other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="location">Location</Label>
+                <Input
+                  id="location"
+                  name="location"
+                  placeholder="Product location"
+                />
+              </div>
+
+              <div className="space-y-4">
+                {productImages.length > 0 && (
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                    {productImages.map((file, index) => (
+                      <div
+                        key={index}
+                        className="relative aspect-square rounded-lg overflow-hidden"
+                      >
+                        <Image
+                          src={URL.createObjectURL(file)}
+                          alt={`Preview ${index + 1}`}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <div className="flex gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    className="rounded-full"
+                    onClick={() =>
+                      document.getElementById("product-image-input")?.click()
+                    }
+                    disabled={isLoading}
+                  >
+                    <ImagePlus className="h-4 w-4" />
+                  </Button>
+                  <input
+                    id="product-image-input"
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    className="hidden"
+                    onChange={(e) => {
+                      const files = Array.from(e.target.files || []);
+                      setProductImages([...productImages, ...files]);
+                    }}
+                  />
+                </div>
+              </div>
+
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                Create Product
+              </Button>
+            </form>
           </TabsContent>
         </Tabs>
       </CardContent>
