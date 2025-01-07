@@ -48,25 +48,31 @@ interface FilterDialogProps {
   activeTab: "all" | "products" | "users" | "posts";
 }
 
-export default function FilterDialog({ filters, onFiltersChange, activeTab }: FilterDialogProps) {
-  const updateProductFilters = (updates: Partial<FilterOptions['products']>) => {
+export default function FilterDialog({
+  filters,
+  onFiltersChange,
+  activeTab,
+}: FilterDialogProps) {
+  const updateProductFilters = (
+    updates: Partial<FilterOptions["products"]>
+  ) => {
     onFiltersChange({
       ...filters,
-      products: { ...filters.products, ...updates }
+      products: { ...filters.products, ...updates },
     });
   };
 
-  const updatePostFilters = (updates: Partial<FilterOptions['posts']>) => {
+  const updatePostFilters = (updates: Partial<FilterOptions["posts"]>) => {
     onFiltersChange({
       ...filters,
-      posts: { ...filters.posts, ...updates }
+      posts: { ...filters.posts, ...updates },
     });
   };
 
-  const updateUserFilters = (updates: Partial<FilterOptions['users']>) => {
+  const updateUserFilters = (updates: Partial<FilterOptions["users"]>) => {
     onFiltersChange({
       ...filters,
-      users: { ...filters.users, ...updates }
+      users: { ...filters.users, ...updates },
     });
   };
 
@@ -77,8 +83,8 @@ export default function FilterDialog({ filters, onFiltersChange, activeTab }: Fi
         sortBy: "latest",
         priceRange: [0, 1000],
         inStock: false,
-        category: "all"
-      }
+        category: "all",
+      },
     });
   };
 
@@ -87,10 +93,13 @@ export default function FilterDialog({ filters, onFiltersChange, activeTab }: Fi
       ...filters,
       posts: {
         sortBy: "latest",
-        dateRange: [new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), new Date()],
+        dateRange: [
+          new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+          new Date(),
+        ],
         hasProduct: false,
-        hasMedia: false
-      }
+        hasMedia: false,
+      },
     });
   };
 
@@ -101,15 +110,20 @@ export default function FilterDialog({ filters, onFiltersChange, activeTab }: Fi
         sortBy: "followers",
         followersRange: [0, 10000],
         hasProducts: false,
-        hasPosts: false
-      }
+        hasPosts: false,
+      },
     });
   };
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" size="icon" className="shrink-0">
+        <Button
+          title="Filter"
+          variant="outline"
+          size="icon"
+          className="shrink-0"
+        >
           <Filter className="h-4 w-4" />
         </Button>
       </DialogTrigger>
@@ -117,7 +131,10 @@ export default function FilterDialog({ filters, onFiltersChange, activeTab }: Fi
         <DialogHeader>
           <DialogTitle>Filter Results</DialogTitle>
         </DialogHeader>
-        <Tabs defaultValue={activeTab === "all" ? "products" : activeTab} className="w-full">
+        <Tabs
+          defaultValue={activeTab === "all" ? "products" : activeTab}
+          className="w-full"
+        >
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="products">Products</TabsTrigger>
             <TabsTrigger value="posts">Posts</TabsTrigger>
@@ -138,9 +155,11 @@ export default function FilterDialog({ filters, onFiltersChange, activeTab }: Fi
             </div>
             <div className="space-y-2">
               <Label>Sort By</Label>
-              <Select 
-                value={filters.products.sortBy} 
-                onValueChange={(value) => updateProductFilters({ sortBy: value })}
+              <Select
+                value={filters.products.sortBy}
+                onValueChange={(value) =>
+                  updateProductFilters({ sortBy: value })
+                }
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Select sort order" />
@@ -161,7 +180,9 @@ export default function FilterDialog({ filters, onFiltersChange, activeTab }: Fi
                   defaultValue={filters.products.priceRange}
                   max={1000}
                   step={1}
-                  onValueChange={(value) => updateProductFilters({ priceRange: [value[0], value[1]] })}
+                  onValueChange={(value) =>
+                    updateProductFilters({ priceRange: [value[0], value[1]] })
+                  }
                 />
                 <div className="flex justify-between mt-2 text-sm text-muted-foreground">
                   <span>${filters.products.priceRange[0]}</span>
@@ -172,9 +193,11 @@ export default function FilterDialog({ filters, onFiltersChange, activeTab }: Fi
 
             <div className="space-y-2">
               <Label>Category</Label>
-              <Select 
-                value={filters.products.category} 
-                onValueChange={(value) => updateProductFilters({ category: value })}
+              <Select
+                value={filters.products.category}
+                onValueChange={(value) =>
+                  updateProductFilters({ category: value })
+                }
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Select category" />
@@ -194,7 +217,9 @@ export default function FilterDialog({ filters, onFiltersChange, activeTab }: Fi
               <Switch
                 id="in-stock"
                 checked={filters.products.inStock}
-                onCheckedChange={(checked) => updateProductFilters({ inStock: checked })}
+                onCheckedChange={(checked) =>
+                  updateProductFilters({ inStock: checked })
+                }
               />
             </div>
           </TabsContent>
@@ -213,8 +238,8 @@ export default function FilterDialog({ filters, onFiltersChange, activeTab }: Fi
             </div>
             <div className="space-y-2">
               <Label>Sort By</Label>
-              <Select 
-                value={filters.posts.sortBy} 
+              <Select
+                value={filters.posts.sortBy}
                 onValueChange={(value) => updatePostFilters({ sortBy: value })}
               >
                 <SelectTrigger>
@@ -233,7 +258,9 @@ export default function FilterDialog({ filters, onFiltersChange, activeTab }: Fi
               <Switch
                 id="has-product"
                 checked={filters.posts.hasProduct}
-                onCheckedChange={(checked) => updatePostFilters({ hasProduct: checked })}
+                onCheckedChange={(checked) =>
+                  updatePostFilters({ hasProduct: checked })
+                }
               />
             </div>
 
@@ -242,7 +269,9 @@ export default function FilterDialog({ filters, onFiltersChange, activeTab }: Fi
               <Switch
                 id="has-media"
                 checked={filters.posts.hasMedia}
-                onCheckedChange={(checked) => updatePostFilters({ hasMedia: checked })}
+                onCheckedChange={(checked) =>
+                  updatePostFilters({ hasMedia: checked })
+                }
               />
             </div>
           </TabsContent>
@@ -261,8 +290,8 @@ export default function FilterDialog({ filters, onFiltersChange, activeTab }: Fi
             </div>
             <div className="space-y-2">
               <Label>Sort By</Label>
-              <Select 
-                value={filters.users.sortBy} 
+              <Select
+                value={filters.users.sortBy}
                 onValueChange={(value) => updateUserFilters({ sortBy: value })}
               >
                 <SelectTrigger>
@@ -283,7 +312,9 @@ export default function FilterDialog({ filters, onFiltersChange, activeTab }: Fi
                   defaultValue={filters.users.followersRange}
                   max={10000}
                   step={100}
-                  onValueChange={(value) => updateUserFilters({ followersRange: [value[0], value[1]] })}
+                  onValueChange={(value) =>
+                    updateUserFilters({ followersRange: [value[0], value[1]] })
+                  }
                 />
                 <div className="flex justify-between mt-2 text-sm text-muted-foreground">
                   <span>{filters.users.followersRange[0]}</span>
@@ -297,7 +328,9 @@ export default function FilterDialog({ filters, onFiltersChange, activeTab }: Fi
               <Switch
                 id="has-products"
                 checked={filters.users.hasProducts}
-                onCheckedChange={(checked) => updateUserFilters({ hasProducts: checked })}
+                onCheckedChange={(checked) =>
+                  updateUserFilters({ hasProducts: checked })
+                }
               />
             </div>
 
@@ -306,7 +339,9 @@ export default function FilterDialog({ filters, onFiltersChange, activeTab }: Fi
               <Switch
                 id="has-posts"
                 checked={filters.users.hasPosts}
-                onCheckedChange={(checked) => updateUserFilters({ hasPosts: checked })}
+                onCheckedChange={(checked) =>
+                  updateUserFilters({ hasPosts: checked })
+                }
               />
             </div>
           </TabsContent>

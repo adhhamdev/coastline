@@ -18,6 +18,7 @@ import {
   Users,
   ShoppingBag,
   MessageSquare,
+  X,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
@@ -42,20 +43,20 @@ export default function ExploreContent({ user, profile }: ExploreContentProps) {
       sortBy: "latest",
       priceRange: [0, 1000],
       inStock: false,
-      category: "all"
+      category: "all",
     },
     posts: {
       sortBy: "latest",
       dateRange: [new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), new Date()],
       hasProduct: false,
-      hasMedia: false
+      hasMedia: false,
     },
     users: {
       sortBy: "followers",
       followersRange: [0, 10000],
       hasProducts: false,
-      hasPosts: false
-    }
+      hasPosts: false,
+    },
   });
   const [activeTab, setActiveTab] = useState<
     "all" | "products" | "users" | "posts"
@@ -70,6 +71,60 @@ export default function ExploreContent({ user, profile }: ExploreContentProps) {
   const supabase = createClient();
   const router = useRouter();
 
+  const hasActiveFilters = () => {
+    const defaultFilters: FilterOptions = {
+      products: {
+        sortBy: "latest",
+        priceRange: [0, 1000],
+        inStock: false,
+        category: "all",
+      },
+      posts: {
+        sortBy: "latest",
+        dateRange: [
+          new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+          new Date(),
+        ],
+        hasProduct: false,
+        hasMedia: false,
+      },
+      users: {
+        sortBy: "followers",
+        followersRange: [0, 10000],
+        hasProducts: false,
+        hasPosts: false,
+      },
+    };
+
+    return JSON.stringify(filters) !== JSON.stringify(defaultFilters);
+  };
+
+  const clearAllFilters = () => {
+    setFilters({
+      products: {
+        sortBy: "latest",
+        priceRange: [0, 1000],
+        inStock: false,
+        category: "all",
+      },
+      posts: {
+        sortBy: "latest",
+        dateRange: [
+          new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+          new Date(),
+        ],
+        hasProduct: false,
+        hasMedia: false,
+      },
+      users: {
+        sortBy: "followers",
+        followersRange: [0, 10000],
+        hasProducts: false,
+        hasPosts: false,
+      },
+    });
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -79,7 +134,10 @@ export default function ExploreContent({ user, profile }: ExploreContentProps) {
 
         // Apply product filters
         if (filters.products.category && filters.products.category !== "all") {
-          productsQuery = productsQuery.eq("category", filters.products.category);
+          productsQuery = productsQuery.eq(
+            "category",
+            filters.products.category
+          );
         }
 
         if (filters.products.inStock) {
@@ -101,15 +159,17 @@ export default function ExploreContent({ user, profile }: ExploreContentProps) {
             productsQuery = productsQuery.order("price", { ascending: false });
             break;
           case "popular":
-            productsQuery = productsQuery.order("likes_count", { ascending: false });
+            productsQuery = productsQuery.order("likes_count", {
+              ascending: false,
+            });
             break;
           default:
-            productsQuery = productsQuery.order("created_at", { ascending: false });
+            productsQuery = productsQuery.order("created_at", {
+              ascending: false,
+            });
         }
 
-        let usersQuery = supabase
-          .from("profiles")
-          .select();
+        let usersQuery = supabase.from("profiles").select();
 
         // Apply user filters
         if (filters.users.hasProducts) {
@@ -129,7 +189,9 @@ export default function ExploreContent({ user, profile }: ExploreContentProps) {
         // Apply user sorting
         switch (filters.users.sortBy) {
           case "followers":
-            usersQuery = usersQuery.order("followers_count", { ascending: false });
+            usersQuery = usersQuery.order("followers_count", {
+              ascending: false,
+            });
             break;
           case "joined":
             usersQuery = usersQuery.order("created_at", { ascending: false });
@@ -164,7 +226,9 @@ export default function ExploreContent({ user, profile }: ExploreContentProps) {
             postsQuery = postsQuery.order("likes_count", { ascending: false });
             break;
           case "comments":
-            postsQuery = postsQuery.order("comments_count", { ascending: false });
+            postsQuery = postsQuery.order("comments_count", {
+              ascending: false,
+            });
             break;
           default:
             postsQuery = postsQuery.order("created_at", { ascending: false });
@@ -220,17 +284,31 @@ export default function ExploreContent({ user, profile }: ExploreContentProps) {
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
+                type="search"
                 placeholder="Search posts, products, or people..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-4"
+                className="w-full pl-9 pr-4 [&::-webkit-search-cancel-button]:hover:cursor-pointer [&::-webkit-search-cancel-button]:appearance-auto"
               />
             </div>
-            <FilterDialog 
-              filters={filters} 
-              onFiltersChange={setFilters} 
-              activeTab={activeTab} 
-            />
+            <div className="flex gap-2">
+              {hasActiveFilters() && (
+                <Button
+                  title="Clear all filters"
+                  variant="ghost"
+                  size="icon"
+                  onClick={clearAllFilters}
+                  className="h-10 w-10 shrink-0 text-muted-foreground hover:text-foreground"
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              )}
+              <FilterDialog
+                filters={filters}
+                onFiltersChange={setFilters}
+                activeTab={activeTab}
+              />
+            </div>
           </div>
 
           <Tabs
