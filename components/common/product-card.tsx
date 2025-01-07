@@ -4,7 +4,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { saveProduct, unsaveProduct } from "@/lib/actions/products";
 import { useToast } from "@/lib/hooks/use-toast";
 import { Product } from "@/lib/types/database.types";
 import { User } from "@supabase/supabase-js";
@@ -50,11 +49,11 @@ export default function ProductCard({
 
     startTransition(async () => {
       try {
-        if (isSaved) {
-          await unsaveProduct(product.id, currentUser.id);
-        } else {
-          await saveProduct(product.id, currentUser.id);
-        }
+        // if (isSaved) {
+        //   await unsaveProduct(product.id, currentUser.id);
+        // } else {
+        //   // await saveProduct(product.id, currentUser.id);
+        // }
         setIsSaved(!isSaved);
       } catch (error) {
         toast({
@@ -130,7 +129,9 @@ export default function ProductCard({
                 <span className="truncate">{product.location}</span>
               )}
               <span className="flex-shrink-0">·</span>
-              <span className="flex-shrink-0">{formatDate(product.created_at)}</span>
+              <span className="flex-shrink-0">
+                {formatDate(product.created_at)}
+              </span>
             </div>
           </div>
         </div>

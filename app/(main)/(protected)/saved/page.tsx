@@ -19,14 +19,14 @@ export default async function SavedPage() {
       .select(
         `
                 *,
-                profiles:user_id (*),
+                profiles:user (*),
                 likes (
-                    user_id
+                    user
                 ),
                 comments:comments_count
             `
       )
-      .eq("user_id", userId);
+      .eq("user", userId);
 
     return data;
   };

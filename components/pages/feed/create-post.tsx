@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import Image from "next/image";
-import { createPost } from "@/lib/actions/posts";
 import { useRef, useState } from "react";
 import { User } from "@supabase/supabase-js";
 
@@ -22,7 +21,7 @@ export function CreatePost({ user }: CreatePostProps) {
     if (isSubmitting) return;
     setIsSubmitting(true);
     try {
-      await createPost(formData);
+      // await createPost(formData);
       setContent("");
       formRef.current?.reset();
     } catch (error) {

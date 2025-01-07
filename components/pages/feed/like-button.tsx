@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { Heart } from "lucide-react";
 import { useState } from "react";
-import { likePost, unlikePost } from "@/lib/actions/posts";
 import { cn } from "@/lib/utils";
 
 interface LikeButtonProps {
@@ -26,11 +25,11 @@ export function LikeButton({
     setIsLiking(true);
     try {
       if (isLiked) {
-        await unlikePost(postId);
+        // await unlikePost(postId);
         setLikeCount((prev) => prev - 1);
         setIsLiked(false);
       } else {
-        await likePost(postId);
+        // await likePost(postId);
         setLikeCount((prev) => prev + 1);
         setIsLiked(true);
       }
