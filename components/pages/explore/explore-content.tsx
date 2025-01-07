@@ -393,7 +393,7 @@ export default function ExploreContent({ user, profile }: ExploreContentProps) {
                               See all
                             </Button>
                           </div>
-                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                             {searchResults.users
                               .slice(0, 3)
                               .map((user: Profile) => (
@@ -448,12 +448,12 @@ export default function ExploreContent({ user, profile }: ExploreContentProps) {
                   </TabsContent>
 
                   <TabsContent value="users" className="m-0">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                       {searchResults.users.map((user: Profile) => (
                         <UserCard
-                          key={user?.id}
-                          profile={user || null}
-                          currentUser={profile || null}
+                          key={user.id}
+                          profile={user}
+                          currentUser={profile}
                         />
                       ))}
                     </div>
