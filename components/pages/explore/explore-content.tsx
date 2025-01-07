@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import FilterDialog, { FilterOptions } from "./filter-dialog";
 import useDebounce from "@/lib/hooks/use-debounce";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
@@ -36,7 +37,27 @@ interface SearchResults {
 
 export default function ExploreContent({ user, profile }: ExploreContentProps) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeFilter, setActiveFilter] = useState<
+  const [filters, setFilters] = useState<FilterOptions>({
+    products: {
+      sortBy: "latest",
+      priceRange: [0, 1000],
+      inStock: false,
+      category: "all"
+    },
+    posts: {
+      sortBy: "latest",
+      dateRange: [new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), new Date()],
+      hasProduct: false,
+      hasMedia: false
+    },
+    users: {
+      sortBy: "followers",
+      followersRange: [0, 10000],
+      hasProducts: false,
+      hasPosts: false
+    }
+  });
+  const [activeTab, setActiveTab] = useState<
     "all" | "products" | "users" | "posts"
   >("all");
   const [searchResults, setSearchResults] = useState<SearchResults>({
@@ -54,21 +75,100 @@ export default function ExploreContent({ user, profile }: ExploreContentProps) {
       try {
         let productsQuery = supabase
           .from("products")
-          .select("*, user: profiles(*)")
-          .order("created_at", { ascending: false })
-          .limit(10);
+          .select("*, user: profiles(*)");
+
+        // Apply product filters
+        if (filters.products.category && filters.products.category !== "all") {
+          productsQuery = productsQuery.eq("category", filters.products.category);
+        }
+
+        if (filters.products.inStock) {
+          productsQuery = productsQuery.gt("stock", 0);
+        }
+
+        if (filters.products.priceRange) {
+          productsQuery = productsQuery
+            .gte("price", filters.products.priceRange[0])
+            .lte("price", filters.products.priceRange[1]);
+        }
+
+        // Apply product sorting
+        switch (filters.products.sortBy) {
+          case "price-low":
+            productsQuery = productsQuery.order("price", { ascending: true });
+            break;
+          case "price-high":
+            productsQuery = productsQuery.order("price", { ascending: false });
+            break;
+          case "popular":
+            productsQuery = productsQuery.order("likes_count", { ascending: false });
+            break;
+          default:
+            productsQuery = productsQuery.order("created_at", { ascending: false });
+        }
 
         let usersQuery = supabase
           .from("profiles")
-          .select()
-          .order("followers_count", { ascending: false })
-          .limit(10);
+          .select();
+
+        // Apply user filters
+        if (filters.users.hasProducts) {
+          usersQuery = usersQuery.gt("products_count", 0);
+        }
+
+        if (filters.users.hasPosts) {
+          usersQuery = usersQuery.gt("posts_count", 0);
+        }
+
+        if (filters.users.followersRange) {
+          usersQuery = usersQuery
+            .gte("followers_count", filters.users.followersRange[0])
+            .lte("followers_count", filters.users.followersRange[1]);
+        }
+
+        // Apply user sorting
+        switch (filters.users.sortBy) {
+          case "followers":
+            usersQuery = usersQuery.order("followers_count", { ascending: false });
+            break;
+          case "joined":
+            usersQuery = usersQuery.order("created_at", { ascending: false });
+            break;
+          case "active":
+            usersQuery = usersQuery.order("last_active", { ascending: false });
+            break;
+        }
 
         let postsQuery = supabase
           .from("posts")
-          .select("*, user:profiles(*), product:products(*)")
-          .order("created_at", { ascending: false })
-          .limit(10);
+          .select("*, user:profiles(*), product:products(*)");
+
+        // Apply post filters
+        if (filters.posts.hasProduct) {
+          postsQuery = postsQuery.not("product_id", "is", null);
+        }
+
+        if (filters.posts.hasMedia) {
+          postsQuery = postsQuery.not("media_url", "is", null);
+        }
+
+        if (filters.posts.dateRange) {
+          postsQuery = postsQuery
+            .gte("created_at", filters.posts.dateRange[0].toISOString())
+            .lte("created_at", filters.posts.dateRange[1].toISOString());
+        }
+
+        // Apply post sorting
+        switch (filters.posts.sortBy) {
+          case "popular":
+            postsQuery = postsQuery.order("likes_count", { ascending: false });
+            break;
+          case "comments":
+            postsQuery = postsQuery.order("comments_count", { ascending: false });
+            break;
+          default:
+            postsQuery = postsQuery.order("created_at", { ascending: false });
+        }
 
         // Add search filters if query exists
         if (debouncedSearch) {
@@ -84,6 +184,11 @@ export default function ExploreContent({ user, profile }: ExploreContentProps) {
             config: "english",
           });
         }
+
+        // Apply limits
+        productsQuery = productsQuery.limit(10);
+        usersQuery = usersQuery.limit(10);
+        postsQuery = postsQuery.limit(10);
 
         const [productsRes, usersRes, postsRes] = await Promise.all([
           productsQuery,
@@ -104,7 +209,7 @@ export default function ExploreContent({ user, profile }: ExploreContentProps) {
     startTransition(() => {
       fetchData();
     });
-  }, [debouncedSearch]);
+  }, [debouncedSearch, filters]);
 
   return (
     <div className="w-full max-w-7xl mx-auto">
@@ -121,14 +226,16 @@ export default function ExploreContent({ user, profile }: ExploreContentProps) {
                 className="w-full pl-9 pr-4"
               />
             </div>
-            <Button variant="outline" size="icon">
-              <Filter className="h-4 w-4" />
-            </Button>
+            <FilterDialog 
+              filters={filters} 
+              onFiltersChange={setFilters} 
+              activeTab={activeTab} 
+            />
           </div>
 
           <Tabs
-            defaultValue={activeFilter}
-            onValueChange={(value: any) => setActiveFilter(value)}
+            defaultValue={activeTab}
+            onValueChange={(value: any) => setActiveTab(value)}
             className="w-full"
           >
             <TabsList className="w-full grid grid-cols-4 h-9 md:h-12">
@@ -177,7 +284,7 @@ export default function ExploreContent({ user, profile }: ExploreContentProps) {
                             <h3 className="text-lg font-semibold">Products</h3>
                             <Button
                               variant="link"
-                              onClick={() => setActiveFilter("products")}
+                              onClick={() => setActiveTab("products")}
                             >
                               See all
                             </Button>
@@ -203,7 +310,7 @@ export default function ExploreContent({ user, profile }: ExploreContentProps) {
                             <h3 className="text-lg font-semibold">People</h3>
                             <Button
                               variant="link"
-                              onClick={() => setActiveFilter("users")}
+                              onClick={() => setActiveTab("users")}
                             >
                               See all
                             </Button>
@@ -229,7 +336,7 @@ export default function ExploreContent({ user, profile }: ExploreContentProps) {
                             <h3 className="text-lg font-semibold">Posts</h3>
                             <Button
                               variant="link"
-                              onClick={() => setActiveFilter("posts")}
+                              onClick={() => setActiveTab("posts")}
                             >
                               See all
                             </Button>
