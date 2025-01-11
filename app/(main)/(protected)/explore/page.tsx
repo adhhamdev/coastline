@@ -1,26 +1,13 @@
 import ExploreContent from "@/components/pages/explore/explore-content";
+import protectPage from "@/lib/helpers/protectPage";
 import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
 
 export default async function ExplorePage() {
+  const user = await protectPage();
   const supabase = createClient();
-  const [
-    {
-      data: { user },
-    },
-    { data: profile },
-  ] = await Promise.all([
-    supabase.auth.getUser(),
-    supabase
-      .from("profiles")
-      .select("*")
-      .eq("id", (await supabase.auth.getUser()).data.user?.id)
-      .single(),
-  ]);
-
-  if (!user) {
-    redirect("/auth/login");
-  }
+  const profile = (
+    await supabase.from("profiles").select("*").eq("id", user?.id).single()
+  ).data;
 
   return (
     <div className="min-h-screen bg-background">

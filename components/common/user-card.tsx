@@ -23,14 +23,16 @@ export default function UserCard({ profile, currentUser }: UserCardProps) {
   const handleFollow = async () => {
     try {
       if (isFollowing) {
-        await supabase
+        const { data, error } = await supabase
           .from("follows")
           .delete()
-          .match({ follower: currentUser?.id, following: profile.id });
+          .match({ follower: currentUser?.id, following: profile?.id });
+        console.log(data, error);
       } else {
-        await supabase
+        const { data, error } = await supabase
           .from("follows")
-          .insert({ follower: currentUser?.id, following: profile.id });
+          .insert({ follower: currentUser?.id, following: profile?.id });
+        console.log(data, error);
       }
       setIsFollowing(!isFollowing);
 

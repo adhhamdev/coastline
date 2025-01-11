@@ -13,8 +13,6 @@ export default async function getPosts() {
         (Post<true, true> & { user: Profile; products: Product<true>[] })[]
       >();
   
-    console.log(posts);
-  
     if (error) {
       console.error("Error fetching posts:", error);
       return { error };

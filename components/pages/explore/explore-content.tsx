@@ -3,22 +3,18 @@
 import UserCard from "@/components/common/user-card";
 import ProductCard from "@/components/common/product-card";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import FilterDialog, { FilterOptions } from "./filter-dialog";
 import useDebounce from "@/lib/hooks/use-debounce";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
 import {
-  Filter,
   Search,
   Loader2,
   Users,
   ShoppingBag,
   MessageSquare,
-  X,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
@@ -36,28 +32,30 @@ interface SearchResults {
   posts: Post<true, true>[];
 }
 
+const defaultFilters: FilterOptions = {
+  products: {
+    sortBy: "latest",
+    priceRange: [0, 1000],
+    inStock: false,
+    category: "all",
+  },
+  posts: {
+    sortBy: "latest",
+    dateRange: [new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), new Date()],
+    hasProduct: false,
+  },
+  users: {
+    sortBy: "followers",
+    followersRange: [0, 10000],
+    hasProducts: false,
+    hasPosts: false,
+  },
+};
+
 export default function ExploreContent({ user, profile }: ExploreContentProps) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [filters, setFilters] = useState<FilterOptions>({
-    products: {
-      sortBy: "latest",
-      priceRange: [0, 1000],
-      inStock: false,
-      category: "all",
-    },
-    posts: {
-      sortBy: "latest",
-      dateRange: [new Date(Date.now() - 30 * 24 * 60 * 60 * 1000), new Date()],
-      hasProduct: false,
-      hasMedia: false,
-    },
-    users: {
-      sortBy: "followers",
-      followersRange: [0, 10000],
-      hasProducts: false,
-      hasPosts: false,
-    },
-  });
+  const [filters, setFilters] = useState<FilterOptions>(defaultFilters);
+
   const [activeTab, setActiveTab] = useState<
     "all" | "products" | "users" | "posts"
   >("all");
@@ -72,30 +70,6 @@ export default function ExploreContent({ user, profile }: ExploreContentProps) {
   const router = useRouter();
 
   const hasActiveFilters = () => {
-    const defaultFilters: FilterOptions = {
-      products: {
-        sortBy: "latest",
-        priceRange: [0, 1000],
-        inStock: false,
-        category: "all",
-      },
-      posts: {
-        sortBy: "latest",
-        dateRange: [
-          new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
-          new Date(),
-        ],
-        hasProduct: false,
-        hasMedia: false,
-      },
-      users: {
-        sortBy: "followers",
-        followersRange: [0, 10000],
-        hasProducts: false,
-        hasPosts: false,
-      },
-    };
-
     return JSON.stringify(filters) !== JSON.stringify(defaultFilters);
   };
 
@@ -114,7 +88,6 @@ export default function ExploreContent({ user, profile }: ExploreContentProps) {
           new Date(),
         ],
         hasProduct: false,
-        hasMedia: false,
       },
       users: {
         sortBy: "followers",
@@ -159,7 +132,7 @@ export default function ExploreContent({ user, profile }: ExploreContentProps) {
             productsQuery = productsQuery.order("price", { ascending: false });
             break;
           case "popular":
-            productsQuery = productsQuery.order("likes_count", {
+            productsQuery = productsQuery.order("sold", {
               ascending: false,
             });
             break;
@@ -207,11 +180,7 @@ export default function ExploreContent({ user, profile }: ExploreContentProps) {
 
         // Apply post filters
         if (filters.posts.hasProduct) {
-          postsQuery = postsQuery.not("product_id", "is", null);
-        }
-
-        if (filters.posts.hasMedia) {
-          postsQuery = postsQuery.not("media_url", "is", null);
+          postsQuery = postsQuery.not("product", "is", null);
         }
 
         if (filters.posts.dateRange) {
@@ -296,11 +265,10 @@ export default function ExploreContent({ user, profile }: ExploreContentProps) {
                 <Button
                   title="Clear all filters"
                   variant="ghost"
-                  size="icon"
                   onClick={clearAllFilters}
-                  className="h-10 w-10 shrink-0 text-muted-foreground hover:text-foreground"
+                  className="text-sm text-muted-foreground hover:text-foreground"
                 >
-                  <X className="h-4 w-4" />
+                  Clear Filters
                 </Button>
               )}
               <FilterDialog

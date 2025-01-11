@@ -51,7 +51,7 @@ export interface Post<WithProfile extends boolean = false, WithProduct extends b
   user: UserReference<WithProfile>; // uuid or Profile
   content?: string; // text | null
   images?: string[]; // text[] | null
-  videos?: string[]; // text[] | null
+  video?: string; // text | null
   product?: ProductReference<WithProduct>; // uuid or Product
   likes_count?: number; // Integer | null
   comments_count?: number; // Integer | null
@@ -67,6 +67,7 @@ export interface Product<WithProfile extends boolean = false> {
   price: number; // Numeric
   category: string; // Text
   stock: number; // Integer | null
+  sold: number; // Integer | null
   images?: string[]; // Array of Text | null
   location?: string; // Text | null
   created_at: string; // timestamp with time zone
@@ -89,8 +90,9 @@ export interface Profile {
   created_at: string; // timestamp with time zone
   updated_at: string; // timestamp with time zone
   followers_count: number; // Numeric
-  products_count: number; // Numeric
   following_count: number; // Numeric
+  posts_count: number; // Numeric
+  products_count: number; // Numeric
 }
 
 export interface SavedPost<WithProfile extends boolean = false, WithPost extends boolean = false> {

@@ -74,7 +74,7 @@ export default function ProductDetail({
         .insert({
           user1_id: currentUser.id,
           user2_id: product.profiles.id,
-          product_id: product.id,
+          product: product.id,
         })
         .select("id")
         .single();

@@ -13,7 +13,6 @@ import { OAuthSignIn } from "@/lib/actions/auth";
 import { useToast } from "@/lib/hooks/use-toast";
 import { useTransition } from "react";
 import { MotionDiv } from "@/components/common/motion";
-import { Waves } from "lucide-react";
 import Image from "next/image";
 
 // Animation variants

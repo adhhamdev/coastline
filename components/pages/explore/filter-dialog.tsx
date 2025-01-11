@@ -32,7 +32,6 @@ export interface FilterOptions {
     sortBy: string;
     dateRange: [Date, Date];
     hasProduct?: boolean;
-    hasMedia?: boolean;
   };
   users: {
     sortBy: string;
@@ -98,7 +97,6 @@ export default function FilterDialog({
           new Date(),
         ],
         hasProduct: false,
-        hasMedia: false,
       },
     });
   };
@@ -205,6 +203,9 @@ export default function FilterDialog({
                 <SelectContent>
                   <SelectItem value="all">All Categories</SelectItem>
                   <SelectItem value="electronics">Electronics</SelectItem>
+                  <SelectItem value="gems">Gems</SelectItem>
+                  <SelectItem value="fishing">Fishing</SelectItem>
+                  <SelectItem value="vegetables">Vegetables</SelectItem>
                   <SelectItem value="clothing">Clothing</SelectItem>
                   <SelectItem value="books">Books</SelectItem>
                   <SelectItem value="home">Home & Garden</SelectItem>
@@ -260,17 +261,6 @@ export default function FilterDialog({
                 checked={filters.posts.hasProduct}
                 onCheckedChange={(checked) =>
                   updatePostFilters({ hasProduct: checked })
-                }
-              />
-            </div>
-
-            <div className="flex items-center justify-between">
-              <Label htmlFor="has-media">Has Media</Label>
-              <Switch
-                id="has-media"
-                checked={filters.posts.hasMedia}
-                onCheckedChange={(checked) =>
-                  updatePostFilters({ hasMedia: checked })
                 }
               />
             </div>
