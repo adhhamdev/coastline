@@ -8,11 +8,11 @@ import {
 import { Globe2, Lock } from "lucide-react";
 import { useState } from "react";
 
-export default function PostVisibility() {
+export default function ContentVisibility() {
   const [visibility, setVisibility] = useState("public");
 
   return (
-    <div className="flex items-center justify-between gap-2">
+    <div>
       <Select defaultValue={visibility} onValueChange={setVisibility}>
         <SelectTrigger className="h-9 text-sm bg-muted/50 hover:bg-muted">
           {visibility === "public" ? (

@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { PostForm } from "@/components/pages/create/post-form";
 import { ProductForm } from "@/components/pages/create/product-form";
 import protectPage from "@/lib/helpers/protectPage";
-import PostVisibility from "@/components/pages/create/post-visibility";
+import ContentVisibility from "@/components/pages/create/content-visibility";
 
 export default async function CreatePage() {
   const user = await protectPage();
@@ -35,7 +35,7 @@ export default async function CreatePage() {
                 </p>
               </div>
             </div>
-            <PostVisibility />
+            <ContentVisibility />
           </div>
         </CardHeader>
         <CardContent className="p-0 md:p-6 flex-grow">

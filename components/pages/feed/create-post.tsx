@@ -47,7 +47,7 @@ export function CreatePost({ user }: CreatePostProps) {
     <form
       ref={formRef}
       action={handleSubmit}
-      className={`p-2 border-b sticky top-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 z-10 transition-all duration-200 ${
+      className={`p-2 border-b transition-all duration-200 ${
         isExpanded ? "shadow-md" : ""
       }`}
     >
