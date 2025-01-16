@@ -42,7 +42,6 @@ const defaultFilters: FilterOptions = {
 export default function ExploreContent({ user, profile }: ExploreContentProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState<FilterOptions>(defaultFilters);
-
   const [activeTab, setActiveTab] = useState<
     "all" | "products" | "users" | "posts"
   >("all");
