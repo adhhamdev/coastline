@@ -79,7 +79,7 @@ export default function ExploreLoading() {
                     <Skeleton className="h-6 w-16" />
                   </div>
                   <div className="relative">
-                    <div className="flex overflow-x-auto pb-2 px-4 gap-4 snap-x snap-mandatory scrollbar-hide">
+                    <div className="flex overflow-x-auto pb-2 px-4 gap-4 snap-x snap-mandatory">
                       {Array(4)
                         .fill(null)
                         .map((_, i) => (
@@ -109,7 +109,7 @@ export default function ExploreLoading() {
                     <Skeleton className="h-6 w-16" />
                   </div>
                   <div className="relative">
-                    <div className="flex overflow-x-auto pb-2 px-4 gap-4 snap-x snap-mandatory scrollbar-hide">
+                    <div className="flex overflow-x-auto pb-2 px-4 gap-4 snap-x snap-mandatory">
                       {Array(3)
                         .fill(null)
                         .map((_, i) => (

@@ -143,7 +143,7 @@ export function ProductForm({ user }: ProductFormProps) {
             id="title"
             name="title"
             placeholder="Product title"
-            className="text-lg focus-visible:ring-1"
+            className=" focus-visible:ring-1"
             required
           />
         </div>
@@ -154,7 +154,7 @@ export function ProductForm({ user }: ProductFormProps) {
             id="description"
             name="description"
             placeholder="Product description"
-            className="min-h-[100px] resize-none text-lg focus-visible:ring-1"
+            className="min-h-[100px] resize-none focus-visible:ring-1"
           />
         </div>
 
@@ -168,7 +168,7 @@ export function ProductForm({ user }: ProductFormProps) {
               step="0.01"
               min="0"
               placeholder="0.00"
-              className="text-lg focus-visible:ring-1"
+              className=" focus-visible:ring-1"
               required
             />
           </div>
@@ -181,7 +181,7 @@ export function ProductForm({ user }: ProductFormProps) {
               type="number"
               min="0"
               placeholder="0"
-              className="text-lg focus-visible:ring-1"
+              className=" focus-visible:ring-1"
               required
             />
           </div>
@@ -190,7 +190,7 @@ export function ProductForm({ user }: ProductFormProps) {
         <div className="space-y-2">
           <Label htmlFor="category">Category</Label>
           <Select name="category" defaultValue="other">
-            <SelectTrigger className="text-lg focus-visible:ring-1">
+            <SelectTrigger className=" focus-visible:ring-1">
               <SelectValue placeholder="Select category" />
             </SelectTrigger>
             <SelectContent>
@@ -207,7 +207,7 @@ export function ProductForm({ user }: ProductFormProps) {
             id="location"
             name="location"
             placeholder="Product location"
-            className="text-lg focus-visible:ring-1"
+            className=" focus-visible:ring-1"
           />
         </div>
 

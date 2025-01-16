@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 export default async function SideTrends() {
   return (
-    <div className="hidden lg:block space-y-4 h-[calc(100vh-5rem)] sticky top-16 overflow-y-auto scrollbar-hide">
+    <div className="hidden lg:block space-y-4 h-[calc(100vh-5rem)] sticky top-16 overflow-y-auto">
       <div className="rounded-lg bg-muted p-4">
         <h2 className="font-semibold mb-4">Trending Products</h2>
         <div>

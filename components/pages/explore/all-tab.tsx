@@ -47,7 +47,7 @@ export default function AllTab({
               </Button>
             </div>
             <div className="relative">
-              <div className="flex overflow-x-auto pb-2 px-4 gap-4 snap-x snap-mandatory scrollbar-hide">
+              <div className="flex overflow-x-auto pb-2 px-4 gap-4 snap-x snap-mandatory">
                 {searchResults.products
                   .slice(0, 4)
                   .map((product: Product<true>) => (
@@ -87,7 +87,7 @@ export default function AllTab({
               </Button>
             </div>
             <div className="relative">
-              <div className="flex overflow-x-auto pb-2 px-4 gap-4 snap-x snap-mandatory scrollbar-hide">
+              <div className="flex overflow-x-auto pb-2 px-4 gap-4 snap-x snap-mandatory">
                 {searchResults.users.slice(0, 3).map((user: Profile) => (
                   <UserCard
                     key={user.id}

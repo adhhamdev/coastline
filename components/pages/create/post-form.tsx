@@ -120,7 +120,7 @@ export function PostForm({ user }: PostFormProps) {
             id="content"
             name="content"
             placeholder="What's on your mind?"
-            className="min-h-[250px] resize-none border-none text-lg"
+            className="min-h-[250px] resize-none border-none"
             required
           />
         </div>
