@@ -62,7 +62,7 @@ export default function LoginPage({
           />
           <div className="absolute inset-0 bg-primary/60 backdrop-blur-sm" />
         </div>
-        <div className="relative z-10 text-black p-8 space-y-4">
+        <div className="relative z-10 text-black p-8 space-y-14">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 100 100"
@@ -84,10 +84,14 @@ export default function LoginPage({
             />
           </svg>
 
-          <h1 className="text-5xl font-bold bg-gradient-to-r from-secondary to-slate-600 text-transparent bg-clip-text drop-shadow-xl">
-            Welcome to Coastline
-          </h1>
-          <p className="text-xl">Discover the best of Sri Lankan businesses</p>
+          <div className="space-y-4">
+            <h1 className="text-5xl font-bold bg-gradient-to-r from-secondary to-slate-600 text-transparent bg-clip-text drop-shadow-xl">
+              Welcome to Coastline
+            </h1>
+            <p className="text-xl">
+              Discover the best of Sri Lankan businesses
+            </p>
+          </div>
         </div>
       </div>
 

@@ -4,7 +4,13 @@ import { Comment, Post, Product, Profile } from "@/lib/types/database.types";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { CheckIcon, MessageCircle, Eye, ExternalLink } from "lucide-react";
+import {
+  CheckIcon,
+  MessageCircle,
+  Eye,
+  ExternalLink,
+  UserIcon,
+} from "lucide-react";
 import { formatRelativeTime } from "@/lib/utils/date";
 import { LikeButton } from "../pages/feed/like-button";
 import { ShareButton } from "../pages/feed/share-button";
@@ -26,7 +32,7 @@ export function PostCard({ post, user }: PostCardProps) {
       <div className="flex gap-4">
         <Link href={`/profile/`} className="group relative h-8 w-8">
           <div className="relative h-full w-full rounded-full bg-muted overflow-hidden ring-2 ring-transparent transition-all group-hover:ring-primary/20">
-            {post.user?.avatar_url && (
+            {post.user?.avatar_url ? (
               <Image
                 src={post.user.avatar_url}
                 alt={post.user.username || "User"}
@@ -34,6 +40,10 @@ export function PostCard({ post, user }: PostCardProps) {
                 className="object-cover transition-transform group-hover:scale-105"
                 sizes="32px"
               />
+            ) : (
+              <div className="h-full w-full flex items-center justify-center">
+                <UserIcon className="w-5 h-5 text-muted-foreground" />
+              </div>
             )}
           </div>
           {post.user?.verified && (
@@ -113,7 +123,7 @@ export function PostCard({ post, user }: PostCardProps) {
               ))}
             </div>
           )}
-          <div className="flex justify-end items-center gap-2 mt-4">
+          <div className="flex justify-end items-center mt-4">
             <LikeButton
               postId={post.id}
               initialLiked={isLiked}

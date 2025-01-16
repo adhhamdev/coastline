@@ -18,7 +18,7 @@ import { User } from "@supabase/supabase-js";
 import SideNavbar from "@/components/pages/feed/side-navbar";
 import MainFeed from "@/components/pages/feed/main-feed";
 import SideTrends from "@/components/pages/feed/side-trends";
-import getPosts from "@/lib/helpers/feed/getPosts";
+import getPosts from "@/lib/helpers/pages/feed/getPosts";
 import protectPage from "@/lib/helpers/protectPage";
 
 export const metadata: Metadata = {

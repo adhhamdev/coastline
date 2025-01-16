@@ -80,7 +80,7 @@ export default function FilterDialog({
       ...filters,
       products: {
         sortBy: "latest",
-        priceRange: [0, 1000],
+        priceRange: [0, 0],
         inStock: false,
         category: "all",
       },
@@ -106,7 +106,7 @@ export default function FilterDialog({
       ...filters,
       users: {
         sortBy: "followers",
-        followersRange: [0, 10000],
+        followersRange: [0, 1000],
         hasProducts: false,
         hasPosts: false,
       },
@@ -184,7 +184,7 @@ export default function FilterDialog({
                 />
                 <div className="flex justify-between mt-2 text-sm text-muted-foreground">
                   <span>${filters.products.priceRange[0]}</span>
-                  <span>${filters.products.priceRange[1]}</span>
+                  <span>$1000</span>
                 </div>
               </div>
             </div>
