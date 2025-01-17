@@ -1,11 +1,12 @@
-import { createClient } from "@/utils/supabase/server";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import ContentVisibility from "@/components/pages/create/content-visibility";
 import { PostForm } from "@/components/pages/create/post-form";
 import { ProductForm } from "@/components/pages/create/product-form";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import protectPage from "@/lib/helpers/protectPage";
-import ContentVisibility from "@/components/pages/create/content-visibility";
+import { createClient } from "@/utils/supabase/server";
+import { MessageSquare, ShoppingBag } from "lucide-react";
 
 export default async function CreatePage() {
   const user = await protectPage();
@@ -48,12 +49,14 @@ export default async function CreatePage() {
                 value="post"
                 className="data-[state=active]:bg-primary/10 transition-colors"
               >
+                <MessageSquare className="h-3.5 w-3.5 md:h-4 md:w-4 mr-2" />
                 Post
               </TabsTrigger>
               <TabsTrigger
                 value="product"
                 className="data-[state=active]:bg-primary/10 transition-colors"
               >
+                <ShoppingBag className="h-3.5 w-3.5 md:h-4 md:w-4 mr-2" />
                 Product
               </TabsTrigger>
             </TabsList>

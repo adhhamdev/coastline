@@ -1,10 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -12,34 +10,102 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ImagePlus, Loader2, X } from "lucide-react";
-import Image from "next/image";
+import { Textarea } from "@/components/ui/textarea";
+import createProduct from "@/lib/actions/pages/create/createProduct";
 import { useToast } from "@/lib/hooks/use-toast";
 import { createClient } from "@/utils/supabase/client";
-import { Product } from "@/lib/types/database.types";
 import { User } from "@supabase/supabase-js";
+import { ImagePlus, Loader2, PackagePlus, X } from "lucide-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useFormStatus } from "react-dom";
 
 interface ProductFormProps {
   user: User;
 }
 
+function SubmitButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button
+      type="submit"
+      size="lg"
+      className="rounded-full px-8 transition-all hover:scale-105"
+      disabled={pending}
+    >
+      {pending ? (
+        <>
+          <Loader2 className="h-4 w-4 animate-spin" />
+          Creating...
+        </>
+      ) : (
+        <>
+          <PackagePlus className="h-4 w-4" />
+          Create Product
+        </>
+      )}
+    </Button>
+  );
+}
+
 export function ProductForm({ user }: ProductFormProps) {
-  const [isLoading, setIsLoading] = useState(false);
   const [productImages, setProductImages] = useState<File[]>([]);
   const router = useRouter();
   const { toast } = useToast();
-  const supabase = createClient();
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setIsLoading(true);
-
+  async function handleAction(formData: FormData) {
     try {
-      const formData = new FormData(event.currentTarget);
-      const productData = validateFormData(formData);
-      const images = await uploadImages(productImages);
-      await createProduct(productData, images);
+      const title = formData.get("title") as string;
+      const description = formData.get("description") as string;
+      const price = parseFloat(formData.get("price") as string);
+      const category = formData.get("category") as string;
+      const stock = parseInt(formData.get("stock") as string);
+      const location = formData.get("location") as string;
+
+      if (!title.trim()) throw new Error("Title cannot be empty");
+      if (isNaN(price) || price <= 0)
+        throw new Error("Price must be a valid positive number");
+      if (isNaN(stock) || stock < 0)
+        throw new Error("Stock must be a valid non-negative number");
+
+      const supabase = createClient();
+      const images: string[] = [];
+
+      if (productImages.length > 0) {
+        for (const file of productImages) {
+          if (file.size > 2 * 1024 * 1024) {
+            throw new Error("Each image must be less than 2MB");
+          }
+
+          const fileExt = file.name.split(".").pop();
+          const fileName = `${Math.random()}.${fileExt}`;
+          const filePath = `${user.id}/${fileName}`;
+
+          const { error: uploadError } = await supabase.storage
+            .from("product-images")
+            .upload(filePath, file);
+
+          if (uploadError) throw uploadError;
+
+          const {
+            data: { publicUrl },
+          } = supabase.storage.from("product-images").getPublicUrl(filePath);
+
+          images.push(publicUrl);
+        }
+      }
+
+      const result = await createProduct(
+        { title, description, price, category, stock, location },
+        images,
+        user.id
+      );
+
+      if (!result.success) {
+        throw new Error(result.error?.message);
+      }
 
       toast({
         title: "Success",
@@ -49,93 +115,20 @@ export function ProductForm({ user }: ProductFormProps) {
       setProductImages([]);
       router.refresh();
     } catch (error) {
-      handleError(error);
-    } finally {
-      setIsLoading(false);
+      console.error("Error creating product:", error);
+      toast({
+        title: "Error",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
     }
-  };
-
-  const validateFormData = (formData: FormData) => {
-    const title = formData.get("title") as string;
-    const description = formData.get("description") as string;
-    const price = parseFloat(formData.get("price") as string);
-    const category = formData.get("category") as string;
-    const stock = parseInt(formData.get("stock") as string);
-    const location = formData.get("location") as string;
-
-    if (!title.trim()) throw new Error("Title cannot be empty");
-    if (isNaN(price) || price <= 0)
-      throw new Error("Price must be a valid positive number");
-    if (isNaN(stock) || stock < 0)
-      throw new Error("Stock must be a valid non-negative number");
-
-    return { title, description, price, category, stock, location };
-  };
-
-  const uploadImages = async (files: File[]) => {
-    const images: string[] = [];
-    if (files.length > 0) {
-      for (const file of files) {
-        const fileExt = file.name.split(".").pop();
-        const fileName = `${Math.random()}.${fileExt}`;
-        const filePath = `${user.id}/${fileName}`;
-
-        const { error: uploadError } = await supabase.storage
-          .from("product-images")
-          .upload(filePath, file);
-
-        if (uploadError) throw uploadError;
-
-        const {
-          data: { publicUrl },
-        } = supabase.storage.from("product-images").getPublicUrl(filePath);
-
-        images.push(publicUrl);
-      }
-    }
-    return images;
-  };
-
-  const createProduct = async (
-    data: ReturnType<typeof validateFormData>,
-    images: string[]
-  ) => {
-    const productData: Partial<Product<false>> = {
-      user: user.id,
-      title: data.title,
-      description: data.description.trim() || undefined,
-      price: data.price,
-      category: data.category,
-      stock: data.stock,
-      images: images.length > 0 ? images : undefined,
-      location: data.location.trim() || undefined,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-    };
-
-    const { error } = await supabase
-      .from("products")
-      .insert(productData)
-      .select()
-      .single();
-
-    if (error) throw error;
-  };
-
-  const handleError = (error: unknown) => {
-    console.error("Error creating product:", error);
-    toast({
-      title: "Error",
-      description:
-        error instanceof Error
-          ? error.message
-          : "Something went wrong. Please try again.",
-      variant: "destructive",
-    });
-  };
+  }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col h-full">
+    <form action={handleAction} className="flex flex-col h-full">
       <div className="flex-grow space-y-4 p-4 md:py-6">
         <div className="space-y-2">
           <Label htmlFor="title">Title</Label>
@@ -267,21 +260,7 @@ export function ProductForm({ user }: ProductFormProps) {
           </Button>
         </div>
 
-        <Button
-          type="submit"
-          size="lg"
-          className="rounded-full px-8 transition-all hover:scale-105"
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Creating...
-            </>
-          ) : (
-            "Create Product"
-          )}
-        </Button>
+        <SubmitButton />
       </div>
     </form>
   );

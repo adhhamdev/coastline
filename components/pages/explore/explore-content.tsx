@@ -2,22 +2,16 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import FilterDialog, { FilterOptions } from "./filter-dialog";
+import search from "@/lib/helpers/pages/explore/search";
 import useDebounce from "@/lib/hooks/use-debounce";
 import { ExploreContentProps, SearchResults } from "@/lib/types/pages/explore";
-import {
-  Search,
-  Loader2,
-  Users,
-  ShoppingBag,
-  MessageSquare,
-} from "lucide-react";
+import { MessageSquare, Search, ShoppingBag, Users } from "lucide-react";
 import { useEffect, useState, useTransition } from "react";
-import search from "@/lib/helpers/pages/explore/search";
 import AllTab from "./all-tab";
-import ProductsTab from "./products-tab";
-import PostsTab from "./posts-tab";
+import FilterDialog, { FilterOptions } from "./filter-dialog";
 import PeoplesTab from "./peoples-tab";
+import PostsTab from "./posts-tab";
+import ProductsTab from "./products-tab";
 
 const defaultFilters: FilterOptions = {
   products: {
@@ -145,21 +139,21 @@ export default function ExploreContent({ user, profile }: ExploreContentProps) {
                     value="posts"
                     className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-xs md:text-sm px-1 md:px-4"
                   >
-                    <MessageSquare className="h-3.5 w-3.5 md:h-4 md:w-4 mr-2 md:hidden" />
+                    <MessageSquare className="h-3.5 w-3.5 md:h-4 md:w-4 mr-2" />
                     <span className="hidden md:inline">Posts</span>
                   </TabsTrigger>
                   <TabsTrigger
                     value="products"
                     className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-xs md:text-sm px-1 md:px-4"
                   >
-                    <ShoppingBag className="h-3.5 w-3.5 md:h-4 md:w-4 mr-2 md:hidden" />
+                    <ShoppingBag className="h-3.5 w-3.5 md:h-4 md:w-4 mr-2" />
                     <span className="hidden md:inline">Products</span>
                   </TabsTrigger>
                   <TabsTrigger
                     value="users"
                     className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground text-xs md:text-sm px-1 md:px-4"
                   >
-                    <Users className="h-3.5 w-3.5 md:h-4 md:w-4 mr-2 md:hidden" />
+                    <Users className="h-3.5 w-3.5 md:h-4 md:w-4 mr-2" />
                     <span className="hidden md:inline">People</span>
                   </TabsTrigger>
                 </TabsList>

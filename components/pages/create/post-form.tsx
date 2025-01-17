@@ -1,42 +1,91 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { ImagePlus, Loader2, X } from "lucide-react";
-import Image from "next/image";
+import createPost from "@/lib/actions/pages/create/createPost";
 import { useToast } from "@/lib/hooks/use-toast";
 import { createClient } from "@/utils/supabase/client";
-import { Post } from "@/lib/types/database.types";
 import { User } from "@supabase/supabase-js";
+import { ImagePlus, Loader2, MessageCirclePlus, X } from "lucide-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useFormStatus } from "react-dom";
 
 interface PostFormProps {
   user: User;
 }
 
+function SubmitButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button
+      type="submit"
+      size="lg"
+      className="rounded-full px-8 transition-all hover:scale-105"
+      disabled={pending}
+    >
+      {pending ? (
+        <>
+          <Loader2 className="h-4 w-4 animate-spin" />
+          Posting...
+        </>
+      ) : (
+        <>
+          <MessageCirclePlus className="h-4 w-4" />
+          Post
+        </>
+      )}
+    </Button>
+  );
+}
+
 export function PostForm({ user }: PostFormProps) {
-  const [isLoading, setIsLoading] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const router = useRouter();
   const { toast } = useToast();
-  const supabase = createClient();
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setIsLoading(true);
-
+  async function handleAction(formData: FormData) {
     try {
-      const formData = new FormData(event.currentTarget);
       const content = formData.get("content") as string;
-
       if (!content.trim()) {
         throw new Error("Content cannot be empty");
       }
 
-      const images = await uploadImages(selectedFiles);
-      await createPost(content, images);
+      const supabase = createClient();
+      const images: string[] = [];
+
+      if (selectedFiles.length > 0) {
+        for (const file of selectedFiles) {
+          if (file.size > 2 * 1024 * 1024) {
+            throw new Error("Each image must be less than 2MB");
+          }
+
+          const fileExt = file.name.split(".").pop();
+          const fileName = `${Math.random()}.${fileExt}`;
+          const filePath = `${user.id}/${fileName}`;
+
+          const { error: uploadError } = await supabase.storage
+            .from("post-images")
+            .upload(filePath, file);
+
+          if (uploadError) throw uploadError;
+
+          const {
+            data: { publicUrl },
+          } = supabase.storage.from("post-images").getPublicUrl(filePath);
+
+          images.push(publicUrl);
+        }
+      }
+
+      const result = await createPost(content, images, user.id);
+
+      if (!result.success) {
+        throw new Error(result.error?.message);
+      }
 
       toast({
         title: "Success",
@@ -46,71 +95,20 @@ export function PostForm({ user }: PostFormProps) {
       setSelectedFiles([]);
       router.refresh();
     } catch (error) {
-      handleError(error);
-    } finally {
-      setIsLoading(false);
+      console.error("Error creating post:", error);
+      toast({
+        title: "Error",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
     }
-  };
-
-  const uploadImages = async (files: File[]) => {
-    const images: string[] = [];
-    if (files.length > 0) {
-      for (const file of files) {
-        const fileExt = file.name.split(".").pop();
-        const fileName = `${Math.random()}.${fileExt}`;
-        const filePath = `${user.id}/${fileName}`;
-
-        const { error: uploadError } = await supabase.storage
-          .from("post-images")
-          .upload(filePath, file);
-
-        if (uploadError) throw uploadError;
-
-        const {
-          data: { publicUrl },
-        } = supabase.storage.from("post-images").getPublicUrl(filePath);
-
-        images.push(publicUrl);
-      }
-    }
-    return images;
-  };
-
-  const createPost = async (content: string, images: string[]) => {
-    const postData: Partial<Post<false, false>> = {
-      user: user.id,
-      content,
-      images: images.length > 0 ? images : undefined,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-      likes_count: 0,
-      comments_count: 0,
-    };
-
-    const { error, data } = await supabase
-      .from("posts")
-      .insert(postData)
-      .select()
-      .single();
-
-    if (error) throw error;
-    return data;
-  };
-
-  const handleError = (error: unknown) => {
-    console.error("Error creating post:", error);
-    toast({
-      title: "Error",
-      description:
-        error instanceof Error
-          ? error.message
-          : "Something went wrong. Please try again.",
-      variant: "destructive",
-    });
-  };
+  }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col h-full">
+    <form action={handleAction} className="flex flex-col h-full">
       <div className="flex-grow space-y-4">
         <div className="relative p-4">
           <Label htmlFor="content" className="sr-only">
@@ -181,21 +179,7 @@ export function PostForm({ user }: PostFormProps) {
           </Button>
         </div>
 
-        <Button
-          type="submit"
-          size="lg"
-          className="rounded-full px-8 transition-all hover:scale-105"
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Posting...
-            </>
-          ) : (
-            "Post"
-          )}
-        </Button>
+        <SubmitButton />
       </div>
     </form>
   );
