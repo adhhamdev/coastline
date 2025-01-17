@@ -7,7 +7,7 @@ import createPost from "@/lib/actions/pages/create/createPost";
 import { useToast } from "@/lib/hooks/use-toast";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
-import { ImagePlus, Loader2, MessageCirclePlus, X } from "lucide-react";
+import { ImagePlus, Loader2, MessageSquarePlus, X } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -34,7 +34,7 @@ function SubmitButton() {
         </>
       ) : (
         <>
-          <MessageCirclePlus className="h-4 w-4" />
+          <MessageSquarePlus className="h-4 w-4" />
           Post
         </>
       )}

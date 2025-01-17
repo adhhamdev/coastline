@@ -1,18 +1,13 @@
-"use client";
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { useToast } from "@/lib/hooks/use-toast";
 import { Product } from "@/lib/types/database.types";
+import { cn } from "@/lib/utils";
 import { User } from "@supabase/supabase-js";
-import { formatDistanceToNow } from "date-fns";
-import { Heart, Circle, CircleDot, PackageIcon } from "lucide-react";
+import { Heart, PackageIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useTransition } from "react";
-import { cn } from "@/lib/utils";
 
 const formatDate = (date: string) => {
   return new Date(date).toLocaleDateString("en-US", {
@@ -32,38 +27,6 @@ export default function ProductCard({
   currentUser,
   initialSaved = false,
 }: ProductCardProps) {
-  const [isSaved, setIsSaved] = useState(initialSaved);
-  const [isPending, startTransition] = useTransition();
-  const { toast } = useToast();
-
-  const handleSave = async () => {
-    if (!currentUser) {
-      toast({
-        title: "Authentication required",
-        description: "Please login to save products",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    startTransition(async () => {
-      try {
-        // if (isSaved) {
-        //   await unsaveProduct(product.id, currentUser.id);
-        // } else {
-        //   // await saveProduct(product.id, currentUser.id);
-        // }
-        setIsSaved(!isSaved);
-      } catch (error) {
-        toast({
-          title: "Error",
-          description: "Failed to save product. Please try again.",
-          variant: "destructive",
-        });
-      }
-    });
-  };
-
   return (
     <Card className="group overflow-hidden transition duration-200 hover:shadow-lg hover:bg-muted/50">
       <div className="relative aspect-square">
@@ -106,19 +69,8 @@ export default function ProductCard({
             <p className="font-semibold text-base">
               ${product.price.toLocaleString()}
             </p>
-            <Button
-              size="icon"
-              variant="ghost"
-              className="h-7 w-7"
-              onClick={handleSave}
-              disabled={isPending}
-            >
-              <Heart
-                className={cn(
-                  "h-3.5 w-3.5",
-                  isSaved && "fill-primary text-primary"
-                )}
-              />
+            <Button size="icon" variant="ghost" className="h-7 w-7">
+              <Heart className="h-3.5 w-3.5" />
             </Button>
           </div>
           <div className="flex items-center gap-1.5">
