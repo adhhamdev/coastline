@@ -12,7 +12,7 @@ import Link from "next/link";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Metadata } from "next";
 import { PostSkeleton } from "@/components/skeletons/post-skeleton";
-import { PostCard } from "@/components/common/post-card";
+import PostCard from "@/components/common/post-card";
 import { CreatePost } from "@/components/pages/feed/create-post";
 import { User } from "@supabase/supabase-js";
 import SideNavbar from "@/components/pages/feed/side-navbar";

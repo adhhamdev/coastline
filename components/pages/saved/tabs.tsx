@@ -8,10 +8,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Post, Profile, Comment } from "@/lib/types/database.types";
 import { useToast } from "@/lib/hooks/use-toast";
-import { PostCard } from "../../common/post-card";
+import { Post } from "@/lib/types/database.types";
 import { User } from "@supabase/supabase-js";
+import PostCard from "../../common/post-card";
 
 export default function SavedTabs({
   savedPosts,

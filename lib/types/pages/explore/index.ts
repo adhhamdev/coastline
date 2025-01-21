@@ -1,5 +1,5 @@
-import { User } from "@supabase/supabase-js";
 import { Post, Product, Profile } from "@/lib/types/database.types";
+import { User } from "@supabase/supabase-js";
 
 export interface ExploreContentProps {
     user: User | null;

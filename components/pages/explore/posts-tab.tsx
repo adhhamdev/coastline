@@ -1,8 +1,8 @@
-import { PostCard } from "@/components/common/post-card";
+import PostCard from "@/components/common/post-card";
 import { TabsContent } from "@/components/ui/tabs";
+import { Post } from "@/lib/types/database.types";
 import { SearchResults } from "@/lib/types/pages/explore";
 import { User } from "@supabase/supabase-js";
-import { Post } from "@/lib/types/database.types";
 import { MessagesSquare } from "lucide-react";
 
 export default function PostsTab({

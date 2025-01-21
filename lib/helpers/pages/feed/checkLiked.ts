@@ -1,7 +1,4 @@
-'use server';
-
-import { createClient } from "@/utils/supabase/server";
-import { handleSupabaseError } from "@/lib/utils/handle-error";
+import { createClient } from "@/utils/supabase/client";
 
 export default async function checkLiked(postId: string, userId: string) {
   try {
@@ -13,6 +10,7 @@ export default async function checkLiked(postId: string, userId: string) {
       .select()
       .match({ user: userId, post: postId })
       .single();
+      console.log()
 
     if (error && error.code !== 'PGRST116') throw error;
     return !!data;

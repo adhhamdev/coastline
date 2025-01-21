@@ -1,17 +1,17 @@
-import { TabsContent } from "@/components/ui/tabs";
-import { SearchResults } from "@/lib/types/pages/explore";
-import { Button } from "@/components/ui/button";
+import PostCard from "@/components/common/post-card";
 import ProductCard from "@/components/common/product-card";
 import UserCard from "@/components/common/user-card";
-import { Product, Post, Profile } from "@/lib/types/database.types";
+import { Button } from "@/components/ui/button";
+import { TabsContent } from "@/components/ui/tabs";
+import { Post, Product, Profile } from "@/lib/types/database.types";
+import { SearchResults } from "@/lib/types/pages/explore";
 import { User } from "@supabase/supabase-js";
 import {
-  Search,
-  PackageSearch,
-  UserSearch,
   MessagesSquare,
+  PackageSearch,
+  Search,
+  UserSearch,
 } from "lucide-react";
-import { PostCard } from "@/components/common/post-card";
 
 interface Params {
   searchResults: SearchResults;
