@@ -58,7 +58,7 @@ export default function UserCard({ profile, currentUser }: UserCardProps) {
       <CardContent className="-mt-10 p-4 text-center">
         <Avatar className="h-20 w-20 mx-auto ring-4 ring-background">
           <AvatarImage src={profile.avatar_url || ""} />
-          <AvatarFallback>{profile.username[0].toUpperCase()}</AvatarFallback>
+          <AvatarFallback>{profile.username?.[0].toUpperCase()}</AvatarFallback>
         </Avatar>
         <div className="mt-3 space-y-1.5">
           <Link href={`/${profile.username}`} className="hover:underline">

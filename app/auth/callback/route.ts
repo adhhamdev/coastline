@@ -1,5 +1,4 @@
 import { createClient } from '@/utils/supabase/server';
-import { error } from 'console';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
@@ -14,7 +13,6 @@ export async function GET(request: Request) {
       await supabase.auth.updateUser({
         data: { google_provider_token: data.session.provider_token },
       });
-
       return NextResponse.redirect(`${origin}/feed`);
     }
   }

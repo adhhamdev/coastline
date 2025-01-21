@@ -28,6 +28,8 @@ export default async function createPost(
       .select()
       .single();
 
+      console.log(error)
+
     if (error) throw error;
     return { success: true, data: post };
   } catch (error) {

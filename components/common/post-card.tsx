@@ -35,7 +35,7 @@ export async function PostCard({ post, user }: PostCardProps) {
           {post.user.avatar_url ? (
             <Image
               src={post.user.avatar_url}
-              alt={post.user.username}
+              alt={post.user?.username || ""}
               className="object-cover"
               fill
               sizes="40px"

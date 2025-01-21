@@ -76,7 +76,7 @@ export interface Product<WithProfile extends boolean = false> {
 
 export interface Profile {
   id: string; // UUID
-  username: string; // Text
+  username?: string; // Text
   full_name?: string; // Text | null
   avatar_url?: string; // Text | null
   banner_url?: string; // Text | null
