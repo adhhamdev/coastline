@@ -3,10 +3,10 @@
 import { createClient } from "@/utils/supabase/client";
 import { Download } from "lucide-react";
 import Image from "next/image";
-import { Button } from "../ui/button";
-import "react-medium-image-zoom/dist/styles.css";
-import Zoom from "react-medium-image-zoom";
 import { useState } from "react";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
+import { Button } from "../ui/button";
 
 interface ImageViewerProps {
   src: string;
@@ -80,6 +80,7 @@ export function ImageViewer({
             className="object-cover transition-transform group-hover:scale-[1.02]"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             priority={priority}
+            loading="lazy"
           />
         </div>
       </Zoom>

@@ -12,7 +12,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import "react-medium-image-zoom/dist/styles.css";
-import { ImageSlider } from "./image-slider";
+import { ImageCarousel } from "./image-carousel";
 import { ImageViewer } from "./image-viewer";
 import { LikeButton } from "./like-button";
 import { ShareButton } from "./share-button";
@@ -79,7 +79,7 @@ export default function PostCard({ post, user }: PostCardProps) {
               {post.images.length === 1 ? (
                 <ImageViewer src={post.images[0]} alt={post.content || ""} />
               ) : (
-                <ImageSlider images={post.images} alt={post.content || ""} />
+                <ImageCarousel images={post.images} alt={post.content || ""} />
               )}
             </div>
           )}
