@@ -77,9 +77,9 @@ export default function PostCard({ post, user }: PostCardProps) {
           {post.images && post.images.length > 0 && (
             <div className="mt-2">
               {post.images.length === 1 ? (
-                <ImageViewer src={post.images[0]} alt={post.content || ""} />
+                <ImageViewer src={post.images[0]} alt={post.content || ""} showDownload />
               ) : (
-                <ImageCarousel images={post.images} alt={post.content || ""} />
+                <ImageCarousel images={post.images} alt={post.content || ""} showDownload />
               )}
             </div>
           )}
