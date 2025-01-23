@@ -7,7 +7,7 @@ import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { Camera } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface EditProfileHeaderProps {
   user: User;
@@ -18,17 +18,9 @@ export default function EditProfileHeader({
   user,
   profile,
 }: EditProfileHeaderProps) {
-  const [banner, setBanner] = useState("");
   const [isUpdating, setIsUpdating] = useState(false);
   const supabase = createClient();
   const { toast } = useToast();
-
-  useEffect(() => {
-    const file = supabase.storage
-      .from("banners")
-      .getPublicUrl(profile.banner_url || "").data.publicUrl;
-    setBanner(file);
-  }, [profile]);
 
   async function handleImageUpload(
     event: React.ChangeEvent<HTMLInputElement>,
@@ -48,10 +40,14 @@ export default function EditProfileHeader({
 
       if (uploadError) throw uploadError;
 
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from("banners").getPublicUrl(filePath);
+
       const { error: updateError } = await supabase
         .from("profiles")
         .update({
-          [`${type}_url`]: filePath,
+          [`${type}_url`]: publicUrl,
         })
         .eq("id", user.id);
 
@@ -78,9 +74,9 @@ export default function EditProfileHeader({
     <div className="relative">
       {/* Cover Photo */}
       <div className="h-48 w-full relative bg-gradient-to-r from-blue-100 to-blue-200 rounded-t-lg">
-        {banner && (
+        {profile?.banner_url && (
           <Image
-            src={banner}
+            src={profile.banner_url}
             alt="Cover"
             className="w-full h-full object-cover"
             width={1000}
