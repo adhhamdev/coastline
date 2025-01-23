@@ -41,7 +41,7 @@ export default function ProductCard({
         >
           {product.stock === 0 ? "Out of Stock" : `${product.stock} in Stock`}
         </Badge>
-        <Link href={`/products/${product.id}`}>
+        <Link href={`/products/${product.id}`} className="absolute inset-0">
           {product.images?.[0] ? (
             <Image
               src={product.images[0]}
