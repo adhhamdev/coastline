@@ -4,16 +4,18 @@ import { Button } from "@/components/ui/button";
 import { Share2 } from "lucide-react";
 
 interface ShareButtonProps {
-  postId: string;
+  type: string;
+  contentId: string;
 }
 
-export function ShareButton({ postId }: ShareButtonProps) {
+export function ShareButton({ type, contentId }: ShareButtonProps) {
+  const title = "Share " + type.slice(0, 1).toUpperCase() + type.slice(1);
   const handleShare = async () => {
     try {
       await navigator.share({
-        title: "Share Post",
-        text: "Check out this post!",
-        url: `${window.location.origin}/post/${postId}`,
+        title: title,
+        text: "Check out this " + type,
+        url: `${window.location.origin}/${type}/${contentId}`,
       });
     } catch (error) {
       console.error("Error sharing:", error);
@@ -22,7 +24,7 @@ export function ShareButton({ postId }: ShareButtonProps) {
 
   return (
     <Button
-      title="Share Post"
+      title={title}
       variant="ghost"
       size="sm"
       className="px-3"

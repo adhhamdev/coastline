@@ -10,7 +10,6 @@ export default async function checkLiked(postId: string, userId: string) {
       .select()
       .match({ user: userId, post: postId })
       .single();
-      console.log()
 
     if (error && error.code !== 'PGRST116') throw error;
     return !!data;

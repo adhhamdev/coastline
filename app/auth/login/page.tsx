@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { GoogleButton } from "@/components/ui/custom/google-button";
+import { GoogleButton } from "@/components/pages/login/google-button";
 import { OAuthSignIn } from "@/lib/actions/auth";
 import { useToast } from "@/lib/hooks/use-toast";
 import { useTransition } from "react";

@@ -12,10 +12,10 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import "react-medium-image-zoom/dist/styles.css";
-import { ImageCarousel } from "./image-carousel";
-import { ImageViewer } from "./image-viewer";
+import { ImageCarousel } from "../image-carousel";
+import { ShareButton } from "../share-button";
 import { LikeButton } from "./like-button";
-import { ShareButton } from "./share-button";
+import MoreButton from "./more-button";
 
 interface PostCardProps {
   post: Post<true, true>;
@@ -76,11 +76,11 @@ export default function PostCard({ post, user }: PostCardProps) {
           )}
           {post.images && post.images.length > 0 && (
             <div className="mt-2">
-              {post.images.length === 1 ? (
-                <ImageViewer src={post.images[0]} alt={post.content || ""} showDownload />
-              ) : (
-                <ImageCarousel images={post.images} alt={post.content || ""} showDownload />
-              )}
+              <ImageCarousel
+                images={post.images}
+                alt={post.content || ""}
+                showDownload
+              />
             </div>
           )}
           {post.product && (
@@ -117,16 +117,19 @@ export default function PostCard({ post, user }: PostCardProps) {
             </div>
           )}
           <div className="mt-2 flex items-center justify-end">
-            <LikeButton
-              postId={post.id}
-              userId={user?.id || ""}
-              initialCount={post.likes_count || 0}
-            />
+            {post?.user.id !== user?.id && (
+              <LikeButton
+                postId={post.id}
+                userId={user?.id || ""}
+                initialCount={post.likes_count || 0}
+              />
+            )}
             <Button variant="ghost" size="sm" className="px-3">
               <MessageCircle className="h-4 w-4" />
               <span className="ml-1 text-sm">{post.comments_count || 0}</span>
             </Button>
-            <ShareButton postId={post.id} />
+            <ShareButton type="post" contentId={post.id} />
+            <MoreButton />
           </div>
         </div>
       </div>

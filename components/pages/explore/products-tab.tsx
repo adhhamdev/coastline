@@ -1,9 +1,9 @@
 import ProductCard from "@/components/common/product-card";
-import { PackageSearch } from "lucide-react";
-import { Product } from "@/lib/types/database.types";
 import { TabsContent } from "@/components/ui/tabs";
+import { Product } from "@/lib/types/database.types";
 import { SearchResults } from "@/lib/types/pages/explore";
 import { User } from "@supabase/supabase-js";
+import { PackageSearch } from "lucide-react";
 
 export default function ProductsTab({
   searchResults,

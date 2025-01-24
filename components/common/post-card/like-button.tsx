@@ -44,14 +44,16 @@ export function LikeButton({ postId, userId, initialCount }: LikeButtonProps) {
       // Optimistically update UI
       const wasLiked = isLiked;
       setIsLiked(!wasLiked);
-      setLikeCount((prev) => (wasLiked && prev > 0 ? prev - 1 : prev + 1));
+      setLikeCount((prev) =>
+        wasLiked ? (prev > 0 ? prev - 1 : prev) : prev + 1
+      );
 
       const result = await toggleLike(postId, userId);
 
       if (!result.success) {
         // Revert optimistic update on error
         setIsLiked(wasLiked);
-        setLikeCount((prev) => (wasLiked && prev > 0 ? prev + 1 : prev - 1));
+        setLikeCount((prev) => (wasLiked ? prev - 1 : prev + 1));
         toast({
           title: "Error",
           description: result.error?.message || "Failed to update like status",
@@ -61,7 +63,7 @@ export function LikeButton({ postId, userId, initialCount }: LikeButtonProps) {
     } catch (error) {
       // Revert optimistic update on error
       setIsLiked(!isLiked);
-      setLikeCount((prev) => (isLiked && prev > 0 ? prev + 1 : prev - 1));
+      setLikeCount((prev) => (isLiked ? prev - 1 : prev + 1));
       toast({
         title: "Error",
         description: "Failed to update like status",

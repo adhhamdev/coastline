@@ -1,8 +1,8 @@
 import UserCard from "@/components/common/user-card";
 import { TabsContent } from "@/components/ui/tabs";
+import { Profile } from "@/lib/types/database.types";
 import { SearchResults } from "@/lib/types/pages/explore";
 import { UserSearch } from "lucide-react";
-import { Profile } from "@/lib/types/database.types";
 
 export default function PeoplesTab({
   searchResults,

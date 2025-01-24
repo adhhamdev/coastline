@@ -15,7 +15,7 @@ export default async function toggleLike(postId: string, userId: string) {
       .single();
 
     if (existingLike) {
-      // Unlike: Delete the like and decrement likes_count
+      // Unlike: Delete the like
       const { error: deleteError } = await supabase
         .from("likes")
         .delete()
@@ -25,7 +25,7 @@ export default async function toggleLike(postId: string, userId: string) {
 
       return { success: true, liked: false };
     } else {
-      // Like: Insert new like and increment likes_count
+      // Like: Insert new like
       const { error: insertError } = await supabase
         .from("likes")
         .insert({ user: userId, post: postId });
