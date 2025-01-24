@@ -1,10 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { User } from "@supabase/supabase-js";
 import { PlusCircle } from "lucide-react";
 import Image from "next/image";
 import { useRef, useState } from "react";
-import { User } from "@supabase/supabase-js";
 
 interface CreatePostProps {
   user: User;

@@ -1,25 +1,18 @@
-import React, { Suspense } from "react";
-import { Button } from "@/components/ui/button";
-import {
-  Home,
-  Bell,
-  Mail,
-  User as UserIcon,
-  MoreHorizontal,
-  AlertCircle,
-} from "lucide-react";
-import Link from "next/link";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Metadata } from "next";
-import { PostSkeleton } from "@/components/skeletons/post-skeleton";
 import PostCard from "@/components/common/post-card";
 import { CreatePost } from "@/components/pages/feed/create-post";
-import { User } from "@supabase/supabase-js";
-import SideNavbar from "@/components/pages/feed/side-navbar";
 import MainFeed from "@/components/pages/feed/main-feed";
+import SideNavbar from "@/components/pages/feed/side-navbar";
 import SideTrends from "@/components/pages/feed/side-trends";
+import { PostSkeleton } from "@/components/skeletons/post-skeleton";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 import getPosts from "@/lib/helpers/pages/feed/getPosts";
 import protectPage from "@/lib/helpers/protectPage";
+import { User } from "@supabase/supabase-js";
+import { AlertCircle } from "lucide-react";
+import { Metadata } from "next";
+import Link from "next/link";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Feed | Coastline",
@@ -82,7 +75,7 @@ export default async function FeedPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="mx-auto grid grid-cols-1 md:grid-cols-[300px,1fr] lg:grid-cols-[300px,1fr,1fr] gap-5 md:p-4">
+      <div className="mx-auto grid grid-cols-1 md:grid-cols-[48px,1fr,1fr] lg:grid-cols-[300px,1fr,1fr] gap-5 md:p-4">
         <SideNavbar />
         <main className="min-h-screen md:border-x">
           <MainFeed>
