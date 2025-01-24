@@ -1,13 +1,29 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import createPost from "@/lib/actions/pages/create/createPost";
 import { useToast } from "@/lib/hooks/use-toast";
+import { Product } from "@/lib/types/database.types";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
-import { ImagePlus, Loader2, MessageSquarePlus, X } from "lucide-react";
+import {
+  ImagePlus,
+  Loader2,
+  MessageSquarePlus,
+  PackagePlus,
+  Search,
+  X,
+} from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -44,8 +60,33 @@ function SubmitButton() {
 
 export function PostForm({ user }: PostFormProps) {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState<Product<false> | null>(
+    null
+  );
+  const [products, setProducts] = useState<Product<false>[]>([]);
+  const [isProductDialogOpen, setIsProductDialogOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const router = useRouter();
   const { toast } = useToast();
+
+  async function loadProducts() {
+    const supabase = createClient();
+    const { data } = await supabase
+      .from("products")
+      .select("*")
+      .eq("user", user.id)
+      .order("created_at", { ascending: false });
+
+    if (data) {
+      setProducts(data);
+    }
+  }
+
+  const filteredProducts = products.filter(
+    (product) =>
+      product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.description?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   async function handleAction(formData: FormData) {
     try {
@@ -81,7 +122,12 @@ export function PostForm({ user }: PostFormProps) {
         }
       }
 
-      const result = await createPost(content, images, user.id);
+      const result = await createPost(
+        content,
+        images,
+        user.id,
+        selectedProduct?.id
+      );
 
       if (!result.success) {
         throw new Error(result.error?.message);
@@ -93,6 +139,7 @@ export function PostForm({ user }: PostFormProps) {
       });
 
       setSelectedFiles([]);
+      setSelectedProduct(null);
       router.refresh();
     } catch (error) {
       console.error("Error creating post:", error);
@@ -122,6 +169,37 @@ export function PostForm({ user }: PostFormProps) {
             required
           />
         </div>
+
+        {selectedProduct && (
+          <div className="mx-4 p-3 rounded-lg bg-muted/30 flex items-center gap-3">
+            {selectedProduct.images?.[0] && (
+              <div className="relative w-12 h-12 rounded-md overflow-hidden">
+                <Image
+                  src={selectedProduct.images[0]}
+                  alt={selectedProduct.title}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            )}
+            <div className="flex-grow">
+              <h4 className="font-medium text-sm">{selectedProduct.title}</h4>
+              <p className="text-xs text-muted-foreground">
+                ${selectedProduct.price.toFixed(2)}
+              </p>
+            </div>
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="rounded-full hover:bg-destructive/10 transition-colors"
+              onClick={() => setSelectedProduct(null)}
+            >
+              <X className="h-4 w-4" />
+              <span className="sr-only">Remove product</span>
+            </Button>
+          </div>
+        )}
 
         {selectedFiles.length > 0 && (
           <div className="grid grid-cols-2 md:grid-cols-3 gap-2 rounded-lg bg-muted/30 p-2">
@@ -177,6 +255,87 @@ export function PostForm({ user }: PostFormProps) {
             <ImagePlus className="h-5 w-5" />
             <span className="sr-only">Add images</span>
           </Button>
+
+          <Dialog
+            open={isProductDialogOpen}
+            onOpenChange={setIsProductDialogOpen}
+          >
+            <Button
+              type="button"
+              variant="outline"
+              size="icon"
+              className="rounded-full hover:bg-primary/10 transition-colors"
+              onClick={() => {
+                loadProducts();
+                setIsProductDialogOpen(true);
+              }}
+            >
+              <PackagePlus className="h-5 w-5" />
+              <span className="sr-only">Link product</span>
+            </Button>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Select a Product</DialogTitle>
+                <DialogDescription>
+                  Select a product to link to this post
+                </DialogDescription>
+              </DialogHeader>
+              <div className="relative">
+                <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search products..."
+                  className="pl-8"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+              <div className="space-y-4 max-h-[400px] overflow-y-auto">
+                {filteredProducts.length === 0 ? (
+                  <div className="text-center py-4 text-sm text-muted-foreground">
+                    {products.length === 0
+                      ? "No products found. Create a product first!"
+                      : "No products match your search."}
+                  </div>
+                ) : (
+                  filteredProducts.map((product) => (
+                    <button
+                      key={product.id}
+                      className="w-full p-3 rounded-lg hover:bg-muted/50 flex items-center gap-3 transition-colors text-left"
+                      onClick={() => {
+                        setSelectedProduct(product);
+                        setIsProductDialogOpen(false);
+                        setSearchQuery("");
+                      }}
+                    >
+                      {product.images?.[0] && (
+                        <div className="relative w-12 h-12 rounded-md overflow-hidden flex-shrink-0">
+                          <Image
+                            src={product.images[0]}
+                            alt={product.title}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      )}
+                      <div className="flex-grow min-w-0">
+                        <h4 className="font-medium text-sm truncate">
+                          {product.title}
+                        </h4>
+                        {product.description && (
+                          <p className="text-xs text-muted-foreground line-clamp-1">
+                            {product.description}
+                          </p>
+                        )}
+                        <p className="text-xs text-muted-foreground mt-1">
+                          ${product.price.toFixed(2)}
+                        </p>
+                      </div>
+                    </button>
+                  ))
+                )}
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
 
         <SubmitButton />

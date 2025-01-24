@@ -23,6 +23,8 @@ interface PostCardProps {
 }
 
 export default function PostCard({ post, user }: PostCardProps) {
+  const isPostOwner = post.user.id === user?.id;
+
   return (
     <article className="border-b p-3 hover:bg-muted/5">
       <div className="flex gap-3">
@@ -117,7 +119,7 @@ export default function PostCard({ post, user }: PostCardProps) {
             </div>
           )}
           <div className="mt-2 flex items-center justify-end">
-            {post?.user.id !== user?.id && (
+            {!isPostOwner && (
               <LikeButton
                 postId={post.id}
                 userId={user?.id || ""}
@@ -129,7 +131,7 @@ export default function PostCard({ post, user }: PostCardProps) {
               <span className="ml-1 text-sm">{post.comments_count || 0}</span>
             </Button>
             <ShareButton type="post" contentId={post.id} />
-            <MoreButton />
+            <MoreButton isPostOwner={isPostOwner} />
           </div>
         </div>
       </div>

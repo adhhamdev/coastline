@@ -7,7 +7,8 @@ import { createClient } from "@/utils/supabase/server";
 export default async function createPost(
   content: string,
   images: string[],
-  userId: string
+  userId: string,
+  productId?: string
 ) {
   try {
     const supabase = createClient();
@@ -16,6 +17,7 @@ export default async function createPost(
       user: userId,
       content,
       images: images.length > 0 ? images : undefined,
+      product: productId,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
       likes_count: 0,

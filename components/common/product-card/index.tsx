@@ -9,13 +9,6 @@ import { Heart, PackageIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-const formatDate = (date: string) => {
-  return new Date(date).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-  });
-};
-
 interface ProductCardProps {
   product: Product<true>;
   currentUser: User | null;
@@ -33,7 +26,7 @@ export default function ProductCard({
         <Badge
           variant="secondary"
           className={cn(
-            "absolute top-2 left-2 z-10 text-xs whitespace-nowrap backdrop-blur-sm",
+            "absolute top-3 left-3 z-10 text-xs font-medium whitespace-nowrap backdrop-blur-sm px-2.5 py-1",
             product.stock === 0
               ? "bg-destructive text-destructive-foreground"
               : "bg-background/80 text-foreground"
@@ -57,23 +50,33 @@ export default function ProductCard({
           )}
         </Link>
       </div>
-      <CardContent className="p-3 space-y-2">
-        <div className="space-y-2">
+      <CardContent className="p-2">
+        <div className="space-y-1.5">
+          <div className="flex items-start justify-between gap-2">
+            <p className="font-semibold text-lg">
+              ${product.price.toLocaleString()}
+            </p>
+            <Button size="icon" variant="ghost" className="h-7 w-7 -mt-1">
+              <Heart className="h-4 w-4" />
+            </Button>
+          </div>
+
           <Link
             href={`/products/${product.id}`}
-            className="hover:underline line-clamp-2 text-sm font-medium"
+            className="hover:underline line-clamp-2 text-sm leading-snug block"
           >
             {product.title}
           </Link>
-          <div className="flex items-center justify-between">
-            <p className="font-semibold text-base">
-              ${product.price.toLocaleString()}
-            </p>
-            <Button size="icon" variant="ghost" className="h-7 w-7">
-              <Heart className="h-3.5 w-3.5" />
-            </Button>
+
+          <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <Badge variant="outline" className="text-[10px] px-1.5 py-0 font-normal">
+              {product.category}
+            </Badge>
+            <span>•</span>
+            <span>{product.sold || 0} sold</span>
           </div>
-          <div className="flex items-center gap-1.5">
+
+          <div className="flex items-center gap-1.5 pt-1.5 border-t mt-1.5">
             <Avatar className="h-5 w-5">
               <AvatarImage
                 src={product.user?.avatar_url || ""}
