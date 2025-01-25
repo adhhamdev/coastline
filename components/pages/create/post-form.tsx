@@ -208,7 +208,7 @@ export function PostForm({ user }: PostFormProps) {
         )}
       </div>
 
-      <div className="sticky bottom-16 md:bottom-0 mt-5 flex items-center justify-between gap-2 border-t bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60 p-4 md:p-3 rounded-t-lg">
+      <div className="sticky m-2 bottom-[70px] md:bottom-3 flex items-center justify-between gap-2 p-4 md:p-3 rounded-lg border shadow-sm bg-background/80 backdrop-blur-lg md:shadow-lg">
         <div className="flex gap-2">
           <Button
             type="button"
