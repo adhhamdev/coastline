@@ -124,7 +124,7 @@ export default function AllTab({
               </Button>
             </div>
             <div className="flex justify-center">
-              <div className="grid grid-cols-1 gap-4 w-full max-w-[640px] space-y-4 md:px-4">
+              <div className="grid grid-cols-1 w-full max-w-[640px] md:px-4">
                 {searchResults.posts
                   .slice(0, 4)
                   .map((post: Post<true, true>) => (
