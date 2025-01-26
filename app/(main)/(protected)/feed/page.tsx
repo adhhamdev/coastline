@@ -62,7 +62,7 @@ async function FeedPosts({ user }: { user: User | null }) {
   }
 
   return (
-    <div className="divide-y">
+    <div>
       {posts.map((post) => (
         <PostCard key={post.id} post={post} user={user} />
       ))}

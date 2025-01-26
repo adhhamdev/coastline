@@ -1,41 +1,51 @@
+import { ImageCarousel } from "@/components/common/image-carousel";
+import LikeButton from "@/components/common/post-card/like-button";
+import MoreButton from "@/components/common/post-card/more-button";
+import SaveButton from "@/components/common/post-card/save-button";
+import { ShareButton } from "@/components/common/share-button";
 import { Button } from "@/components/ui/button";
 import { Post } from "@/lib/types/database.types";
 import { formatRelativeTime } from "@/lib/utils/date";
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { BadgeCheck, MessageCircle, UserIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import "react-medium-image-zoom/dist/styles.css";
-import { ImageCarousel } from "../image-carousel";
-import { ShareButton } from "../share-button";
 import AttachedProduct from "./attached-product";
-import LikeButton from "./like-button";
-import MoreButton from "./more-button";
-import SaveButton from "./save-button";
 
 interface PostCardProps {
   post: Post<true, true>;
   user: User | null;
 }
 
-async function checkIfPostSaved(postId: string, userId?: string) {
-  if (!userId) return false;
-
-  const supabase = createClient();
-  const { data, error } = await supabase
-    .from("saved_posts")
-    .select()
-    .eq("post", postId)
-    .eq("user", userId)
-    .single();
-
-  return !!data;
-}
-
-export default async function PostCard({ post, user }: PostCardProps) {
-  const isSaved = await checkIfPostSaved(post.id, user?.id);
+export default function ExplorePostCard({ post, user }: PostCardProps) {
+  const [isSaved, setIsSaved] = useState(false);
   const isPostOwner = post.user.id === user?.id;
+
+  useEffect(() => {
+    async function checkIfPostSaved(postId: string, userId?: string) {
+      if (!userId) return false;
+
+      try {
+        const supabase = createClient();
+        const { data, error } = await supabase
+          .from("saved_posts")
+          .select()
+          .eq("post", postId)
+          .eq("user", userId)
+          .single();
+
+        if (error) throw error;
+
+        setIsSaved(!!data);
+      } catch (error) {
+        setIsSaved(false);
+      }
+    }
+    checkIfPostSaved(post.id, user?.id);
+  });
 
   return (
     <article className="border-b p-3 hover:bg-muted/5">

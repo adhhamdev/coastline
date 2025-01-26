@@ -25,7 +25,7 @@ export function ShareButton({ type, contentId, url, title }: ShareButtonProps) {
 
   return (
     <Button
-      title={title}
+      title="Share"
       variant="ghost"
       size="sm"
       className="px-3"

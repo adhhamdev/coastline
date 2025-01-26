@@ -14,7 +14,11 @@ interface LikeButtonProps {
   initialCount: number;
 }
 
-export function LikeButton({ postId, userId, initialCount }: LikeButtonProps) {
+export default function LikeButton({
+  postId,
+  userId,
+  initialCount,
+}: LikeButtonProps) {
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(initialCount);
   const { toast } = useToast();
@@ -78,6 +82,7 @@ export function LikeButton({ postId, userId, initialCount }: LikeButtonProps) {
       size="sm"
       className="px-3 group"
       onClick={handleLike}
+      title="Like"
     >
       <Heart
         className={cn(

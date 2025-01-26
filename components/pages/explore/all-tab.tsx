@@ -1,4 +1,3 @@
-import PostCard from "@/components/common/post-card";
 import ProductCard from "@/components/common/product-card";
 import UserCard from "@/components/common/user-card";
 import { Button } from "@/components/ui/button";
@@ -12,6 +11,7 @@ import {
   Search,
   UserSearch,
 } from "lucide-react";
+import ExplorePostCard from "./post-card";
 
 interface Params {
   searchResults: SearchResults;
@@ -128,7 +128,7 @@ export default function AllTab({
                 {searchResults.posts
                   .slice(0, 4)
                   .map((post: Post<true, true>) => (
-                    <PostCard key={post.id} post={post} user={user} />
+                    <ExplorePostCard key={post.id} post={post} user={user} />
                   ))}
               </div>
             </div>

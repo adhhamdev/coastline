@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Card,
   CardContent,
@@ -8,8 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useToast } from "@/lib/hooks/use-toast";
-import { Post } from "@/lib/types/database.types";
+import { Post, SavedPost } from "@/lib/types/database.types";
 import { User } from "@supabase/supabase-js";
 import PostCard from "../../common/post-card";
 
@@ -17,18 +14,9 @@ export default function SavedTabs({
   savedPosts,
   user,
 }: {
-  savedPosts: Post<true, true>[];
+  savedPosts: SavedPost<true, true>[];
   user: User;
 }) {
-  const { toast } = useToast();
-
-  const handleRemoveSavedPost = (postId: string) => {
-    toast({
-      title: "Post Removed",
-      description: "The post has been removed from your saved list.",
-    });
-  };
-
   return (
     <Tabs defaultValue="posts" className="space-y-4 w-full">
       <TabsList className="w-full overflow-x-auto grid grid-cols-2">
@@ -36,7 +24,7 @@ export default function SavedTabs({
         <TabsTrigger value="products">Saved Products</TabsTrigger>
       </TabsList>
       <TabsContent value="posts" className="w-full">
-        <div className="space-y-4 flex flex-col items-center">
+        <div>
           {savedPosts.length === 0 ? (
             <Card>
               <CardContent className="pt-6 text-center text-muted-foreground">
@@ -44,8 +32,12 @@ export default function SavedTabs({
               </CardContent>
             </Card>
           ) : (
-            savedPosts.map((post) => (
-              <PostCard key={post.id} post={post} user={user} />
+            savedPosts.map((savedPost) => (
+              <PostCard
+                key={savedPost.post?.id}
+                post={savedPost?.post as Post<true, true>}
+                user={user}
+              />
             ))
           )}
         </div>

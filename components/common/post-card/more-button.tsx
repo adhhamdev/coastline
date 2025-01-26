@@ -51,7 +51,7 @@ export default function MoreButton({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="sm" className="px-3">
+        <Button variant="ghost" size="sm" className="px-3" title="More">
           <MoreHorizontal className="h-5 w-5" />
           <span className="sr-only">More options</span>
         </Button>
