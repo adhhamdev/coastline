@@ -8,11 +8,12 @@ import { useToast } from "@/lib/hooks/use-toast";
 import { Product } from "@/lib/types/database.types";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
-import { ImagePlus, Loader2, MessageSquarePlus, X } from "lucide-react";
+import { Loader2, MessageSquarePlus, X } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useFormStatus } from "react-dom";
+import AttachImageButton from "./attach-image-button";
 import ProductSelector from "./product-selector";
 
 interface PostFormProps {
@@ -132,9 +133,9 @@ export function PostForm({ user }: PostFormProps) {
   }
 
   return (
-    <form action={handleAction} className="flex flex-col h-full">
+    <form action={handleAction} className="flex flex-col h-full pb-14 md:pb-0">
       <div className="flex-grow space-y-4">
-        <div className="relative p-4">
+        <div className="relative p-5">
           <Label htmlFor="content" className="sr-only">
             What&apos;s on your mind?
           </Label>
@@ -142,7 +143,7 @@ export function PostForm({ user }: PostFormProps) {
             id="content"
             name="content"
             placeholder="What's on your mind?"
-            className="min-h-[250px] resize-none border-none"
+            className="min-h-[250px] resize-none"
             required
           />
         </div>
@@ -179,7 +180,7 @@ export function PostForm({ user }: PostFormProps) {
         )}
 
         {selectedFiles.length > 0 && (
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-2 rounded-lg bg-muted/30 p-2">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2 rounded-lg p-2">
             {selectedFiles.map((file, index) => (
               <div
                 key={index}
@@ -208,30 +209,9 @@ export function PostForm({ user }: PostFormProps) {
         )}
       </div>
 
-      <div className="sticky m-2 bottom-[70px] md:bottom-3 flex items-center justify-between gap-2 p-4 md:p-3 rounded-lg border shadow-sm bg-background/80 backdrop-blur-lg md:shadow-lg">
+      <div className="sticky m-2 bottom-[70px] md:bottom-3 flex items-center justify-between gap-2 p-4 md:p-3 rounded-lg border shadow-md bg-background/80 backdrop-blur-lg md:shadow-lg z-40">
         <div className="flex gap-2">
-          <Button
-            type="button"
-            variant="outline"
-            size="icon"
-            className="rounded-full hover:bg-primary/10 transition-colors"
-            onClick={() => {
-              const input = document.createElement("input");
-              input.type = "file";
-              input.multiple = true;
-              input.accept = "image/*";
-              input.onchange = (e) => {
-                const files = Array.from(
-                  (e.target as HTMLInputElement).files || []
-                );
-                setSelectedFiles((prev) => [...prev, ...files]);
-              };
-              input.click();
-            }}
-          >
-            <ImagePlus className="h-5 w-5" />
-            <span className="sr-only">Add images</span>
-          </Button>
+          <AttachImageButton setImages={setSelectedFiles} type="post" />
           <ProductSelector
             loadProducts={loadProducts}
             products={products}

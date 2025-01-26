@@ -15,11 +15,12 @@ import createProduct from "@/lib/actions/pages/create/createProduct";
 import { useToast } from "@/lib/hooks/use-toast";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
-import { ImagePlus, Loader2, PackagePlus, X } from "lucide-react";
+import { Loader2, PackagePlus, X } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useFormStatus } from "react-dom";
+import AttachImageButton from "./attach-image-button";
 
 interface ProductFormProps {
   user: User;
@@ -128,8 +129,8 @@ export function ProductForm({ user }: ProductFormProps) {
   }
 
   return (
-    <form action={handleAction} className="flex flex-col h-full">
-      <div className="flex-grow space-y-4 p-4 md:py-6">
+    <form action={handleAction} className="flex flex-col h-full pb-14 md:pb-0">
+      <div className="flex-grow space-y-4 p-5 md:py-6">
         <div className="space-y-2">
           <Label htmlFor="title">Title</Label>
           <Input
@@ -205,7 +206,7 @@ export function ProductForm({ user }: ProductFormProps) {
         </div>
 
         {productImages.length > 0 && (
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-2 rounded-lg bg-muted/30 p-2">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2 rounded-lg p-2">
             {productImages.map((file, index) => (
               <div
                 key={index}
@@ -234,32 +235,10 @@ export function ProductForm({ user }: ProductFormProps) {
         )}
       </div>
 
-      <div className="sticky m-2 bottom-[70px] md:bottom-3 flex items-center justify-between gap-2 p-4 md:p-3 rounded-lg border shadow-sm bg-background/80 backdrop-blur-lg md:shadow-lg">
+      <div className="sticky m-2 bottom-[70px] md:bottom-3 flex items-center justify-between gap-2 p-4 md:p-3 rounded-lg border shadow-md bg-background/80 backdrop-blur-lg md:shadow-lg z-40">
         <div className="flex gap-2">
-          <Button
-            type="button"
-            variant="outline"
-            size="icon"
-            className="rounded-full hover:bg-primary/10 transition-colors"
-            onClick={() => {
-              const input = document.createElement("input");
-              input.type = "file";
-              input.multiple = true;
-              input.accept = "image/*";
-              input.onchange = (e) => {
-                const files = Array.from(
-                  (e.target as HTMLInputElement).files || []
-                );
-                setProductImages((prev) => [...prev, ...files]);
-              };
-              input.click();
-            }}
-          >
-            <ImagePlus className="h-5 w-5" />
-            <span className="sr-only">Add product images</span>
-          </Button>
+          <AttachImageButton setImages={setProductImages} type="product" />
         </div>
-
         <SubmitButton />
       </div>
     </form>

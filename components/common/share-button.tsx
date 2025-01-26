@@ -6,10 +6,11 @@ import { Share2 } from "lucide-react";
 interface ShareButtonProps {
   type: string;
   contentId: string;
+  url: string;
+  title: string;
 }
 
-export function ShareButton({ type, contentId }: ShareButtonProps) {
-  const title = "Share " + type.slice(0, 1).toUpperCase() + type.slice(1);
+export function ShareButton({ type, contentId, url, title }: ShareButtonProps) {
   const handleShare = async () => {
     try {
       await navigator.share({

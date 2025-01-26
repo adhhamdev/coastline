@@ -2,18 +2,13 @@ import { Button } from "@/components/ui/button";
 import { Post } from "@/lib/types/database.types";
 import { formatRelativeTime } from "@/lib/utils/date";
 import { User } from "@supabase/supabase-js";
-import {
-  BadgeCheck,
-  ExternalLink,
-  MessageCircle,
-  PackageIcon,
-  UserIcon,
-} from "lucide-react";
+import { BadgeCheck, MessageCircle, UserIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import "react-medium-image-zoom/dist/styles.css";
 import { ImageCarousel } from "../image-carousel";
 import { ShareButton } from "../share-button";
+import AttachedProduct from "./attached-product";
 import { LikeButton } from "./like-button";
 import MoreButton from "./more-button";
 
@@ -87,35 +82,7 @@ export default function PostCard({ post, user }: PostCardProps) {
           )}
           {post.product && (
             <div className="mt-2">
-              <Link
-                href={`/product/${post.product.id}`}
-                className="group flex items-start gap-2 rounded-lg border p-2 hover:bg-muted/50"
-              >
-                <div className="relative aspect-square w-16 shrink-0 overflow-hidden rounded-md bg-muted">
-                  {post.product.images?.[0] ? (
-                    <Image
-                      src={post.product.images[0]}
-                      alt={post.product.title}
-                      className="object-cover transition-transform group-hover:scale-110"
-                      fill
-                      sizes="64px"
-                    />
-                  ) : (
-                    <div className="flex h-full w-full items-center justify-center">
-                      <PackageIcon className="h-6 w-6" />
-                    </div>
-                  )}
-                </div>
-                <div className="flex-1 truncate">
-                  <p className="line-clamp-1 font-medium group-hover:text-primary">
-                    {post.product.title}
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    ${post.product.price.toLocaleString()}
-                  </p>
-                </div>
-                <ExternalLink className="h-4 w-4 shrink-0 text-muted-foreground" />
-              </Link>
+              <AttachedProduct post={post} />
             </div>
           )}
           <div className="mt-2 flex items-center justify-end">
@@ -130,8 +97,17 @@ export default function PostCard({ post, user }: PostCardProps) {
               <MessageCircle className="h-4 w-4" />
               <span className="ml-1 text-sm">{post.comments_count || 0}</span>
             </Button>
-            <ShareButton type="post" contentId={post.id} />
-            <MoreButton isPostOwner={isPostOwner} />
+            <ShareButton
+              url={`/post/${post.id}`}
+              title={post?.content || ""}
+              type="post"
+              contentId={post.id}
+            />
+            <MoreButton
+              isPostOwner={isPostOwner}
+              postId={post.id}
+              userId={user?.id || ""}
+            />
           </div>
         </div>
       </div>

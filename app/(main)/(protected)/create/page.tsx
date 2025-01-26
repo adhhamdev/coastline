@@ -19,7 +19,7 @@ export default async function CreatePage() {
 
   return (
     <div className="md:container md:mx-auto flex flex-col justify-end items-center md:py-8">
-      <Card className="w-full h-[100dvh] md:h-auto md:max-w-2xl m-0 md:m-4 border-0 md:border rounded-none md:rounded-lg shadow-none md:shadow-lg">
+      <Card className="w-full h-[100dvh] md:h-auto md:max-w-2xl m-0 md:m-4 border-0 rounded-none md:rounded-lg md:shadow-2xl">
         <CardHeader className="sticky top-0 z-20 bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b space-y-3 px-4 md:px-6 mb-6 md:mb-0">
           <div className="flex flex-col space-y-3">
             <div className="flex items-center gap-3">
