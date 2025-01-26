@@ -64,7 +64,12 @@ async function FeedPosts({ user }: { user: User | null }) {
   return (
     <div>
       {posts.map((post) => (
-        <PostCard key={post.id} post={post} user={user} />
+        <PostCard
+          key={post.id}
+          post={post}
+          user={user}
+          revalidationPath="/feed"
+        />
       ))}
     </div>
   );

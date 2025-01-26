@@ -128,7 +128,11 @@ export default function AllTab({
                 {searchResults.posts
                   .slice(0, 4)
                   .map((post: Post<true, true>) => (
-                    <ExplorePostCard key={post.id} post={post} user={user} />
+                    <ExplorePostCard
+                      key={post.id}
+                      post={post}
+                      user={user}
+                    />
                   ))}
               </div>
             </div>

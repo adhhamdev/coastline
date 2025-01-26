@@ -1,6 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { deletePost } from "@/lib/actions/pages/feed/deletePost";
+import { useToast } from "@/lib/hooks/use-toast";
 import {
   Edit,
   Flag,
@@ -16,29 +18,27 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../../ui/dropdown-menu";
-import { useToast } from "@/lib/hooks/use-toast";
-import { deletePost } from "@/lib/actions/pages/feed/deletePost";
 
 export default function MoreButton({
   isPostOwner,
   postId,
   userId,
+  revalidationPath = "",
 }: {
   isPostOwner: boolean;
   postId: string;
   userId: string;
+  revalidationPath?: string;
 }) {
   const { toast } = useToast();
 
   const handleDelete = async () => {
     try {
-      await deletePost(postId, userId);
+      await deletePost(postId, userId, revalidationPath);
       toast({
         title: "Success",
         description: "Post deleted successfully",
       });
-      // Refresh the page to reflect changes
-      window.location.reload();
     } catch (error: any) {
       toast({
         title: "Error",

@@ -17,6 +17,7 @@ import SaveButton from "./save-button";
 interface PostCardProps {
   post: Post<true, true>;
   user: User | null;
+  revalidationPath?: string;
 }
 
 async function checkIfPostSaved(postId: string, userId?: string) {
@@ -33,7 +34,11 @@ async function checkIfPostSaved(postId: string, userId?: string) {
   return !!data;
 }
 
-export default async function PostCard({ post, user }: PostCardProps) {
+export default async function PostCard({
+  post,
+  user,
+  revalidationPath = "",
+}: PostCardProps) {
   const isSaved = await checkIfPostSaved(post.id, user?.id);
   const isPostOwner = post.user.id === user?.id;
 
@@ -121,6 +126,7 @@ export default async function PostCard({ post, user }: PostCardProps) {
               contentId={post.id}
             />
             <SaveButton
+              revalidationPath={revalidationPath}
               postId={post.id}
               userId={user?.id}
               initialSaved={isSaved}
@@ -129,6 +135,7 @@ export default async function PostCard({ post, user }: PostCardProps) {
               isPostOwner={isPostOwner}
               postId={post.id}
               userId={user?.id || ""}
+              revalidationPath={revalidationPath}
             />
           </div>
         </div>

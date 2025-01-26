@@ -9,12 +9,14 @@ interface SaveButtonProps {
   postId: string;
   userId?: string;
   initialSaved: boolean;
+  revalidationPath?: string;
 }
 
 export default function SaveButton({
   postId,
   userId,
   initialSaved,
+  revalidationPath = "",
 }: SaveButtonProps) {
   const [isSaved, setIsSaved] = useState(initialSaved);
   console.log("initialSaved ", postId, " ", initialSaved, isSaved);
@@ -31,7 +33,7 @@ export default function SaveButton({
     }
 
     try {
-      const saved = await toggleSavePost(postId, userId);
+      const saved = await toggleSavePost(postId, userId, revalidationPath);
       setIsSaved(saved);
       toast({
         title: saved ? "Post saved" : "Post unsaved",

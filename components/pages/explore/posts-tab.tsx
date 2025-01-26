@@ -18,7 +18,11 @@ export default function PostsTab({
         <div className="flex justify-center">
           <div className="w-full max-w-[640px] space-y-4 md:px-4">
             {searchResults.posts.map((post: Post<true, true>) => (
-              <ExplorePostCard key={post.id} post={post} user={user} />
+              <ExplorePostCard
+                key={post.id}
+                post={post}
+                user={user}
+              />
             ))}
           </div>
         </div>

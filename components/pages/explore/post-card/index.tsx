@@ -20,7 +20,10 @@ interface PostCardProps {
   user: User | null;
 }
 
-export default function ExplorePostCard({ post, user }: PostCardProps) {
+export default function ExplorePostCard({
+  post,
+  user,
+}: PostCardProps) {
   const [isSaved, setIsSaved] = useState(false);
   const isPostOwner = post.user.id === user?.id;
 
