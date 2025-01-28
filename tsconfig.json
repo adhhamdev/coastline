@@ -27,8 +27,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/api/recommend/pipeline.js",
-    "app/api/recommend/route.js"
+    "app/_api/recommend/pipeline.js",
+    "app/_api/recommend/route.js"
   ],
   "exclude": ["node_modules"]
 }
