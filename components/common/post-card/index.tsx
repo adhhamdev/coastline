@@ -1,15 +1,15 @@
-import { Button } from "@/components/ui/button";
 import { Post } from "@/lib/types/database.types";
 import { formatRelativeTime } from "@/lib/utils/date";
 import { createClient } from "@/utils/supabase/server";
 import { User } from "@supabase/supabase-js";
-import { BadgeCheck, MessageCircle, UserIcon } from "lucide-react";
+import { BadgeCheck, UserIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import "react-medium-image-zoom/dist/styles.css";
 import { ImageCarousel } from "../image-carousel";
 import { ShareButton } from "../share-button";
 import AttachedProduct from "./attached-product";
+import CommentButton from "./comment-button";
 import LikeButton from "./like-button";
 import MoreButton from "./more-button";
 import SaveButton from "./save-button";
@@ -115,10 +115,7 @@ export default async function PostCard({
                 initialCount={post.likes_count || 0}
               />
             )}
-            <Button variant="ghost" size="sm" className="px-3">
-              <MessageCircle className="h-4 w-4" />
-              <span className="ml-1 text-sm">{post.comments_count || 0}</span>
-            </Button>
+            <CommentButton post={post} />
             <ShareButton
               url={`/post/${post.id}`}
               title={post?.content || ""}

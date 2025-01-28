@@ -10,12 +10,31 @@ interface CreatePostProps {
   user: User;
 }
 
+// const supabase = createClient();
+
 export function CreatePost({ user }: CreatePostProps) {
   const [content, setContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
+
+  // useEffect(() => {
+  //   const getRecommendations = async () => {
+  //     const text = encodeURIComponent("I have a boq");
+  //     const recommendations = await fetch(`/api/recommend?text=${text}`);
+  //     const result = await recommendations.json();
+  //     console.log(result);
+  //     const { data: documents } = await supabase.rpc("match_posts", {
+  //       query_embedding: result, // pass the query embedding
+  //       match_threshold: 0.8, // choose an appropriate threshold for your data
+  //       match_count: 10, // choose the number of matches
+  //     });
+
+  //     console.log(documents);
+  //   };
+  //   getRecommendations();
+  // }, []);
 
   const handleSubmit = async (formData: FormData) => {
     if (isSubmitting) return;
