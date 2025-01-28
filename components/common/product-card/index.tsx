@@ -26,7 +26,7 @@ export default function ProductCard({
         <Badge
           variant="secondary"
           className={cn(
-            "absolute top-3 left-3 z-10 text-xs font-medium whitespace-nowrap backdrop-blur-sm px-2.5 py-1",
+            "absolute bottom-3 left-3 z-10 text-xs font-medium whitespace-nowrap backdrop-blur-sm px-2.5 py-1",
             product.stock === 0
               ? "bg-destructive text-destructive-foreground"
               : "bg-background/80 text-foreground"
