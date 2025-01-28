@@ -12,7 +12,7 @@ interface SaveButtonProps {
   revalidationPath?: string;
 }
 
-export default function SaveButton({
+export default function SavePostButton({
   postId,
   userId,
   initialSaved,

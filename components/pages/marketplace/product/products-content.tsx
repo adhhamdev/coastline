@@ -15,7 +15,7 @@ import { User } from "@supabase/supabase-js";
 import { Loader2, Search } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import ProductCard from "../../common/product-card";
+import ProductCard from "../../../common/product-card";
 
 interface ProductsContentProps {
   initialProducts: any[];

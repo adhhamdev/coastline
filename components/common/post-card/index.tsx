@@ -12,7 +12,7 @@ import AttachedProduct from "./attached-product";
 import CommentButton from "./comment-button";
 import LikeButton from "./like-button";
 import MoreButton from "./more-button";
-import SaveButton from "./save-button";
+import SaveButton from "./save-post-button";
 
 interface PostCardProps {
   post: Post<true, true>;

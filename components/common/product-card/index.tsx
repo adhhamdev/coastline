@@ -34,7 +34,10 @@ export default function ProductCard({
         >
           {product.stock === 0 ? "Out of Stock" : `${product.stock} in Stock`}
         </Badge>
-        <Link href={`/products/${product.id}`} className="absolute inset-0">
+        <Link
+          href={`/marketplace/product/${product.id}`}
+          className="absolute inset-0"
+        >
           {product.images?.[0] ? (
             <Image
               src={product.images[0]}
@@ -62,14 +65,17 @@ export default function ProductCard({
           </div>
 
           <Link
-            href={`/products/${product.id}`}
+            href={`/marketplace/product/${product.id}`}
             className="hover:underline line-clamp-2 text-sm leading-snug block"
           >
             {product.title}
           </Link>
 
           <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-            <Badge variant="outline" className="text-[10px] px-1.5 py-0 font-normal">
+            <Badge
+              variant="outline"
+              className="text-[10px] px-1.5 py-0 font-normal"
+            >
               {product.category}
             </Badge>
             <span>•</span>

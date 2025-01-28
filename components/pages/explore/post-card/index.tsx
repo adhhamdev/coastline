@@ -1,14 +1,14 @@
 import { ImageCarousel } from "@/components/common/image-carousel";
+import CommentButton from "@/components/common/post-card/comment-button";
 import LikeButton from "@/components/common/post-card/like-button";
 import MoreButton from "@/components/common/post-card/more-button";
-import SaveButton from "@/components/common/post-card/save-button";
+import SaveButton from "@/components/common/post-card/save-post-button";
 import { ShareButton } from "@/components/common/share-button";
-import { Button } from "@/components/ui/button";
 import { Post } from "@/lib/types/database.types";
 import { formatRelativeTime } from "@/lib/utils/date";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
-import { BadgeCheck, MessageCircle, UserIcon } from "lucide-react";
+import { BadgeCheck, UserIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -20,10 +20,7 @@ interface PostCardProps {
   user: User | null;
 }
 
-export default function ExplorePostCard({
-  post,
-  user,
-}: PostCardProps) {
+export default function ExplorePostCard({ post, user }: PostCardProps) {
   const [isSaved, setIsSaved] = useState(false);
   const isPostOwner = post.user.id === user?.id;
 
@@ -123,10 +120,7 @@ export default function ExplorePostCard({
                 initialCount={post.likes_count || 0}
               />
             )}
-            <Button variant="ghost" size="sm" className="px-3">
-              <MessageCircle className="h-4 w-4" />
-              <span className="ml-1 text-sm">{post.comments_count || 0}</span>
-            </Button>
+            <CommentButton post={post} />
             <ShareButton
               url={`/post/${post.id}`}
               title={post?.content || ""}

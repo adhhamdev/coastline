@@ -10,7 +10,7 @@ export default async function SideTrends() {
           {Array.from({ length: 5 }).map((_, i) => (
             <Link
               key={i}
-              href={`/market/product/${i + 1}`}
+              href={`/marketplace/product/${i + 1}`}
               className="flex items-center gap-3 hover:bg-primary/10 p-1 rounded-lg"
             >
               <div className="h-16 w-16 rounded-lg bg-background shrink-0" />
