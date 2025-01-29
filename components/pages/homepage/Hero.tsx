@@ -1,85 +1,115 @@
-import { ArrowRight } from "lucide-react";
-
-import { Waves } from "lucide-react";
-import { MotionDiv } from "../../common/motion";
-import { Button } from "../../ui/button";
-import Image from "next/image";
+import { Button } from "@/components/ui/button";
 import { createClient } from "@/utils/supabase/server";
+import { ArrowRight } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
-
-const heroImage = "/images/homepage/sri-lanka-aerial.jpg";
-
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.5 },
-};
-
-const staggerContainer = {
-  animate: { transition: { staggerChildren: 0.1 } },
-};
 
 export default async function Hero() {
   const supabase = createClient();
-
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
   return (
-    <section className="relative min-h-[100dvh] w-full bg-gradient-to-br from-cyan-50 via-blue-100/50 to-white overflow-hidden pt-20 lg:pt-0">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          {/* Left content */}
-          <div className="relative z-10 space-y-6 sm:space-y-8 text-center lg:text-left">
-            <MotionDiv
-              initial="initial"
-              animate="animate"
-              variants={staggerContainer}
-              className="space-y-4 sm:space-y-6"
-            >
-              <MotionDiv
-                variants={fadeInUp}
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 max-w-xl mx-auto lg:mx-0"
-              >
-                Sri Lanka&apos;s Premier Business Network
-              </MotionDiv>
+    <section className="relative pt-20 lg:pt-28 pb-20 overflow-hidden">
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-white" />
 
-              <MotionDiv
-                variants={fadeInUp}
-                className="text-base sm:text-lg text-gray-600 max-w-lg mx-auto lg:mx-0"
-              >
-                Connect with gem traders, fishermen, and local businesses. Buy,
-                sell, and grow your business in one place.
-              </MotionDiv>
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Left column - Content */}
+          <div className="text-center lg:text-left space-y-8">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 tracking-tight">
+              Connect with Sri Lanka&apos;s
+              <span className="text-blue-600"> Business Community</span>
+            </h1>
 
-              <MotionDiv variants={fadeInUp} className="pt-2 sm:pt-4">
-                <Button
-                  asChild
-                  size="lg"
-                  className="bg-blue-600 hover:bg-blue-700 text-white rounded-full px-6 sm:px-8 py-5 sm:py-6 text-base sm:text-lg font-medium transition-all duration-300 shadow-lg hover:shadow-xl"
-                >
-                  <Link href="/auth/login">
-                    {user ? "Continue" : "Get Started"}
-                  </Link>
-                </Button>
-              </MotionDiv>
-            </MotionDiv>
+            <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto lg:mx-0">
+              Join thousands of businesses on Sri Lanka&apos;s leading digital
+              marketplace. Connect, trade, and grow with verified partners
+              across industries.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              {user ? (
+                <>
+                  <Button asChild size="lg" className="text-lg px-8">
+                    <Link href="/feed">
+                      Continue as {user.user_metadata.full_name}
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </Link>
+                  </Button>
+                  <Button
+                    asChild
+                    size="lg"
+                    variant="outline"
+                    className="text-lg px-8"
+                  >
+                    <Link href="/marketplace">Browse Marketplace</Link>
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button asChild size="lg" className="text-lg px-8">
+                    <Link href="/auth/login">
+                      Get Started
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </Link>
+                  </Button>
+                  <Button
+                    asChild
+                    size="lg"
+                    variant="outline"
+                    className="text-lg px-8"
+                  >
+                    <Link href="/about">Learn More</Link>
+                  </Button>
+                </>
+              )}
+            </div>
+
+            <div className="pt-8 flex items-center justify-center lg:justify-start gap-8 text-sm text-gray-600">
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                <span>1000+ Verified Businesses</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                <span>Active Community</span>
+              </div>
+            </div>
           </div>
 
-          {/* Right content - Image */}
-          <div className="relative mt-8 lg:mt-0">
-            <div className="absolute top-0 right-0 w-32 sm:w-48 h-32 sm:h-48 bg-blue-200/40 rounded-full -translate-y-8 translate-x-8 sm:-translate-y-12 sm:translate-x-12 blur-xl" />
-            <div className="relative z-10 mx-auto lg:mx-0 max-w-lg">
+          {/* Right column - Image */}
+          <div className="relative lg:h-[600px]">
+            <div className="relative h-[400px] lg:h-full w-full rounded-2xl overflow-hidden">
               <Image
-                src="/images/homepage/hero.webp"
-                alt="Professional using laptop"
-                width={600}
-                height={600}
-                className="rounded-2xl shadow-2xl object-cover"
+                src="/images/homepage/sri-lanka-aerial.jpg"
+                alt="Sri Lankan Business Landscape"
+                fill
+                className="object-cover"
                 priority
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
             </div>
-            <div className="absolute bottom-0 right-0 w-24 sm:w-32 h-24 sm:h-32 bg-blue-300/30 rounded-xl translate-x-8 translate-y-8 sm:translate-x-12 sm:translate-y-12 blur-lg" />
+
+            {/* Stats card */}
+            <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 bg-white rounded-xl shadow-lg p-6 w-[90%] sm:w-[80%]">
+              <div className="grid grid-cols-3 gap-8">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-blue-600">5000+</div>
+                  <div className="text-sm text-gray-600">Active Users</div>
+                </div>
+                <div className="text-center border-x border-gray-200">
+                  <div className="text-2xl font-bold text-blue-600">₨2M+</div>
+                  <div className="text-sm text-gray-600">Monthly Trade</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-blue-600">25+</div>
+                  <div className="text-sm text-gray-600">Industries</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
