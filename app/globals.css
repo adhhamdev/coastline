@@ -18,7 +18,7 @@
 
 @layer base {
   :root {
-    --background: 200 20% 98%;
+    --background: 200 20% 91%;
     --foreground: 200 50% 3.9%;
     --card: 0 0% 100%;
     --card-foreground: 200 50% 3.9%;
@@ -34,7 +34,7 @@
     --accent-foreground: 200 50% 9%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 200 30% 89.8%;
+    --border: 200 30% 85%;
     --input: 200 30% 89.8%;
     --ring: 200 85% 45%;
     --chart-1: 200 85% 45%; /* Ocean blue */
@@ -45,7 +45,7 @@
     --radius: 0.5rem;
   }
   .dark {
-    --background: 222 47% 6%;
+    --background: 222 50% 3%;
     --foreground: 213 31% 88%;
     --card: 222 47% 6%;
     --card-foreground: 213 31% 88%;
