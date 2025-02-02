@@ -1,11 +1,11 @@
-import Footer from "@/components/common/Footer";
-import CTA from "@/components/pages/homepage/CTA";
-import Features from "@/components/pages/homepage/Features";
-import Hero from "@/components/pages/homepage/Hero";
-import HowItWorks from "@/components/pages/homepage/how-It-works";
-import Partners from "@/components/pages/homepage/Partners";
-import Statistics from "@/components/pages/homepage/Statistics";
-import Testimonials from "@/components/pages/homepage/Testimonials";
+import Footer from "@/components/common/footer";
+import CTA from "@/components/pages/homepage/cta";
+import Features from "@/components/pages/homepage/features";
+import Hero from "@/components/pages/homepage/hero";
+import HowItWorks from "@/components/pages/homepage/how-it-works";
+import Partners from "@/components/pages/homepage/partners";
+import Statistics from "@/components/pages/homepage/statistics";
+import Testimonials from "@/components/pages/homepage/testimonials";
 
 export default async function Home() {
   return (
