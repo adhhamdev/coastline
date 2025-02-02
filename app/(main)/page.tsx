@@ -1,4 +1,4 @@
-import Footer from "@/components/common/footer";
+import Footer from "@/components/common/Footer";
 import CTA from "@/components/pages/homepage/cta";
 import Features from "@/components/pages/homepage/features";
 import Hero from "@/components/pages/homepage/hero";
