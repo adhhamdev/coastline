@@ -126,7 +126,7 @@ export default function FilterDialog({
           <Filter className="h-4 w-4" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] optimize-visibility">
         <DialogHeader className="pb-4 border-b">
           <DialogTitle>Filter Results</DialogTitle>
           <DialogDescription>

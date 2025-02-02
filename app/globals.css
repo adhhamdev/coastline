@@ -96,4 +96,7 @@
   .text-balance {
     text-wrap: balance;
   }
+  .optimize-visibility {
+    content-visibility: auto;
+  }
 }

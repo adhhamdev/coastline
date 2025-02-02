@@ -78,7 +78,7 @@ export default function CommentDrawer({
             </div>
 
             {/* Comments Section */}
-            <div className="p-4 flex-1 overflow-y-auto max-h-[50vh]">
+            <div className="p-4 flex-1 overflow-y-auto max-h-[50vh] optimize-visibility">
               <AnimatePresence>
                 {/* TODO: Map through actual comments */}
                 <motion.div

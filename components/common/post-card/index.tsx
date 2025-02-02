@@ -43,7 +43,7 @@ export default async function PostCard({
   const isPostOwner = post.user.id === user?.id;
 
   return (
-    <article className="border-b p-3 hover:bg-muted/5">
+    <article className="border-b p-3 hover:bg-muted/5 optimize-visibility">
       <div className="flex gap-3">
         <Link
           href={`/profile/${post.user.username}`}

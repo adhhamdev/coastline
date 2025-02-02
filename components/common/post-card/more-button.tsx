@@ -56,7 +56,7 @@ export default function MoreButton({
           <span className="sr-only">More options</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-40">
+      <DropdownMenuContent align="end" className="w-40 optimize-visibility">
         {isPostOwner ? (
           <>
             <DropdownMenuItem className="flex items-center gap-3 py-3">
