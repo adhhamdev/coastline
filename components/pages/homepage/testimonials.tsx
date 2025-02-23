@@ -6,21 +6,21 @@ const testimonials = [
       "Coastline has transformed how we connect with suppliers. The platform's verification system gives us confidence in every partnership.",
     author: "Samantha Perera",
     role: "CEO, Lanka Gems Ltd",
-    image: "/images/testimonials/user1.jpg",
+    image: "",
   },
   {
     content:
       "As a small business owner, Coastline helped me expand my network and find reliable trading partners across Sri Lanka.",
     author: "Rajiv Kumar",
     role: "Owner, Colombo Spice Traders",
-    image: "/images/testimonials/user2.jpg",
+    image: "",
   },
   {
     content:
       "The platform's ease of use and professional network has helped us establish valuable business connections we couldn't find elsewhere.",
     author: "Amara Silva",
     role: "Director, Blue Ocean Exports",
-    image: "/images/testimonials/user3.jpg",
+    image: "",
   },
 ];
 

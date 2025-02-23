@@ -1,29 +1,29 @@
-import Image from 'next/image';
+import Image from "next/image";
 
 const partners = [
   {
-    name: 'Ceylon Chamber of Commerce',
-    logo: '/images/partners/partner1.png',
+    name: "Ceylon Chamber of Commerce",
+    logo: "",
   },
   {
-    name: 'Export Development Board',
-    logo: '/images/partners/partner2.png',
+    name: "Export Development Board",
+    logo: "",
   },
   {
-    name: 'Sri Lanka Gem & Jewelry Authority',
-    logo: '/images/partners/partner3.png',
+    name: "Sri Lanka Gem & Jewelry Authority",
+    logo: "",
   },
   {
-    name: 'National Chamber of Commerce',
-    logo: '/images/partners/partner4.png',
+    name: "National Chamber of Commerce",
+    logo: "",
   },
   {
-    name: 'Ministry of Industry and Commerce',
-    logo: '/images/partners/partner5.png',
+    name: "Ministry of Industry and Commerce",
+    logo: "",
   },
   {
-    name: 'Sri Lanka Tourism Board',
-    logo: '/images/partners/partner6.png',
+    name: "Sri Lanka Tourism Board",
+    logo: "",
   },
 ];
 
