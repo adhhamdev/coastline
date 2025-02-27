@@ -10,7 +10,7 @@ import { MessageSquare, ShoppingBag } from "lucide-react";
 
 export default async function CreatePage() {
   const user = await protectPage();
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: profile, error } = await supabase
     .from("profiles")
     .select("username, full_name, avatar_url")

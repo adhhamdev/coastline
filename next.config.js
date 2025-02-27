@@ -24,9 +24,7 @@ const nextConfig = {
       },
     ],
   },
-  experimental: {
-    serverComponentsExternalPackages: ['sharp', 'onnxruntime-node'],
-},
+  serverExternalPackages: ['sharp', 'onnxruntime-node'],
 };
 
 module.exports = nextConfig;

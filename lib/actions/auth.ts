@@ -4,7 +4,7 @@ import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
 
 export const OAuthSignIn = async () => {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
@@ -23,7 +23,7 @@ export const OAuthSignIn = async () => {
 
 export const logOut = async () => {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const { error } = await supabase.auth.signOut();
 
@@ -48,7 +48,7 @@ export const logOut = async () => {
 };
 
 export const getUser = async () => {
-  const supabase = createClient();
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();

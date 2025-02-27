@@ -15,14 +15,15 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 interface ProductPageProps {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 }
 
-export default async function ProductPage({ params }: ProductPageProps) {
+export default async function ProductPage(props: ProductPageProps) {
+  const params = await props.params;
   const user = await protectPage();
-  const supabase = createClient();
+  const supabase = await createClient();
 
   // Fetch product details with seller information
   const { data: product } = await supabase

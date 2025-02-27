@@ -79,7 +79,7 @@ export default function ProductSelector({
                 }}
               >
                 {product.images?.[0] && (
-                  <div className="relative w-12 h-12 rounded-md overflow-hidden flex-shrink-0">
+                  <div className="relative w-12 h-12 rounded-md overflow-hidden shrink-0">
                     <Image
                       src={product.images[0]}
                       alt={product.title}

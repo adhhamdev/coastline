@@ -20,7 +20,7 @@ export default async function createProduct(
   userId: string
 ) {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
 
   const embeddingData = await generateEmbeddings(`${data.title}\n${data.description}`);
 

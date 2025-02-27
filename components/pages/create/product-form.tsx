@@ -112,8 +112,6 @@ export function ProductForm({ user }: ProductFormProps) {
         title: "Success",
         description: "Your product has been created successfully.",
       });
-
-      setProductImages([]);
       router.refresh();
     } catch (error) {
       console.error("Error creating product:", error);

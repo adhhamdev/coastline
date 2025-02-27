@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 
 export async function toggleSavePost(postId: string, userId: string, revalidationPath: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   // Check if post is already saved
   const { data: existingSave } = await supabase

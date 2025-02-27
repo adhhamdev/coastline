@@ -4,9 +4,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/lib/hooks/use-toast";
-import { Post, Product, Profile } from "@/lib/types/database.types";
+import { Profile } from "@/lib/types/database.types";
 import { createClient } from "@/utils/supabase/client";
-import { User } from "@supabase/supabase-js";
 import Link from "next/link";
 import { useState } from "react";
 

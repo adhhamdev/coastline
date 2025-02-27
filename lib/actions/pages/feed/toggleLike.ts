@@ -5,7 +5,7 @@ import { createClient } from "@/utils/supabase/server";
 
 export default async function toggleLike(postId: string, userId: string) {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     // Check if the user has already liked the post
     const { data: existingLike } = await supabase

@@ -3,7 +3,7 @@ import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 
 export async function deletePost(postId: string, userId: string, revalidationPath: string) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   // First, get the post to check ownership and get image paths
   const { data: post } = await supabase

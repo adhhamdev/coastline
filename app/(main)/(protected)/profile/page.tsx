@@ -14,7 +14,7 @@ export default async function ProfilePage() {
   const user = await protectPage();
 
   // Fetch user profile data with additional fields
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: profile }: { data: Profile | null } = await supabase
     .from("profiles")
     .select(`*`)

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default async function EditProfilePage() {
   const user = await protectPage();
-  const supabase = createClient();
+  const supabase = await createClient();
 
   // Fetch user profile data
   const { data: profile } = await supabase

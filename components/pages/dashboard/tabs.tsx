@@ -12,16 +12,16 @@ export default function DashboardTabs({
   return (
     <Tabs defaultValue={defaultValue} className="w-full">
       <TabsList className="w-full overflow-x-auto grid grid-cols-4">
-        <TabsTrigger value="overview" className="flex-shrink-0">
+        <TabsTrigger value="overview" className="shrink-0">
           Overview
         </TabsTrigger>
-        <TabsTrigger value="analytics" className="flex-shrink-0">
+        <TabsTrigger value="analytics" className="shrink-0">
           Analytics
         </TabsTrigger>
-        <TabsTrigger value="reports" className="flex-shrink-0">
+        <TabsTrigger value="reports" className="shrink-0">
           Reports
         </TabsTrigger>
-        <TabsTrigger value="notifications" className="flex-shrink-0">
+        <TabsTrigger value="notifications" className="shrink-0">
           Notifications
         </TabsTrigger>
       </TabsList>

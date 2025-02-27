@@ -115,10 +115,6 @@ export function PostForm({ user }: PostFormProps) {
         title: "Success",
         description: "Your post has been created successfully.",
       });
-
-      setSelectedFiles([]);
-      setSelectedProduct(null);
-      router.refresh();
     } catch (error) {
       console.error("Error creating post:", error);
       toast({

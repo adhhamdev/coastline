@@ -40,7 +40,7 @@ export function ImageViewer({
   };
 
   const handleDownload = async () => {
-    const supabase = createClient();
+    const supabase = await createClient();
     try {
       const imagePath = src.split("/").slice(-2).join("/");
       const { data, error } = await supabase.storage

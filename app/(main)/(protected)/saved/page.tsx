@@ -7,7 +7,7 @@ import { createClient } from "@/utils/supabase/server";
 export default async function SavedPage() {
   const user = await protectPage();
   const getSavedPosts = async (userId: string) => {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data, error } = await supabase
       .from("saved_posts")
       .select(

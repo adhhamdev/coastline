@@ -3,7 +3,7 @@ import { Post, Product, Profile } from "@/lib/types/database.types";
 
 
 export default async function getPosts() {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data: posts, error } = await supabase
       .from("posts")
       .select("*, user:profiles(*), product:products(*)")

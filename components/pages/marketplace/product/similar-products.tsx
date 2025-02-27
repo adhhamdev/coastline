@@ -10,7 +10,7 @@ export default async function SimilarProducts({
   product: Product<true>;
   user: User;
 }) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: productEmbeddings, error } = await supabase.rpc(
     "match_products",

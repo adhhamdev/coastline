@@ -23,7 +23,7 @@ interface PostCardProps {
 async function checkIfPostSaved(postId: string, userId?: string) {
   if (!userId) return false;
 
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data, error } = await supabase
     .from("saved_posts")
     .select()

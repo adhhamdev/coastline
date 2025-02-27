@@ -1,8 +1,8 @@
 import { createClient } from "@/utils/supabase/server";
 
-const supabase = createClient();
 
 export default async function generateEmbeddings(input: string) {
+    const supabase = await createClient();
       const embeddingData  = await supabase.functions.invoke("generate_embeddings", {
           method: "POST",
           headers: {

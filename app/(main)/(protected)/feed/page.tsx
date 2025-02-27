@@ -8,6 +8,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import getPosts from "@/lib/helpers/pages/feed/getPosts";
 import protectPage from "@/lib/helpers/protectPage";
+import { Post } from "@/lib/types/database.types";
 import { User } from "@supabase/supabase-js";
 import { AlertCircle } from "lucide-react";
 import { Metadata } from "next";
@@ -63,7 +64,7 @@ async function FeedPosts({ user }: { user: User | null }) {
 
   return (
     <div>
-      {posts.map((post) => (
+      {posts.map((post: Post<true, true>) => (
         <PostCard
           key={post.id}
           post={post}

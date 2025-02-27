@@ -1,16 +1,18 @@
-import DashboardHeader from '@/components/pages/dashboard/header';
-import Overview from '@/components/pages/dashboard/overview';
-import DashboardShell from '@/components/pages/dashboard/shell';
-import DashboardTabs from '@/components/pages/dashboard/tabs';
-import { createClient } from '@/utils/supabase/server';
-import { redirect } from 'next/navigation';
+import DashboardHeader from "@/components/pages/dashboard/header";
+import Overview from "@/components/pages/dashboard/overview";
+import DashboardShell from "@/components/pages/dashboard/shell";
+import DashboardTabs from "@/components/pages/dashboard/tabs";
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 
 export default async function DashboardPage() {
-  const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect('/auth/login');
+    redirect("/auth/login");
   }
 
   return (

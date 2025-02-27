@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 
 export default async function ExplorePage() {
   const user = await protectPage();
-  const supabase = createClient();
+  const supabase = await createClient();
   const profile = (
     await supabase.from("profiles").select("*").eq("id", user?.id).single()
   ).data;
