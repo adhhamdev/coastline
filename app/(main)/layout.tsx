@@ -1,12 +1,11 @@
-import Navigation from '@/components/common/navigation';
-import { createClient } from '@/utils/supabase/server';
+import Navigation from "@/components/common/navigation";
+import { createClient } from "@/utils/supabase/server";
 
 export default async function MainLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-
   const supabase = createClient();
 
   const {
@@ -16,9 +15,7 @@ export default async function MainLayout({
   return (
     <div className="flex relative flex-col min-h-screen">
       <Navigation user={user} />
-      <main className="flex-1 pb-[4rem] md:pb-0">
-        {children}
-      </main>
+      <main className="flex-1 pb-[4rem] md:pb-0">{children}</main>
     </div>
   );
 }

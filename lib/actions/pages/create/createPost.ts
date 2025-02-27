@@ -1,5 +1,6 @@
 'use server';
 
+import generateEmbeddings from "@/lib/helpers/generate-embeddings";
 import { Post } from "@/lib/types/database.types";
 import { handleSupabaseError } from "@/lib/utils/handle-error";
 import { createClient } from "@/utils/supabase/server";
@@ -13,6 +14,8 @@ export default async function createPost(
   try {
     const supabase = createClient();
 
+    const embeddingData  = await generateEmbeddings(content);
+
     const postData: Partial<Post<false, false>> = {
       user: userId,
       content,
@@ -22,7 +25,9 @@ export default async function createPost(
       updated_at: new Date().toISOString(),
       likes_count: 0,
       comments_count: 0,
+      embedding: embeddingData
     };
+
 
     const { error, data: post } = await supabase
       .from("posts")

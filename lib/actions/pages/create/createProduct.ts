@@ -1,8 +1,9 @@
 'use server';
 
-import { createClient } from "@/utils/supabase/server";
+import generateEmbeddings from "@/lib/helpers/generate-embeddings";
 import { Product } from "@/lib/types/database.types";
 import { handleSupabaseError } from "@/lib/utils/handle-error";
+import { createClient } from "@/utils/supabase/server";
 
 interface ProductData {
   title: string;
@@ -21,6 +22,8 @@ export default async function createProduct(
   try {
     const supabase = createClient();
 
+  const embeddingData = await generateEmbeddings(`${data.title}\n${data.description}`);
+
     const productData: Partial<Product<false>> = {
       user: userId,
       title: data.title,
@@ -32,6 +35,7 @@ export default async function createProduct(
       location: data.location.trim() || undefined,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
+      embedding: embeddingData
     };
 
     const { error, data: product } = await supabase

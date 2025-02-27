@@ -57,6 +57,7 @@ export interface Post<WithProfile extends boolean = false, WithProduct extends b
   comments_count?: number; // Integer | null
   created_at: string; // timestamp with time zone
   updated_at: string; // timestamp with time zone
+  embedding?: number[]; // Array of Floats
 }
 
 export interface Product<WithProfile extends boolean = false> {
@@ -72,6 +73,7 @@ export interface Product<WithProfile extends boolean = false> {
   location?: string; // Text | null
   created_at: string; // timestamp with time zone
   updated_at: string; // timestamp with time zone
+  embedding?: number[]; // Array of Floats
 }
 
 export interface Profile {

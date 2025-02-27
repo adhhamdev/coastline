@@ -14,7 +14,6 @@ export default async function SavedPage() {
         `*, user:profiles(*), post:posts(*, user:profiles(*), product:products(*))`
       )
       .eq("user", userId);
-    console.log(data);
 
     return data;
   };

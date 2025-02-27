@@ -1,7 +1,7 @@
-import ProductCard from "@/components/common/product-card";
 import ContactSellerButton from "@/components/pages/marketplace/product/contact-seller-button";
 import ProductImages from "@/components/pages/marketplace/product/product-images";
 import SaveProductButton from "@/components/pages/marketplace/product/save-product-button";
+import SimilarProducts from "@/components/pages/marketplace/product/similar-products";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -39,19 +39,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
   if (!product) {
     notFound();
   }
-
-  // Fetch similar products
-  const { data: similarProducts } = await supabase
-    .from("products")
-    .select(
-      `
-      *,
-            profiles (*)
-        `
-    )
-    .eq("category", product.category)
-    .neq("id", product.id)
-    .limit(4);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("en-LK", {
@@ -181,20 +168,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </div>
 
           {/* Similar Products */}
-          {similarProducts && similarProducts.length > 0 && (
-            <div className="lg:col-span-2 mt-12 md:mt-16">
-              <h2 className="text-2xl font-bold mb-8">Similar Products</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-                {similarProducts?.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    product={product}
-                    currentUser={user}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
+          <SimilarProducts user={user} product={product} />
         </div>
       </div>
 
