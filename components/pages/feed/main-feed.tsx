@@ -8,7 +8,7 @@ export default async function MainFeed({
 }) {
   return (
     <main className="min-h-screen md:border-x">
-      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur">
+      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm">
         <div className="flex items-center justify-between p-4">
           <Tabs defaultValue="for-you" className="w-full">
             <TabsList className="grid w-full grid-cols-2">

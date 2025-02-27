@@ -93,7 +93,7 @@ export function ImageViewer({
               <Button
                 variant="secondary"
                 size="icon"
-                className="absolute right-2 top-2 z-10 opacity-0 bg-background/80 backdrop-blur-sm hover:bg-background/90 group-hover:opacity-100 transition-opacity"
+                className="absolute right-2 top-2 z-10 opacity-0 bg-background/80 backdrop-blur-xs hover:bg-background/90 group-hover:opacity-100 transition-opacity"
                 onClick={(e) => {
                   e.stopPropagation();
                   handleDownload();

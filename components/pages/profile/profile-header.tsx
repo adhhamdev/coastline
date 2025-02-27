@@ -15,7 +15,7 @@ export default function ProfileHeader({ user, profile }: ProfileHeaderProps) {
   return (
     <div className="relative">
       {/* Cover Photo */}
-      <div className="h-48 sm:h-64 md:h-80 w-full relative bg-gradient-to-r from-blue-100 to-blue-200">
+      <div className="h-48 sm:h-64 md:h-80 w-full relative bg-linear-to-r from-blue-100 to-blue-200">
         {profile?.banner_url && (
           <Image
             src={profile.banner_url}

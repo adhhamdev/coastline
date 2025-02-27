@@ -12,7 +12,7 @@ export default function KeyFeatures() {
                 className="mx-auto max-w-6xl"
             >
                 <h2 className="mb-16 text-4xl font-bold text-center">
-                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
+                    <span className="bg-clip-text text-transparent bg-linear-to-r from-primary to-primary/70">
                         Why Choose Our Platform
                     </span>
                 </h2>
@@ -40,7 +40,7 @@ export default function KeyFeatures() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: index * 0.2 }}
-                            className="flex flex-col items-center p-8 text-center rounded-3xl bg-background/50 backdrop-blur-sm hover:bg-background transition-colors duration-300"
+                            className="flex flex-col items-center p-8 text-center rounded-3xl bg-background/50 backdrop-blur-xs hover:bg-background transition-colors duration-300"
                         >
                             <div className="mb-6 p-4 rounded-full bg-primary/10">
                                 <feature.icon className="w-8 h-8 text-primary" />

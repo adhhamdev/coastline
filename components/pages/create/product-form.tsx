@@ -128,7 +128,7 @@ export function ProductForm({ user }: ProductFormProps) {
 
   return (
     <form action={handleAction} className="flex flex-col h-full pb-14 md:pb-0">
-      <div className="flex-grow space-y-4 p-5 md:py-6">
+      <div className="grow space-y-4 p-5 md:py-6">
         <div className="space-y-2">
           <Label htmlFor="title">Title</Label>
           <Input

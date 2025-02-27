@@ -130,7 +130,7 @@ export function PostForm({ user }: PostFormProps) {
 
   return (
     <form action={handleAction} className="flex flex-col h-full pb-14 md:pb-0">
-      <div className="flex-grow space-y-4">
+      <div className="grow space-y-4">
         <div className="relative p-5">
           <Label htmlFor="content" className="sr-only">
             What&apos;s on your mind?
@@ -156,7 +156,7 @@ export function PostForm({ user }: PostFormProps) {
                 />
               </div>
             )}
-            <div className="flex-grow">
+            <div className="grow">
               <h4 className="font-medium text-sm">{selectedProduct.title}</h4>
               <p className="text-xs text-muted-foreground">
                 ${selectedProduct.price.toFixed(2)}

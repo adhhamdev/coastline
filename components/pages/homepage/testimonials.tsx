@@ -41,7 +41,7 @@ export default function Testimonials() {
           {testimonials.map((testimonial, index) => (
             <div
               key={index}
-              className="bg-white rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow duration-300"
+              className="bg-white rounded-xl p-8 shadow-xs hover:shadow-md transition-shadow duration-300"
             >
               <div className="flex items-center space-x-4 mb-6">
                 <div className="relative w-12 h-12 rounded-full overflow-hidden">

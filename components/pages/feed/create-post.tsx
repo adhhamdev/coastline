@@ -96,7 +96,7 @@ export function CreatePost({ user }: CreatePostProps) {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             onFocus={() => setIsExpanded(true)}
-            className={`w-full bg-transparent border-none resize-none focus:outline-none transition-all duration-200 placeholder:text-lg ${
+            className={`w-full bg-transparent border-none resize-none focus:outline-hidden transition-all duration-200 placeholder:text-lg ${
               isExpanded
                 ? "min-h-[150px]"
                 : "min-h-[32px] max-h-[32px] overflow-hidden whitespace-nowrap"

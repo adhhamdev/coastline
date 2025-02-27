@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function CTA() {
   return (
     <section className="relative py-24 bg-blue-600">
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-blue-700" />
+      <div className="absolute inset-0 bg-linear-to-br from-blue-600 to-blue-700" />
       
       {/* Decorative elements */}
       <div className="absolute inset-0 overflow-hidden">

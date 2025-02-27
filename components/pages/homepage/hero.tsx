@@ -13,7 +13,7 @@ export default async function Hero() {
   return (
     <section className="relative pt-20 lg:pt-28 pb-20 overflow-hidden">
       {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-white" />
+      <div className="absolute inset-0 bg-linear-to-br from-blue-50 to-white" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -90,7 +90,7 @@ export default async function Hero() {
                 className="object-cover"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+              <div className="absolute inset-0 bg-linear-to-t from-black/20 to-transparent" />
             </div>
 
             {/* Stats card */}

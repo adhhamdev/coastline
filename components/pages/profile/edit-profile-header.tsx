@@ -73,7 +73,7 @@ export default function EditProfileHeader({
   return (
     <div className="relative">
       {/* Cover Photo */}
-      <div className="h-48 w-full relative bg-gradient-to-r from-blue-100 to-blue-200 rounded-t-lg">
+      <div className="h-48 w-full relative bg-linear-to-r from-blue-100 to-blue-200 rounded-t-lg">
         {profile?.banner_url && (
           <Image
             src={profile.banner_url}
@@ -88,7 +88,7 @@ export default function EditProfileHeader({
           htmlFor="cover-upload"
           className="absolute bottom-4 right-4 cursor-pointer"
         >
-          <div className="bg-background/80 backdrop-blur-sm text-foreground hover:bg-background/90 p-2 rounded-full">
+          <div className="bg-background/80 backdrop-blur-xs text-foreground hover:bg-background/90 p-2 rounded-full">
             <Camera className="h-5 w-5" />
           </div>
           <input

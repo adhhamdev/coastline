@@ -36,7 +36,7 @@ export default async function ProfilePage() {
 
             {/* Sidebar */}
             <aside className="md:col-span-4 space-y-6">
-              <div className="bg-card rounded-lg shadow-sm p-6">
+              <div className="bg-card rounded-lg shadow-xs p-6">
                 <h3 className="font-semibold text-lg mb-4">Stats</h3>
                 <div className="grid grid-cols-3 gap-4 text-center">
                   <div>

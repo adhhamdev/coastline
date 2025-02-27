@@ -88,7 +88,7 @@ export default function ProductSelector({
                     />
                   </div>
                 )}
-                <div className="flex-grow min-w-0">
+                <div className="grow min-w-0">
                   <h4 className="font-medium text-sm truncate">
                     {product.title}
                   </h4>
