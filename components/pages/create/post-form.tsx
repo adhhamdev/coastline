@@ -3,8 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
 import createPost from "@/lib/actions/pages/create/createPost";
-import { useToast } from "@/lib/hooks/use-toast";
 import { Product } from "@/lib/types/database.types";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";

@@ -63,7 +63,7 @@ export function ImageViewer({
   };
 
   return (
-    <div className="group relative optimize-visibility">
+    <div className="group relative">
       <Item
         original={src}
         thumbnail={src}

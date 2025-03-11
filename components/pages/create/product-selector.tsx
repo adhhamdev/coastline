@@ -44,7 +44,7 @@ export default function ProductSelector({
         <PackagePlus className="h-5 w-5" />
         <span className="sr-only">Link product</span>
       </Button>
-      <DialogContent className="optimize-visibility">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>Select a Product</DialogTitle>
           <DialogDescription>

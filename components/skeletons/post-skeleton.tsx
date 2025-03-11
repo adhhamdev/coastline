@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export function PostSkeleton() {
   return (
-    <div className="p-4 optimize-visibility">
+    <div className="p-4">
       <div className="flex gap-4">
         <Skeleton className="h-10 w-10 rounded-full" />
         <div className="flex-1 space-y-4">

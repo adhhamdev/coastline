@@ -1,8 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import { deletePost } from "@/lib/actions/pages/feed/deletePost";
-import { useToast } from "@/lib/hooks/use-toast";
 import {
   Edit,
   Flag,
@@ -56,7 +56,7 @@ export default function MoreButton({
           <span className="sr-only">More options</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-40 optimize-visibility">
+      <DropdownMenuContent align="end" className="w-40">
         {isPostOwner ? (
           <>
             <DropdownMenuItem className="flex items-center gap-3 py-3">

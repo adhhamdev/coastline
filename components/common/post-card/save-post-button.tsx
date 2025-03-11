@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import { toggleSavePost } from "@/lib/actions/pages/feed/toggleSavePost";
-import { useToast } from "@/lib/hooks/use-toast";
 import { Bookmark } from "lucide-react";
 import { useState } from "react";
 

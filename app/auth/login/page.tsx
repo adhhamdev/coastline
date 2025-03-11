@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { GoogleButton } from "@/components/pages/login/google-button";
 import { OAuthSignIn } from "@/lib/actions/auth";
-import { useToast } from "@/lib/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { useTransition, use } from "react";
 import { MotionDiv } from "@/components/common/motion";
 import Image from "next/image";
@@ -26,11 +26,9 @@ const staggerContainer = {
   animate: { transition: { staggerChildren: 0.1 } },
 };
 
-export default function LoginPage(
-  props: {
-    searchParams: Promise<{ error?: string }>;
-  }
-) {
+export default function LoginPage(props: {
+  searchParams: Promise<{ error?: string }>;
+}) {
   const searchParams = use(props.searchParams);
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();

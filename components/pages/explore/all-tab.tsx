@@ -87,7 +87,7 @@ export default function AllTab({
               </Button>
             </div>
             <div className="relative">
-              <div className="flex overflow-x-auto pb-2 px-4 gap-4 snap-x snap-mandatory">
+              <div className="flex overflow-x-auto pb-2 px-4 md:px-6 snap-x snap-mandatory">
                 {searchResults.users.slice(0, 3).map((user: Profile) => (
                   <UserCard
                     key={user.id}
@@ -128,11 +128,7 @@ export default function AllTab({
                 {searchResults.posts
                   .slice(0, 4)
                   .map((post: Post<true, true>) => (
-                    <ExplorePostCard
-                      key={post.id}
-                      post={post}
-                      user={user}
-                    />
+                    <ExplorePostCard key={post.id} post={post} user={user} />
                   ))}
               </div>
             </div>

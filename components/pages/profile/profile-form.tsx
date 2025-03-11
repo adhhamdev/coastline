@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/lib/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { Profile } from "@/lib/types/database.types";
 import { createClient } from "@/utils/supabase/client";
 import { zodResolver } from "@hookform/resolvers/zod";

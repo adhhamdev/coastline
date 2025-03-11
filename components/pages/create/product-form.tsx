@@ -11,8 +11,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
 import createProduct from "@/lib/actions/pages/create/createProduct";
-import { useToast } from "@/lib/hooks/use-toast";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { Loader2, PackagePlus, X } from "lucide-react";

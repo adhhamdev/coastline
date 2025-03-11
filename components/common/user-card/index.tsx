@@ -3,7 +3,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { useToast } from "@/lib/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { Profile } from "@/lib/types/database.types";
 import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";

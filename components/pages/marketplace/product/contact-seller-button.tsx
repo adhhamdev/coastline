@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/lib/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { User } from "@supabase/supabase-js";
 import { MessageCircle } from "lucide-react";
 

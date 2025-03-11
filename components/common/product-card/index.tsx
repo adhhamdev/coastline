@@ -21,7 +21,7 @@ export default function ProductCard({
   initialSaved = false,
 }: ProductCardProps) {
   return (
-    <Card className="group overflow-hidden transition duration-200 hover:shadow-lg hover:bg-muted/50 optimize-visibility">
+    <Card className="group overflow-hidden transition duration-200 hover:shadow-lg hover:bg-muted/50 p-0">
       <div className="relative aspect-square">
         <Badge
           variant="secondary"

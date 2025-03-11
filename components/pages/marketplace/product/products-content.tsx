@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import useDebounce from "@/lib/hooks/use-debounce";
+import useDebounce from "@/hooks/use-debounce";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
 import { Loader2, Search } from "lucide-react";

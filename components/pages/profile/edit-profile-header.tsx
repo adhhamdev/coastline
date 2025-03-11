@@ -1,7 +1,7 @@
 "use client";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useToast } from "@/lib/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { Profile } from "@/lib/types/database.types";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";

@@ -1,9 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import toggleLike from "@/lib/actions/pages/feed/toggleLike";
 import checkLiked from "@/lib/helpers/pages/feed/checkLiked";
-import { useToast } from "@/lib/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { Heart } from "lucide-react";
 import { useEffect, useState } from "react";

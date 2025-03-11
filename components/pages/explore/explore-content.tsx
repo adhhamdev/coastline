@@ -2,8 +2,8 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import useDebounce from "@/hooks/use-debounce";
 import search from "@/lib/helpers/pages/explore/search";
-import useDebounce from "@/lib/hooks/use-debounce";
 import { ExploreContentProps, SearchResults } from "@/lib/types/pages/explore";
 import { MessageSquare, Search, ShoppingBag, Users } from "lucide-react";
 import { useEffect, useState, useTransition } from "react";
