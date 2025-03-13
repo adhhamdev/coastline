@@ -2,7 +2,7 @@ import FeedPosts from "@/components/pages/feed/feed-posts";
 import getPosts from "@/lib/helpers/pages/feed/getPosts";
 import protectPage from "@/lib/helpers/protectPage";
 
-export default async function FeedPage() {
+export default async function FollowingPage() {
   const user = await protectPage();
   const { posts, error } = await getPosts();
 

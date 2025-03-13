@@ -1,5 +1,5 @@
 import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TabNavItem } from "./tab-nav-item";
 
 export default async function MainFeed({
   children,
@@ -9,13 +9,13 @@ export default async function MainFeed({
   return (
     <main className="min-h-screen md:border-x">
       <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm">
-        <div className="flex items-center justify-between p-4">
-          <Tabs defaultValue="for-you" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="for-you">For You</TabsTrigger>
-              <TabsTrigger value="following">Following</TabsTrigger>
-            </TabsList>
-          </Tabs>
+        <div className="flex items-center justify-between p-1">
+          <div className="w-full">
+            <nav className="grid w-full grid-cols-2 gap-2 p-1 rounded-lg bg-background/80">
+              <TabNavItem href="/feed" label="For You" />
+              <TabNavItem href="/feed/following" label="Following" />
+            </nav>
+          </div>
         </div>
         <Separator />
         {children}
