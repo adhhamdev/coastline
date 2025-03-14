@@ -33,9 +33,9 @@ export async function toggleSavePost(postId: string, userId: string, revalidatio
     
     if (error) throw error;
     
-    if (revalidationPath) {
-      revalidatePath(revalidationPath)
-    }
+    // if (revalidationPath) {
+    //   revalidatePath(revalidationPath)
+    // }
 
     return true; // Post is now saved
   }

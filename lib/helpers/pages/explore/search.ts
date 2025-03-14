@@ -9,9 +9,10 @@ interface SearchResults {
   posts: Post<true, true>[];
 }
 
-const searchExplore = async (searchParams: {[key: string]: string | undefined;
-}) => {
-  const search = searchParams.search;
+type SearchParams = { [key: string]: string | string[] | undefined }
+
+const searchExplore = async (searchParams: SearchParams): Promise<SearchResults> => {
+  const search = (await searchParams).search;
 
   try {
     if (search) {

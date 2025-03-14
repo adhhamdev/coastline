@@ -1,6 +1,5 @@
-"use client";
-
-import { Button } from "@/components/ui/button";
+import { MotionDiv } from "@/components/common/motion";
+import LoginForm from "@/components/pages/auth/login/form";
 import {
   Card,
   CardContent,
@@ -8,43 +7,26 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { GoogleButton } from "@/components/pages/login/google-button";
-import { OAuthSignIn } from "@/lib/actions/auth";
-import { useToast } from "@/hooks/use-toast";
-import { useTransition, use } from "react";
-import { MotionDiv } from "@/components/common/motion";
 import Image from "next/image";
 
-// Animation variants
+const staggerContainer = {
+  animate: { transition: { staggerChildren: 0.1 } },
+};
+
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
   transition: { duration: 0.5 },
 };
 
-const staggerContainer = {
-  animate: { transition: { staggerChildren: 0.1 } },
-};
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
-export default function LoginPage(props: {
-  searchParams: Promise<{ error?: string }>;
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: SearchParams;
 }) {
-  const searchParams = use(props.searchParams);
-  const [isPending, startTransition] = useTransition();
-  const { toast } = useToast();
-
-  const handleOAuth = () => {
-    startTransition(async () => {
-      const result = await OAuthSignIn();
-      if (result?.error) {
-        toast({
-          variant: "destructive",
-          title: "Login failed",
-          description: result.error,
-        });
-      }
-    });
-  };
+  const queryParams = await searchParams;
 
   return (
     <div className="relative min-h-screen flex">
@@ -116,39 +98,14 @@ export default function LoginPage(props: {
             </MotionDiv>
 
             <CardContent className="space-y-6">
-              <form action={handleOAuth} className="space-y-4">
-                <MotionDiv variants={fadeInUp} className="space-y-4">
-                  <GoogleButton
-                    type="submit"
-                    isLoading={isPending}
-                    className="w-full rounded-full hover:scale-105 transition-transform duration-300"
-                  />
-
-                  <Button
-                    className="w-full bg-[#1877F2] hover:bg-[#1874EA] hover:scale-105 text-white rounded-full transition-all duration-300"
-                    size="lg"
-                    type="submit"
-                  >
-                    Continue with Facebook
-                  </Button>
-
-                  <Button
-                    className="w-full bg-black hover:bg-zinc-800 hover:scale-105 text-white rounded-full transition-all duration-300"
-                    size="lg"
-                    type="submit"
-                  >
-                    Continue with Apple
-                  </Button>
-                </MotionDiv>
-              </form>
-
-              {searchParams.error && (
+              <LoginForm />
+              {queryParams.error && (
                 <MotionDiv
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   className="text-sm text-red-500 text-center bg-red-100/10 p-3 rounded-lg"
                 >
-                  {searchParams.error}
+                  {queryParams.error}
                 </MotionDiv>
               )}
             </CardContent>

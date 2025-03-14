@@ -4,7 +4,6 @@ import generateEmbeddings from "@/lib/helpers/generate-embeddings";
 import { Post } from "@/lib/types/database.types";
 import { handleSupabaseError } from "@/lib/utils/handle-error";
 import { createClient } from "@/utils/supabase/server";
-import { revalidatePath } from "next/cache";
 
 export default async function createPost(
   content: string,
@@ -39,7 +38,7 @@ export default async function createPost(
       console.log(error)
 
     if (error) throw error;
-    revalidatePath("/feed")
+    // revalidatePath("/feed")
     return { success: true, data: post };
   } catch (error) {
     const appError = handleSupabaseError(error);

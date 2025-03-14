@@ -5,10 +5,7 @@ import searchExplore from "@/lib/helpers/pages/explore/search";
 import protectPage from "@/lib/helpers/protectPage";
 import { createClient } from "@/utils/supabase/server";
 
-type SearchParams = Promise<{
-  search?: string;
-  [key: string]: string | undefined;
-}>;
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
 export default async function ExplorePage({
   searchParams,
