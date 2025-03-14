@@ -74,7 +74,12 @@ export default async function ExplorePage({
               <div className="flex justify-center">
                 <div className="grid grid-cols-1 w-full max-w-[640px] md:px-4">
                   {searchResults.posts.map((post) => (
-                    <PostCard key={post.id} post={post} user={user} />
+                    <PostCard
+                      key={post.id}
+                      post={post}
+                      user={user}
+                      revalidationPath="/explore"
+                    />
                   ))}
                 </div>
               </div>

@@ -5,10 +5,10 @@ import { Home, MapIcon, Menu, Package, Users } from "lucide-react";
 import Link from "next/link";
 
 const navLinks = [
-  { href: "/feed", label: "Home", icon: Home },
+  { href: "/", label: "Home", icon: Home },
   { href: "/products", label: "Products", icon: Package },
   { href: "/people", label: "People", icon: Users },
-  { href: "/", label: "Places", icon: MapIcon },
+  { href: "/places", label: "Places", icon: MapIcon },
 ];
 
 export default async function SideNavbar() {

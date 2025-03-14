@@ -6,10 +6,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const navLinks = [
-  { href: "/feed", label: "Feed", icon: Home },
+  { href: "/", label: "Feed", icon: Home },
   { href: "/explore", label: "Explore", icon: Compass },
   { href: "/create", label: "Create", icon: PlusSquare },
-  { href: "/", label: "Places", icon: MapIcon },
+  { href: "/places/", label: "Places", icon: MapIcon },
 ];
 
 export default function BottomNav() {

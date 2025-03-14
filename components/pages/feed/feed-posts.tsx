@@ -57,12 +57,7 @@ export default async function FeedPosts({
   return (
     <div>
       {posts.map((post: Post<true, true>) => (
-        <PostCard
-          key={post.id}
-          post={post}
-          user={user}
-          revalidationPath="/feed"
-        />
+        <PostCard key={post.id} post={post} user={user} revalidationPath="/" />
       ))}
     </div>
   );

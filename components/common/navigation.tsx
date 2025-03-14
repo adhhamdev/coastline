@@ -11,10 +11,10 @@ import { usePathname } from "next/navigation";
 export default function Navigation({ user }: { user: User | null }) {
   const pathname = usePathname();
   const navLinks = [
-    { href: "/feed", label: "Feed", icon: Home },
+    { href: "/", label: "Feed", icon: Home },
     { href: "/explore", label: "Explore", icon: Compass },
     { href: "/create", label: "Create", icon: PlusSquare },
-    { href: "/", label: "Places", icon: MapIcon },
+    { href: "/places", label: "Places", icon: MapIcon },
   ];
 
   return (
@@ -25,7 +25,7 @@ export default function Navigation({ user }: { user: User | null }) {
         </Link>
 
         {/* Desktop Navigation */}
-        {pathname !== "/" && pathname !== "/auth/login" && (
+        {pathname !== "/auth/login" && (
           <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
             {navLinks.map((link) => (
               <Link

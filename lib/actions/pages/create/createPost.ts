@@ -38,7 +38,6 @@ export default async function createPost(
       console.log(error)
 
     if (error) throw error;
-    // revalidatePath("/feed")
     return { success: true, data: post };
   } catch (error) {
     const appError = handleSupabaseError(error);

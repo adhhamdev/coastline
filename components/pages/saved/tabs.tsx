@@ -37,6 +37,7 @@ export default function SavedTabs({
                 key={savedPost.post?.id}
                 post={savedPost?.post as Post<true, true>}
                 user={user}
+                revalidationPath="/saved"
               />
             ))
           )}

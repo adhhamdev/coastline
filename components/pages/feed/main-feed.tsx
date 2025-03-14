@@ -12,8 +12,8 @@ export default async function MainFeed({
         <div className="flex items-center justify-between p-1">
           <div className="w-full">
             <nav className="grid w-full grid-cols-2 gap-2 p-1 rounded-lg bg-background/80">
-              <TabNavItem href="/feed" label="For You" />
-              <TabNavItem href="/feed/following" label="Following" />
+              <TabNavItem href="/" label="For You" />
+              <TabNavItem href="/following" label="Following" />
             </nav>
           </div>
         </div>

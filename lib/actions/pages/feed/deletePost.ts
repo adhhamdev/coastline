@@ -28,11 +28,13 @@ export async function deletePost(postId: string, userId: string, revalidationPat
 
   // Delete the post
   const { error } = await supabase.from("posts").delete().eq("id", postId);
-
-  if (revalidatePath) {
-    revalidatePath(revalidationPath)
-  }
+  
   if (error) {
     throw error;
   }
+  
+  if (revalidatePath) {
+    revalidatePath(revalidationPath)
+  }
+  
 }

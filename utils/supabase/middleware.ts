@@ -39,8 +39,7 @@ export async function updateSession(request: NextRequest) {
 
   if (
     !user &&
-    !request.nextUrl.pathname.startsWith('/auth/') &&
-    request.nextUrl.pathname !== '/'
+    !request.nextUrl.pathname.startsWith('/auth/')
   ) {
     // no user, redirect to login page
     const url = request.nextUrl.clone();
@@ -51,7 +50,7 @@ export async function updateSession(request: NextRequest) {
   if (user && request.nextUrl.pathname === '/auth/login') {
     // user is logged in, redirect to feed
     const url = request.nextUrl.clone();
-    url.pathname = '/feed';
+    url.pathname = '/';
     return NextResponse.redirect(url);
   }
 
