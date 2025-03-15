@@ -67,7 +67,7 @@ export default function LikeButton({
           likeCount: newLikeCount,
         });
 
-        const result = await toggleLike(postId, userId);
+        const result = await toggleLike(postId, userId, likeState.isLiked);
 
         if (!result.success) {
           // Revert optimistic update on error

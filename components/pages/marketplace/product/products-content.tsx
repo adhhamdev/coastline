@@ -38,26 +38,7 @@ export default function ProductsContent({
     try {
       let supabaseQuery = supabase
         .from("products")
-        .select(
-          `
-          id,
-          title,
-          description,
-          price,
-          images,
-          created_at,
-          category,
-          condition,
-          location,
-          profiles (
-            id,
-            username,
-            avatar_url,
-            business_type,
-            verified
-          )
-        `
-        )
+        .select(`*, profiles(*)`)
         .order("created_at", { ascending: false });
 
       if (query) {

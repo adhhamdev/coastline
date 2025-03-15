@@ -3,18 +3,10 @@
 import { handleSupabaseError } from "@/lib/utils/handle-error";
 import { createClient } from "@/utils/supabase/server";
 
-export default async function toggleLike(postId: string, userId: string) {
+export default async function toggleLike(postId: string, userId: string, isLiked: boolean) {
   try {
     const supabase = await createClient();
-
-    // Check if the user has already liked the post
-    const { data: existingLike } = await supabase
-      .from("likes")
-      .select()
-      .match({ user: userId, post: postId })
-      .single();
-
-    if (existingLike) {
+    if (isLiked) {
       // Unlike: Delete the like
       const { error: deleteError } = await supabase
         .from("likes")

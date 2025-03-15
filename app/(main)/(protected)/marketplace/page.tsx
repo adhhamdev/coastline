@@ -15,26 +15,7 @@ export default async function MarketPage() {
   // Fetch products with seller information
   const { data: products } = await supabase
     .from("products")
-    .select(
-      `
-          id,
-          title,
-          description,
-          price,
-          images,
-          created_at,
-          category,
-          condition,
-          location,
-          profiles (
-            id,
-            username,
-            avatar_url,
-            business_type,
-            verified
-          )
-        `
-    )
+    .select(`*, profiles(*)`)
     .order("created_at", { ascending: false })
     .limit(12);
 

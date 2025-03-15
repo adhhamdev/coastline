@@ -58,8 +58,10 @@ export default async function PostCard({
   revalidationPath = "",
 }: PostCardProps) {
   const isPostOwner = post.user.id === user?.id;
-  const isSaved = await checkIfPostSaved(post.id, user?.id);
-  const isLiked = await checkIfPostLiked(post.id, user?.id);
+  const [isSaved, isLiked] = await Promise.all([
+    checkIfPostSaved(post.id, user?.id),
+    checkIfPostLiked(post.id, user?.id),
+  ]);
 
   return (
     <article className="border-b p-3 hover:bg-muted/5">

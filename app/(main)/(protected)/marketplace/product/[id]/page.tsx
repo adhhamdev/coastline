@@ -28,12 +28,7 @@ export default async function ProductPage(props: ProductPageProps) {
   // Fetch product details with seller information
   const { data: product } = await supabase
     .from("products")
-    .select(
-      `
-            *,
-            profiles (*)
-        `
-    )
+    .select(`*, profiles(*)`)
     .eq("id", params.id)
     .single();
 
