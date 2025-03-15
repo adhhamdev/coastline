@@ -6,7 +6,7 @@ import toggleLike from "@/lib/actions/pages/feed/toggleLike";
 import checkLiked from "@/lib/helpers/pages/feed/checkLiked";
 import { cn } from "@/lib/utils";
 import { Heart } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useOptimistic, useState, useTransition } from "react";
 
 interface LikeButtonProps {
   postId: string;
@@ -15,21 +15,38 @@ interface LikeButtonProps {
   isPostOwner: boolean;
 }
 
+interface LikeState {
+  isLiked: boolean;
+  likeCount: number;
+}
+
 export default function LikeButton({
   postId,
   userId,
   initialCount,
   isPostOwner,
 }: LikeButtonProps) {
-  const [isLiked, setIsLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(initialCount);
+  const [likeState, setLikeState] = useState<LikeState>({
+    isLiked: false,
+    likeCount: initialCount,
+  });
+  const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
+
+  // Define optimistic state update
+  const [optimisticLikeState, updateOptimisticLikeState] = useOptimistic(
+    likeState,
+    (state: LikeState, newState: Partial<LikeState>) => ({
+      ...state,
+      ...newState,
+    })
+  );
 
   useEffect(() => {
     const checkInitialLikeStatus = async () => {
       try {
         const liked = await checkLiked(postId, userId);
-        setIsLiked(liked);
+        setLikeState((prev) => ({ ...prev, isLiked: liked }));
         console.log(initialCount, liked);
       } catch (error) {
         console.error("Error checking like status:", error);
@@ -49,28 +66,58 @@ export default function LikeButton({
 
     try {
       // Optimistically update UI
-      const wasLiked = isLiked;
-      setIsLiked(!wasLiked);
-      setLikeCount((prev) =>
-        wasLiked ? (prev > 0 ? prev - 1 : prev) : prev + 1
-      );
+      const wasLiked = optimisticLikeState.isLiked;
+      const newLikeCount = wasLiked
+        ? optimisticLikeState.likeCount > 0
+          ? optimisticLikeState.likeCount - 1
+          : optimisticLikeState.likeCount
+        : optimisticLikeState.likeCount + 1;
 
-      const result = await toggleLike(postId, userId);
-
-      if (!result.success) {
-        // Revert optimistic update on error
-        setIsLiked(wasLiked);
-        setLikeCount((prev) => (wasLiked && prev > 0 ? prev - 1 : prev + 1));
-        toast({
-          title: "Error",
-          description: result.error?.message || "Failed to update like status",
-          variant: "destructive",
+      startTransition(async () => {
+        updateOptimisticLikeState({
+          isLiked: !wasLiked,
+          likeCount: newLikeCount,
         });
-      }
+
+        const result = await toggleLike(postId, userId);
+
+        if (!result.success) {
+          // Revert optimistic update on error
+          setLikeState({
+            isLiked: wasLiked,
+            likeCount: wasLiked
+              ? newLikeCount < initialCount
+                ? newLikeCount + 1
+                : newLikeCount
+              : newLikeCount > 0
+              ? newLikeCount - 1
+              : newLikeCount,
+          });
+
+          toast({
+            title: "Error",
+            description:
+              result.error?.message || "Failed to update like status",
+            variant: "destructive",
+          });
+        } else {
+          // Update the actual state with the confirmed result
+          setLikeState({
+            isLiked: result.liked || false,
+            likeCount: newLikeCount,
+          });
+        }
+      });
     } catch (error) {
       // Revert optimistic update on error
-      setIsLiked(!isLiked);
-      setLikeCount((prev) => (isLiked ? prev - 1 : prev + 1));
+      const currentIsLiked = optimisticLikeState.isLiked;
+      setLikeState({
+        isLiked: !currentIsLiked,
+        likeCount: currentIsLiked
+          ? optimisticLikeState.likeCount - 1
+          : optimisticLikeState.likeCount + 1,
+      });
+
       toast({
         title: "Error",
         description: "Failed to update like status",
@@ -86,17 +133,17 @@ export default function LikeButton({
       className="px-3 group"
       onClick={handleLike}
       title="Like"
-      disabled={isPostOwner}
+      disabled={isPostOwner || isPending}
     >
       <Heart
         className={cn(
           "h-4 w-4 transition-transform duration-200 group-hover:scale-110",
           {
-            "fill-red-500 text-red-500": isLiked,
+            "fill-red-500 text-red-500": optimisticLikeState.isLiked,
           }
         )}
       />
-      <span className="ml-1.5 text-sm">{likeCount}</span>
+      <span className="ml-1.5 text-sm">{optimisticLikeState.likeCount}</span>
     </Button>
   );
 }
