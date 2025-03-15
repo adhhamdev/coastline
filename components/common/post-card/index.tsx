@@ -22,10 +22,28 @@ interface PostCardProps {
 
 async function checkIfPostSaved(postId: string, userId?: string) {
   if (!userId) return false;
+  try {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("likes")
+      .select()
+      .match({ user: userId, post: postId })
+      .single();
+
+    if (error && error.code !== "PGRST116") throw error;
+    return !!data;
+  } catch (error) {
+    console.error("Error checking like status:", error);
+    return false;
+  }
+}
+
+async function checkIfPostLiked(postId: string, userId?: string) {
+  if (!userId) return false;
 
   const supabase = await createClient();
   const { data, error } = await supabase
-    .from("saved_posts")
+    .from("likes")
     .select()
     .eq("post", postId)
     .eq("user", userId)
@@ -39,8 +57,9 @@ export default async function PostCard({
   user,
   revalidationPath = "",
 }: PostCardProps) {
-  const isSaved = await checkIfPostSaved(post.id, user?.id);
   const isPostOwner = post.user.id === user?.id;
+  const isSaved = await checkIfPostSaved(post.id, user?.id);
+  const isLiked = await checkIfPostLiked(post.id, user?.id);
 
   return (
     <article className="border-b p-3 hover:bg-muted/5">
@@ -111,6 +130,7 @@ export default async function PostCard({
             <LikeButton
               postId={post.id}
               userId={user?.id || ""}
+              initialLiked={isLiked}
               initialCount={post.likes_count || 0}
               isPostOwner={isPostOwner}
             />

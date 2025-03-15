@@ -3,16 +3,16 @@
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import toggleLike from "@/lib/actions/pages/feed/toggleLike";
-import checkLiked from "@/lib/helpers/pages/feed/checkLiked";
 import { cn } from "@/lib/utils";
 import { Heart } from "lucide-react";
-import { useEffect, useOptimistic, useState, useTransition } from "react";
+import { useOptimistic, useState, useTransition } from "react";
 
 interface LikeButtonProps {
   postId: string;
   userId: string;
   initialCount: number;
   isPostOwner: boolean;
+  initialLiked: boolean;
 }
 
 interface LikeState {
@@ -25,9 +25,10 @@ export default function LikeButton({
   userId,
   initialCount,
   isPostOwner,
+  initialLiked,
 }: LikeButtonProps) {
   const [likeState, setLikeState] = useState<LikeState>({
-    isLiked: false,
+    isLiked: initialLiked,
     likeCount: initialCount,
   });
   const [isPending, startTransition] = useTransition();
@@ -41,19 +42,6 @@ export default function LikeButton({
       ...newState,
     })
   );
-
-  useEffect(() => {
-    const checkInitialLikeStatus = async () => {
-      try {
-        const liked = await checkLiked(postId, userId);
-        setLikeState((prev) => ({ ...prev, isLiked: liked }));
-        console.log(initialCount, liked);
-      } catch (error) {
-        console.error("Error checking like status:", error);
-      }
-    };
-    checkInitialLikeStatus();
-  }, []);
 
   const handleLike = async () => {
     if (!userId) {

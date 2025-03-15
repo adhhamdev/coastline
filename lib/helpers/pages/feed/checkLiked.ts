@@ -1,8 +1,8 @@
 import { createClient } from "@/utils/supabase/client";
 
 export default async function checkLiked(postId: string, userId: string) {
+  if (!userId) return false;
   try {
-    if (!userId) return false;
     
     const supabase = createClient();
     const { data, error } = await supabase
