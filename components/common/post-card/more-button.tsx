@@ -64,7 +64,7 @@ export default function MoreButton({
               <span>Edit</span>
             </DropdownMenuItem>
             <DropdownMenuItem
-              className="flex items-center gap-3 py-3 text-destructive"
+              className="flex items-center gap-3 py-3"
               onClick={handleDelete}
             >
               <Trash2 className="h-4 w-4" />
@@ -78,7 +78,7 @@ export default function MoreButton({
               <UserPlus className="h-4 w-4" />
               <span>Follow User</span>
             </DropdownMenuItem>
-            <DropdownMenuItem className="flex items-center gap-3 py-3 text-destructive">
+            <DropdownMenuItem className="flex items-center gap-3 py-3">
               <Flag className="h-4 w-4" />
               <span>Report</span>
             </DropdownMenuItem>

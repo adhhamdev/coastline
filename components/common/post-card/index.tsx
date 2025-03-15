@@ -90,20 +90,25 @@ export default async function PostCard({
           )}
         </Link>
         <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-1 text-sm">
-            <Link
-              href={`/profile/${post.user.username}`}
-              className="truncate font-semibold hover:underline"
+          <div className="flex items-center justify-between text-sm">
+            <div className="flex gap-1 w-full">
+              <Link
+                href={`/profile/${post.user.username}`}
+                className="truncate font-semibold hover:underline"
+              >
+                {post.user.full_name}
+              </Link>
+              <Link
+                href={`/profile/${post.user.username}`}
+                className="truncate text-muted-foreground hover:underline"
+              >
+                @{post.user.username}
+              </Link>
+            </div>
+            <time
+              dateTime={post.created_at}
+              className="text-muted-foreground px-2"
             >
-              {post.user.full_name}
-            </Link>
-            <Link
-              href={`/profile/${post.user.username}`}
-              className="truncate text-muted-foreground hover:underline w-32"
-            >
-              @{post.user.username}
-            </Link>
-            <time dateTime={post.created_at} className="text-muted-foreground">
               {formatRelativeTime(post.created_at)}
             </time>
           </div>
@@ -126,33 +131,37 @@ export default async function PostCard({
               <AttachedProduct post={post} />
             </div>
           )}
-          <div className="mt-2 flex items-center justify-end">
-            <LikeButton
-              postId={post.id}
-              userId={user?.id || ""}
-              initialLiked={isLiked}
-              initialCount={post.likes_count || 0}
-              isPostOwner={isPostOwner}
-            />
-            <CommentButton post={post} />
-            <ShareButton
-              url={`/post/${post.id}`}
-              title={post?.content || ""}
-              type="post"
-              contentId={post.id}
-            />
-            <SaveButton
-              revalidationPath={revalidationPath}
-              postId={post.id}
-              userId={user?.id}
-              initialSaved={isSaved}
-            />
-            <MoreButton
-              isPostOwner={isPostOwner}
-              postId={post.id}
-              userId={user?.id || ""}
-              revalidationPath={revalidationPath}
-            />
+          <div className="mt-2 flex items-center justify-between">
+            <div>
+              <MoreButton
+                isPostOwner={isPostOwner}
+                postId={post.id}
+                userId={user?.id || ""}
+                revalidationPath={revalidationPath}
+              />
+            </div>
+            <div>
+              <CommentButton post={post} />
+              <ShareButton
+                url={`/post/${post.id}`}
+                title={post?.content || ""}
+                type="post"
+                contentId={post.id}
+              />
+              <SaveButton
+                revalidationPath={revalidationPath}
+                postId={post.id}
+                userId={user?.id}
+                initialSaved={isSaved}
+              />
+              <LikeButton
+                postId={post.id}
+                userId={user?.id || ""}
+                initialLiked={isLiked}
+                initialCount={post.likes_count || 0}
+                isPostOwner={isPostOwner}
+              />
+            </div>
           </div>
         </div>
       </div>
