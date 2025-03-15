@@ -52,9 +52,9 @@ export default function UserCard({ profile, currentUser }: UserCardProps) {
   };
 
   return (
-    <Card className="overflow-hidden">
+    <Card className="overflow-hidden p-0">
       <div className="h-20 bg-linear-to-r from-emerald-600/90 to-teal-600/90" />
-      <CardContent className="-mt-10 p-4 text-center min-h-[250px]">
+      <CardContent className="-mt-18 p-4 text-center min-h-[250px]">
         <Avatar className="h-20 w-20 mx-auto ring-4 ring-background">
           <AvatarImage src={profile.avatar_url || ""} />
           <AvatarFallback>{profile.username?.[0].toUpperCase()}</AvatarFallback>

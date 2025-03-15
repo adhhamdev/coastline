@@ -80,7 +80,7 @@ export default async function PostCard({
             </Link>
             <Link
               href={`/profile/${post.user.username}`}
-              className="truncate text-muted-foreground hover:underline"
+              className="truncate text-muted-foreground hover:underline w-32"
             >
               @{post.user.username}
             </Link>
@@ -108,13 +108,12 @@ export default async function PostCard({
             </div>
           )}
           <div className="mt-2 flex items-center justify-end">
-            {!isPostOwner && (
-              <LikeButton
-                postId={post.id}
-                userId={user?.id || ""}
-                initialCount={post.likes_count || 0}
-              />
-            )}
+            <LikeButton
+              postId={post.id}
+              userId={user?.id || ""}
+              initialCount={post.likes_count || 0}
+              isPostOwner={isPostOwner}
+            />
             <CommentButton post={post} />
             <ShareButton
               url={`/post/${post.id}`}

@@ -23,7 +23,7 @@ export default async function ExplorePage({
     .eq("id", user?.id)
     .single();
 
-  const searchResults = await searchExplore(filterParams);
+  const searchResults = await searchExplore(filterParams, user);
 
   return (
     <div className="sm:flex sm:justify-center">
@@ -61,27 +61,6 @@ export default async function ExplorePage({
                     currentUser={profile}
                   />
                 ))}
-              </div>
-            </section>
-          )}
-
-          {/* Posts Section */}
-          {searchResults?.posts.length && (
-            <section className="space-y-3">
-              <div className="flex items-center justify-between px-4 md:px-6">
-                <h3 className="text-lg font-semibold">Posts</h3>
-              </div>
-              <div className="flex justify-center">
-                <div className="grid grid-cols-1 w-full max-w-[640px] md:px-4">
-                  {searchResults.posts.map((post) => (
-                    <PostCard
-                      key={post.id}
-                      post={post}
-                      user={user}
-                      revalidationPath="/explore"
-                    />
-                  ))}
-                </div>
               </div>
             </section>
           )}

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -19,7 +20,6 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DialogDescription } from "@radix-ui/react-dialog";
 import { Filter } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
@@ -387,7 +387,7 @@ export default function FilterDialog({ activeTab = "all" }: FilterDialogProps) {
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader className="pb-4 border-b">
+        <DialogHeader hidden className="pb-4 border-b">
           <DialogTitle>Filter Results</DialogTitle>
           <DialogDescription>
             Customize your search results by applying filters.
@@ -457,20 +457,7 @@ export default function FilterDialog({ activeTab = "all" }: FilterDialogProps) {
                 </div>
               </div>
 
-              <div className="flex items-center space-x-2 pb-6 border-b">
-                <Switch
-                  id="in-stock"
-                  checked={filters.products.inStock}
-                  onCheckedChange={(checked) =>
-                    updateProductFilters({ inStock: checked })
-                  }
-                />
-                <Label htmlFor="in-stock" className="text-sm">
-                  In Stock Only
-                </Label>
-              </div>
-
-              <div className="space-y-2">
+              <div className="space-y-2 pb-6 border-b">
                 <Label className="text-sm">Category</Label>
                 <Select
                   value={filters.products.category}
@@ -489,6 +476,19 @@ export default function FilterDialog({ activeTab = "all" }: FilterDialogProps) {
                     <SelectItem value="beauty">Beauty & Health</SelectItem>
                   </SelectContent>
                 </Select>
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="in-stock"
+                  checked={filters.products.inStock}
+                  onCheckedChange={(checked) =>
+                    updateProductFilters({ inStock: checked })
+                  }
+                />
+                <Label htmlFor="in-stock" className="text-sm">
+                  In Stock Only
+                </Label>
               </div>
             </div>
           </TabsContent>

@@ -15,7 +15,7 @@ export default async function FeedLayout({
 }) {
   return (
     <div className="min-h-screen bg-background">
-      <div className="mx-auto grid grid-cols-1 md:grid-cols-[48px_1fr_1fr] lg:grid-cols-[300px_1fr_1fr] gap-5 md:p-4">
+      <div className="mx-auto grid grid-cols-1 md:grid-cols-[48px_1fr_1fr] lg:grid-cols-[200px_1fr_1fr] gap-5 md:p-4 lg:w-4/5">
         <SideNavbar />
         <main className="min-h-screen md:border-x">
           <MainFeed>{children}</MainFeed>

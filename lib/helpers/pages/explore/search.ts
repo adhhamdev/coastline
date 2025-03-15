@@ -1,5 +1,6 @@
 import { Post, Product, Profile } from "@/lib/types/database.types";
 import { createClient } from "@/utils/supabase/client";
+import { User } from "@supabase/supabase-js";
 
 const supabase = createClient();
 
@@ -11,7 +12,7 @@ interface SearchResults {
 
 type SearchParams = { [key: string]: string | string[] | undefined }
 
-const searchExplore = async (searchParams: SearchParams): Promise<SearchResults> => {
+const searchExplore = async (searchParams: SearchParams, currentUser: User | null): Promise<SearchResults> => {
   const search = (await searchParams).search;
 
   try {
@@ -69,6 +70,7 @@ const searchExplore = async (searchParams: SearchParams): Promise<SearchResults>
       const usersQuery = supabase
         .from("profiles")
         .select("*")
+        .neq("id", currentUser?.id)
         .limit(8);
       
       const postsQuery = supabase

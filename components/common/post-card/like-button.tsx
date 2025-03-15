@@ -12,12 +12,14 @@ interface LikeButtonProps {
   postId: string;
   userId: string;
   initialCount: number;
+  isPostOwner: boolean;
 }
 
 export default function LikeButton({
   postId,
   userId,
   initialCount,
+  isPostOwner,
 }: LikeButtonProps) {
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(initialCount);
@@ -28,12 +30,13 @@ export default function LikeButton({
       try {
         const liked = await checkLiked(postId, userId);
         setIsLiked(liked);
+        console.log(initialCount, liked);
       } catch (error) {
         console.error("Error checking like status:", error);
       }
     };
     checkInitialLikeStatus();
-  }, [postId, userId]);
+  }, []);
 
   const handleLike = async () => {
     if (!userId) {
@@ -57,7 +60,7 @@ export default function LikeButton({
       if (!result.success) {
         // Revert optimistic update on error
         setIsLiked(wasLiked);
-        setLikeCount((prev) => (wasLiked ? prev - 1 : prev + 1));
+        setLikeCount((prev) => (wasLiked && prev > 0 ? prev - 1 : prev + 1));
         toast({
           title: "Error",
           description: result.error?.message || "Failed to update like status",
@@ -83,6 +86,7 @@ export default function LikeButton({
       className="px-3 group"
       onClick={handleLike}
       title="Like"
+      disabled={isPostOwner}
     >
       <Heart
         className={cn(

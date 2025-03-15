@@ -35,12 +35,6 @@ export default function SettingsTabs() {
       </TabsList>
       <TabsContent value="general">
         <Card>
-          <CardHeader>
-            <CardTitle>General Settings</CardTitle>
-            <CardDescription>
-              Manage your general account settings.
-            </CardDescription>
-          </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="username">Username</Label>
