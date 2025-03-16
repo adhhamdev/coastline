@@ -131,6 +131,7 @@
   }
 }
 
+
 @utility text-balance {
   text-wrap: balance;
 }
@@ -188,7 +189,7 @@
 }
 
 /*
-  ---break---
+---break---
 */
 
 .dark {
@@ -227,7 +228,7 @@
 }
 
 /*
-  ---break---
+---break---
 */
 
 @theme inline {
@@ -271,7 +272,7 @@
   --animate-accordion-up: accordion-up 0.2s ease-out;
   /*
   ---break---
-*/
+  */
   @keyframes accordion-down {
     from {
       height: 0;
@@ -282,7 +283,7 @@
   }
   /*
   ---break---
-*/
+  */
   @keyframes accordion-up {
     from {
       height: var(--radix-accordion-content-height);
@@ -294,7 +295,7 @@
 }
 
 /*
-  ---break---
+---break---
 */
 
 @layer base {

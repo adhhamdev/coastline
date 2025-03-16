@@ -10,7 +10,7 @@ export default function AttachedProduct({ post }: { post: Post<true, true> }) {
   return (
     <Link
       href={`/marketplace/product/${product.id}`}
-      className="group relative flex items-start gap-3 rounded-lg border p-3 hover:bg-muted/50"
+      className="group relative flex items-start gap-3 rounded-lg border p-3 hover:bg-muted/50 "
       title={product.title}
     >
       <div className="absolute right-3 top-3">

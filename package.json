@@ -75,5 +75,8 @@
   "overrides": {
     "@types/react": "19.0.10",
     "@types/react-dom": "19.0.4"
+  },
+  "devDependencies": {
+    "tailwindcss-view-transitions": "^0.1.1"
   }
 }
