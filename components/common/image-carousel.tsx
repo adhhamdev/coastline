@@ -1,14 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Image from "next/image";
-import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
+import Lightbox from "yet-another-react-lightbox";
+import Download from "yet-another-react-lightbox/plugins/download";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import "yet-another-react-lightbox/styles.css";
 import LightboxImage from "./lightbox-image";
-
-// Dynamically import Lightbox to reduce initial bundle size
-const Lightbox = dynamic(() => import("yet-another-react-lightbox"), {
-  ssr: false, // Disable server-side rendering
-});
 
 interface ImageCarouselProps {
   images: string[];
@@ -23,24 +21,16 @@ export function ImageCarousel({
 }: ImageCarouselProps) {
   const [open, setOpen] = useState(false);
   const [photoIndex, setPhotoIndex] = useState(0);
-  const [lightboxLoaded, setLightboxLoaded] = useState(false);
 
   // Load CSS only when the lightbox is opened
   useEffect(() => {
     if (open) {
-      import("yet-another-react-lightbox/styles.css");
     }
   }, [open]);
 
   const handleImageClick = (index: number) => {
     setPhotoIndex(index);
     setOpen(true);
-    
-    // Dynamically import the Download plugin only when needed
-    if (showDownload && !lightboxLoaded) {
-      import("yet-another-react-lightbox/plugins/download");
-      setLightboxLoaded(true);
-    }
   };
 
   // Create slides with download URLs for the lightbox
@@ -52,13 +42,22 @@ export function ImageCarousel({
     };
   });
 
+  // Configure plugins
+  const getPlugins = () => {
+    const plugins = [Zoom];
+    if (showDownload) {
+      plugins.push(Download);
+    }
+    return plugins;
+  };
+
   return (
     <>
       <div className="relative w-full overflow-x-auto">
         <div className="flex snap-x snap-mandatory space-x-2 pb-2">
           {images.map((image, index) => (
-            <div 
-              key={image} 
+            <div
+              key={image}
               className="relative flex-none snap-center w-[85%] first:pl-0"
               onClick={() => handleImageClick(index)}
             >
@@ -83,8 +82,9 @@ export function ImageCarousel({
           close={() => setOpen(false)}
           index={photoIndex}
           slides={slides}
-          plugins={showDownload ? [require("yet-another-react-lightbox/plugins/download").default] : []}
+          plugins={getPlugins()}
           render={{ slide: LightboxImage }}
+          zoom={{ scrollToZoom: false }}
         />
       )}
     </>
