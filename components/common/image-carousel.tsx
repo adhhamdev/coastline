@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Image from "next/image";
 import dynamic from "next/dynamic";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 import LightboxImage from "./lightbox-image";
 
 // Dynamically import Lightbox to reduce initial bundle size
@@ -35,7 +35,7 @@ export function ImageCarousel({
   const handleImageClick = (index: number) => {
     setPhotoIndex(index);
     setOpen(true);
-    
+
     // Dynamically import the Download plugin only when needed
     if (showDownload && !lightboxLoaded) {
       import("yet-another-react-lightbox/plugins/download");
@@ -57,8 +57,8 @@ export function ImageCarousel({
       <div className="relative w-full overflow-x-auto">
         <div className="flex snap-x snap-mandatory space-x-2 pb-2">
           {images.map((image, index) => (
-            <div 
-              key={image} 
+            <div
+              key={image}
               className="relative flex-none snap-center w-[85%] first:pl-0"
               onClick={() => handleImageClick(index)}
             >
@@ -83,7 +83,11 @@ export function ImageCarousel({
           close={() => setOpen(false)}
           index={photoIndex}
           slides={slides}
-          plugins={showDownload ? [require("yet-another-react-lightbox/plugins/download").default] : []}
+          plugins={
+            showDownload
+              ? [require("yet-another-react-lightbox/plugins/download").default]
+              : []
+          }
           render={{ slide: LightboxImage }}
         />
       )}
