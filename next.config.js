@@ -22,7 +22,7 @@ const nextConfig = {
         hostname: 'picsum.photos',
         protocol: 'https',
       },
-    ],
+    ]
   },
   serverExternalPackages: ['sharp', 'onnxruntime-node'],
 };
