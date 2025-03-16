@@ -1,11 +1,17 @@
 "use client";
 
+<<<<<<< HEAD
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Lightbox from "yet-another-react-lightbox";
 import Download from "yet-another-react-lightbox/plugins/download";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import "yet-another-react-lightbox/styles.css";
+=======
+import dynamic from "next/dynamic";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+>>>>>>> remove-zoom
 import LightboxImage from "./lightbox-image";
 
 interface ImageCarouselProps {
@@ -31,6 +37,15 @@ export function ImageCarousel({
   const handleImageClick = (index: number) => {
     setPhotoIndex(index);
     setOpen(true);
+<<<<<<< HEAD
+=======
+
+    // Dynamically import the Download plugin only when needed
+    if (showDownload && !lightboxLoaded) {
+      import("yet-another-react-lightbox/plugins/download");
+      setLightboxLoaded(true);
+    }
+>>>>>>> remove-zoom
   };
 
   // Create slides with download URLs for the lightbox
@@ -82,7 +97,15 @@ export function ImageCarousel({
           close={() => setOpen(false)}
           index={photoIndex}
           slides={slides}
+<<<<<<< HEAD
           plugins={getPlugins()}
+=======
+          plugins={
+            showDownload
+              ? [require("yet-another-react-lightbox/plugins/download").default]
+              : []
+          }
+>>>>>>> remove-zoom
           render={{ slide: LightboxImage }}
           zoom={{ scrollToZoom: false }}
         />
