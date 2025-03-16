@@ -1,55 +1,39 @@
-"use client";
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
 import { Profile } from "@/lib/types/database.types";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/server";
+import { User } from "@supabase/supabase-js";
 import Link from "next/link";
-import { useState } from "react";
+import FollowButton from "./follow-btn";
 
 interface UserCardProps {
   profile: Profile;
-  currentUser: Profile | null;
+  currentUser: User | null;
+  revalidationPath: string;
 }
 
-export default function UserCard({ profile, currentUser }: UserCardProps) {
-  const [isFollowing, setIsFollowing] = useState(false);
-  const supabase = createClient();
-  const { toast } = useToast();
+async function checkIfFollowed(profile: Profile, currentUser: User | null) {
+  if (!currentUser) return false;
 
-  const handleFollow = async () => {
-    try {
-      if (isFollowing) {
-        const { data, error } = await supabase
-          .from("follows")
-          .delete()
-          .match({ follower: currentUser?.id, following: profile?.id });
-        console.log(data, error);
-      } else {
-        const { data, error } = await supabase
-          .from("follows")
-          .insert({ follower: currentUser?.id, following: profile?.id });
-        console.log(data, error);
-      }
-      setIsFollowing(!isFollowing);
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("follows")
+    .select()
+    .eq("follower", currentUser.id)
+    .eq("following", profile.id)
+    .single();
 
-      toast({
-        title: isFollowing ? "Unfollowed" : "Following",
-        description: isFollowing
-          ? `You unfollowed ${profile.username}`
-          : `You are now following ${profile.username}`,
-      });
-    } catch (error) {
-      console.error("Follow error:", error);
-      toast({
-        title: "Error",
-        description: "Something went wrong. Please try again.",
-        variant: "destructive",
-      });
-    }
-  };
+  if (error && error.code !== "PGRST116") throw error;
+
+  return !!data;
+}
+
+export default async function UserCard({
+  profile,
+  currentUser,
+  revalidationPath,
+}: UserCardProps) {
+  const isFollowing = await checkIfFollowed(profile, currentUser);
 
   return (
     <Card className="overflow-hidden p-0">
@@ -85,14 +69,12 @@ export default function UserCard({ profile, currentUser }: UserCardProps) {
           </div>
         </div>
         {currentUser?.id !== profile.id && (
-          <Button
-            onClick={handleFollow}
-            variant={isFollowing ? "outline" : "default"}
-            size="sm"
-            className="mt-4 w-32"
-          >
-            {isFollowing ? "Unfollow" : "Follow"}
-          </Button>
+          <FollowButton
+            profile={profile}
+            currentUser={currentUser}
+            isFollowing={isFollowing}
+            revalidationPath={revalidationPath}
+          />
         )}
       </CardContent>
     </Card>

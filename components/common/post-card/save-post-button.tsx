@@ -39,12 +39,6 @@ export default function SavePostButton({
         revalidationPath
       );
       setIsSaved(saved);
-      toast({
-        title: saved ? "Post saved" : "Post unsaved",
-        description: saved
-          ? "Post has been added to your saved items"
-          : "Post has been removed from your saved items",
-      });
     } catch (error: any) {
       toast({
         title: "Error",

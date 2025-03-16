@@ -1,4 +1,3 @@
-import PostCard from "@/components/common/post-card";
 import ProductCard from "@/components/common/product-card";
 import UserCard from "@/components/common/user-card";
 import searchExplore from "@/lib/helpers/pages/explore/search";
@@ -59,6 +58,7 @@ export default async function ExplorePage({
                     key={user.id}
                     profile={user}
                     currentUser={profile}
+                    revalidationPath="/explore"
                   />
                 ))}
               </div>
