@@ -5,7 +5,6 @@ import { User } from "@supabase/supabase-js";
 import { BadgeCheck, UserIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import "react-medium-image-zoom/dist/styles.css";
 import { ImageCarousel } from "../image-carousel";
 import { ShareButton } from "../share-button";
 import AttachedProduct from "./attached-product";
@@ -115,7 +114,7 @@ export default async function PostCard({
             </time>
           </div>
           {post?.content && (
-            <p className="whitespace-pre-wrap break-words mt-1">
+            <p className="whitespace-pre-wrap break-words mt-1 text-sm">
               {post?.content}
             </p>
           )}
