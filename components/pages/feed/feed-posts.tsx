@@ -11,7 +11,7 @@ export default async function FeedPosts({
   posts,
   error,
 }: {
-  user: User | null;
+  user: User;
   posts: Post<true, true>[] | null;
   error: PostgrestError | null;
 }) {

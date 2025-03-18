@@ -1,4 +1,4 @@
-import { Post } from "@/lib/types/database.types";
+import { Post, Profile } from "@/lib/types/database.types";
 import { formatRelativeTime } from "@/lib/utils/date";
 import { createClient } from "@/utils/supabase/server";
 import { User } from "@supabase/supabase-js";
@@ -15,7 +15,7 @@ import SaveButton from "./save-post-button";
 
 interface PostCardProps {
   post: Post<true, true>;
-  user: User | null;
+  user: User;
   revalidationPath?: string;
 }
 
@@ -51,15 +51,32 @@ async function checkIfPostLiked(postId: string, userId?: string) {
   return !!data;
 }
 
+async function checkIfFollowed(profile: Profile, currentUser: User | null) {
+  if (!currentUser) return false;
+
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("follows")
+    .select()
+    .eq("follower", currentUser.id)
+    .eq("following", profile.id)
+    .single();
+
+  if (error && error.code !== "PGRST116") throw error;
+
+  return !!data;
+}
+
 export default async function PostCard({
   post,
   user,
   revalidationPath = "",
 }: PostCardProps) {
   const isPostOwner = post.user.id === user?.id;
-  const [isSaved, isLiked] = await Promise.all([
+  const [isSaved, isLiked, isFollowed] = await Promise.all([
     checkIfPostSaved(post.id, user?.id),
     checkIfPostLiked(post.id, user?.id),
+    checkIfFollowed(post.user, user),
   ]);
 
   return (
@@ -137,7 +154,9 @@ export default async function PostCard({
               <MoreButton
                 isPostOwner={isPostOwner}
                 postId={post.id}
-                userId={user?.id || ""}
+                user={user}
+                followingId={post.user.id}
+                isFollowed={isFollowed}
                 revalidationPath={revalidationPath}
               />
             </div>

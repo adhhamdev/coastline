@@ -3,6 +3,8 @@
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { deletePost } from "@/lib/actions/pages/feed/deletePost";
+import { followOrUnfollow } from "@/lib/actions/pages/feed/followOrUnfollow";
+import { User } from "@supabase/supabase-js";
 import {
   Edit,
   Flag,
@@ -11,6 +13,7 @@ import {
   Trash2,
   UserPlus,
 } from "lucide-react";
+import { useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,19 +25,24 @@ import {
 export default function MoreButton({
   isPostOwner,
   postId,
-  userId,
+  user,
+  followingId,
   revalidationPath = "",
+  isFollowed,
 }: {
   isPostOwner: boolean;
   postId: string;
-  userId: string;
+  user: User;
+  followingId: string;
   revalidationPath?: string;
+  isFollowed: boolean;
 }) {
+  const [following, setFollowing] = useState(isFollowed);
   const { toast } = useToast();
 
   const handleDelete = async () => {
     try {
-      await deletePost(postId, userId, revalidationPath);
+      await deletePost(postId, user.id, revalidationPath);
       toast({
         title: "Success",
         description: "Post deleted successfully",
@@ -43,6 +51,19 @@ export default function MoreButton({
       toast({
         title: "Error",
         description: error.message || "Failed to delete post",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleFollow = async () => {
+    try {
+      await followOrUnfollow(user, followingId, following, revalidationPath);
+      setFollowing(!isFollowed);
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to follow user",
         variant: "destructive",
       });
     }
@@ -74,9 +95,16 @@ export default function MoreButton({
           </>
         ) : (
           <>
-            <DropdownMenuItem className="flex items-center gap-3 py-3">
+            <DropdownMenuItem
+              className={
+                isFollowed
+                  ? "flex items-center gap-3 py-3"
+                  : "flex items-center gap-3 py-3"
+              }
+              onClick={handleFollow}
+            >
               <UserPlus className="h-4 w-4" />
-              <span>Follow User</span>
+              <span>{isFollowed ? "Unfollow User" : "Follow User"}</span>
             </DropdownMenuItem>
             <DropdownMenuItem className="flex items-center gap-3 py-3">
               <Flag className="h-4 w-4" />
