@@ -1,3 +1,5 @@
+'use client';
+
 import PostCard from "@/components/common/post-card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
@@ -5,6 +7,7 @@ import { Post } from "@/lib/types/database.types";
 import { PostgrestError, User } from "@supabase/supabase-js";
 import { AlertCircle } from "lucide-react";
 import Link from "next/link";
+import RealTimeFeed from "./real-time-feed";
 
 function EmptyFeed() {
   return (
@@ -37,7 +40,7 @@ function ErrorMessage() {
   );
 }
 
-export default async function FeedPosts({
+export default function FeedPosts({
   user,
   posts,
   error,
@@ -54,16 +57,23 @@ export default async function FeedPosts({
     return <EmptyFeed />;
   }
 
+  // Get the timestamp of the most recent post for real-time filtering
+  const latestPostTimestamp = posts[0]?.created_at || new Date().toISOString();
+
   return (
-    <div>
-      {posts.map((post: Post<true, true>) => (
-        <PostCard
-          key={post.id}
-          post={post}
-          user={user}
-          revalidationPath="/following"
-        />
-      ))}
+    <div className="relative">
+      <RealTimeFeed latestPostTimestamp={latestPostTimestamp} />
+      
+      <div>
+        {posts.map((post: Post<true, true>) => (
+          <PostCard
+            key={post.id}
+            post={post}
+            user={user}
+            revalidationPath="/following"
+          />
+        ))}
+      </div>
     </div>
   );
 }

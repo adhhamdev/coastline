@@ -1,5 +1,5 @@
-import { createClient } from "@/utils/supabase/server";
 import { Post, Product, Profile } from "@/lib/types/database.types";
+import { createClient } from "@/utils/supabase/server";
 
 
 export default async function getPosts() {
