@@ -1,5 +1,3 @@
-'use client';
-
 import PostCard from "@/components/common/post-card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
@@ -63,7 +61,7 @@ export default function FeedPosts({
   return (
     <div className="relative">
       <RealTimeFeed latestPostTimestamp={latestPostTimestamp} />
-      
+
       <div>
         {posts.map((post: Post<true, true>) => (
           <PostCard

@@ -1,3 +1,4 @@
+"use client";
 import { Post, Profile } from "@/lib/types/database.types";
 import { formatRelativeTime } from "@/lib/utils/date";
 import { createClient } from "@/utils/supabase/client";
