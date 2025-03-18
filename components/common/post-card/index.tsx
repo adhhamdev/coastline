@@ -153,9 +153,8 @@ export default async function PostCard({
             <div>
               <MoreButton
                 isPostOwner={isPostOwner}
-                postId={post.id}
+                post={post}
                 user={user}
-                followingId={post.user.id}
                 isFollowed={isFollowed}
                 revalidationPath={revalidationPath}
               />

@@ -4,16 +4,18 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { deletePost } from "@/lib/actions/pages/feed/deletePost";
 import { followOrUnfollow } from "@/lib/actions/pages/feed/followOrUnfollow";
+import { Post } from "@/lib/types/database.types";
 import { User } from "@supabase/supabase-js";
 import {
   Edit,
   Flag,
+  Loader2,
   MoreHorizontal,
   Share2,
   Trash2,
   UserPlus,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,25 +26,26 @@ import {
 
 export default function MoreButton({
   isPostOwner,
-  postId,
+  post,
   user,
-  followingId,
   revalidationPath = "",
   isFollowed,
 }: {
   isPostOwner: boolean;
-  postId: string;
+  post: Post<true, true>;
   user: User;
-  followingId: string;
   revalidationPath?: string;
   isFollowed: boolean;
 }) {
   const [following, setFollowing] = useState(isFollowed);
+  const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
 
   const handleDelete = async () => {
     try {
-      await deletePost(postId, user.id, revalidationPath);
+      startTransition(async () => {
+        await deletePost(post.id, user.id, revalidationPath);
+      });
       toast({
         title: "Success",
         description: "Post deleted successfully",
@@ -58,12 +61,18 @@ export default function MoreButton({
 
   const handleFollow = async () => {
     try {
-      await followOrUnfollow(user, followingId, following, revalidationPath);
+      await followOrUnfollow(user, post.user.id, following, revalidationPath);
       setFollowing(!isFollowed);
+      toast({
+        title: "Success",
+        description: following
+          ? `Unfollowed ${post.user.full_name}`
+          : `Followed ${post.user.full_name}`,
+      });
     } catch (error: any) {
       toast({
         title: "Error",
-        description: error.message || "Failed to follow user",
+        description: error.message || `Failed to follow ${post.user.full_name}`,
         variant: "destructive",
       });
     }
@@ -102,8 +111,10 @@ export default function MoreButton({
                   : "flex items-center gap-3 py-3"
               }
               onClick={handleFollow}
+              disabled={isPending}
             >
               <UserPlus className="h-4 w-4" />
+              {isPending && <Loader2 className="h-4 w-4" />}
               <span>{isFollowed ? "Unfollow User" : "Follow User"}</span>
             </DropdownMenuItem>
             <DropdownMenuItem className="flex items-center gap-3 py-3">
