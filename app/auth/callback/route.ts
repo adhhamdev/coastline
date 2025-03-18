@@ -21,7 +21,7 @@ export async function GET(request: Request) {
     if (error) {
       console.error('Auth callback error:', error);
       return NextResponse.redirect(
-        `${origin}/auth/login?error=${encodeURIComponent(error.message)}`
+        `${origin}/auth/login?error=${encodeURIComponent('Failed to sign in. Please try again.')}`
       );
     }
     

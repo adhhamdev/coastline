@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { signInWithFacebook } from "@/lib/actions/auth";
+import { Loader2 } from "lucide-react";
 import { useTransition } from "react";
 
 export default function FacebookButton() {
@@ -28,6 +29,7 @@ export default function FacebookButton() {
       disabled={isPending}
       formAction={handleFacebookOAuth}
     >
+      {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
       Continue with Facebook
     </Button>
   );
