@@ -1,23 +1,49 @@
 import { Button } from "@/components/ui/button";
+import { Profile } from "@/lib/types/database.types";
+import { createClient } from "@/utils/supabase/server";
+import Image from "next/image";
 import Link from "next/link";
 
 export default async function SideTrends() {
+  const supabase = await createClient();
+  const { data: trends, error: trendsError } = await supabase
+    .from("products")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(5);
+
+  const { data: users, error: usersError } = await supabase
+    .from("profiles")
+    .select("*")
+    .order("created_at", { ascending: false })
+    .limit(5);
+
   return (
     <div className="hidden md:block space-y-4 h-[calc(100vh-5rem)] sticky top-16 overflow-y-auto">
       <div className="rounded-lg bg-muted p-4">
         <h2 className="font-semibold mb-4">Trending Products</h2>
         <div>
-          {Array.from({ length: 5 }).map((_, i) => (
+          {trends?.map((product) => (
             <Link
-              key={i}
-              href={`/marketplace/product/${i + 1}`}
+              key={product.id}
+              href={`/marketplace/product/${product.id}`}
               className="flex items-center gap-3 hover:bg-primary/10 p-1 rounded-lg"
             >
-              <div className="h-16 w-16 rounded-lg bg-background shrink-0" />
+              <div className="h-16 w-16 rounded-lg bg-background shrink-0 overflow-hidden">
+                <Image
+                  src={product.images[0]}
+                  alt={product.title}
+                  width={64}
+                  height={64}
+                  className="object-cover"
+                />
+              </div>
               <div className="space-y-1 flex-1">
-                <p className="font-medium line-clamp-1">Product Name {i + 1}</p>
+                <p className="font-medium line-clamp-1">
+                  {product.title}
+                </p>
                 <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                  <span>$9.99</span>
+                  <span>${product.price}</span>
                   <span>•</span>
                   <span>⭐ 4.5</span>
                   <span>•</span>
@@ -32,13 +58,21 @@ export default async function SideTrends() {
       <div className="rounded-lg bg-muted p-4 mt-4">
         <h2 className="font-semibold mb-4">Suggested Users</h2>
         <div className="space-y-4">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="flex items-center justify-between">
+          {users?.map((user) => (
+            <div key={user.id} className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="h-10 w-10 rounded-full bg-background" />
+                <Image
+                  src={user.avatar_url}
+                  alt={user.full_name}
+                  width={32}
+                  height={32}
+                  className="rounded-full"
+                />
                 <div>
-                  <p className="font-medium">User Name</p>
-                  <p className="text-sm text-muted-foreground">@username</p>
+                  <p className="font-medium">{user.full_name}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {user.username}
+                  </p>
                 </div>
               </div>
               <Button variant="outline" size="sm">

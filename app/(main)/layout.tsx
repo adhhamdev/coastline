@@ -13,7 +13,7 @@ export default async function MainLayout({
   } = await supabase.auth.getUser();
 
   return (
-    <div className="flex relative flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen">
       <Navigation user={user} />
       <main className="flex-1 pb-[4rem] md:pb-0">{children}</main>
     </div>

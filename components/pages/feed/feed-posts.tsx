@@ -5,7 +5,6 @@ import { Post } from "@/lib/types/database.types";
 import { PostgrestError, User } from "@supabase/supabase-js";
 import { AlertCircle } from "lucide-react";
 import Link from "next/link";
-import RealTimeFeed from "./real-time-feed";
 
 function EmptyFeed() {
   return (
@@ -55,20 +54,15 @@ export default function FeedPosts({
     return <EmptyFeed />;
   }
 
-  // Get the timestamp of the most recent post for real-time filtering
-  const latestPostTimestamp = posts[0]?.created_at || new Date().toISOString();
-
   return (
     <div className="relative">
-      <RealTimeFeed latestPostTimestamp={latestPostTimestamp} />
-
       <div>
         {posts.map((post: Post<true, true>) => (
           <PostCard
             key={post.id}
             post={post}
             user={user}
-            revalidationPath="/following"
+            revalidationPath="/"
           />
         ))}
       </div>
