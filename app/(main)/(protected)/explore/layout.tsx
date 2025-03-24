@@ -11,7 +11,7 @@ export default async function ExploreLayout({
     <div className="min-h-screen bg-background">
       <div className="w-full">
         {/* Search Header */}
-        <div className="sticky top-0 z-10 bg-background/80 backdrop-blur-sm supports-backdrop-filter:bg-background/60 border-b">
+        <div className="sticky top-0 z-10 bg-background/80 backdrop-blur-sm supports-backdrop-filter:bg-background/60">
           <div className="py-4 space-y-4">
             <div className="sm:flex sm:justify-center">
               <div className="mx-2 sm:w-[640px]">

@@ -1,12 +1,10 @@
-"use client";
 import { Post, Profile } from "@/lib/types/database.types";
 import { formatRelativeTime } from "@/lib/utils/date";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/server";
 import { User } from "@supabase/supabase-js";
 import { BadgeCheck, UserIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { ImageCarousel } from "../image-carousel";
 import { ShareButton } from "../share-button";
 import AttachedProduct from "./attached-product";
@@ -69,40 +67,23 @@ async function checkIfFollowed(profile: Profile, currentUser: User | null) {
   return !!data;
 }
 
-export default function PostCard({
+export default async function PostCard({
   post,
   user,
   revalidationPath = "",
 }: PostCardProps) {
   const isPostOwner = post.user.id === user?.id;
+  const [isSaved, isLiked, isFollowed] = await Promise.all([
+    checkIfPostSaved(post.id, user?.id),
+    checkIfPostLiked(post.id, user?.id),
+    checkIfFollowed(post.user, user),
+  ]);
 
-  const [postStatus, setPostStatus] = useState<{
-    isSaved: boolean;
-    isLiked: boolean;
-    isFollowed: boolean;
-  } | null>(null);
-
-  useEffect(() => {
-    const fetchPostStatus = async () => {
-      const [isSaved, isLiked, isFollowed] = await Promise.all([
-        checkIfPostSaved(post.id, user?.id),
-        checkIfPostLiked(post.id, user?.id),
-        checkIfFollowed(post.user, user),
-      ]);
-
-      setPostStatus({
-        isSaved,
-        isLiked,
-        isFollowed,
-      });
-    };
-
-    fetchPostStatus();
-  }, [post.id, user?.id]);
-
-  if (!postStatus) {
-    return null;
-  }
+  // const [postStatus, setPostStatus] = useState<{
+  //   isSaved: boolean;
+  //   isLiked: boolean;
+  //   isFollowed: boolean;
+  // } | null>(null);
 
   return (
     <article className="border-b p-3 hover:bg-muted/5">
@@ -180,7 +161,7 @@ export default function PostCard({
                 isPostOwner={isPostOwner}
                 post={post}
                 user={user}
-                isFollowed={postStatus.isFollowed}
+                isFollowed={isFollowed}
                 revalidationPath={revalidationPath}
               />
             </div>
@@ -196,12 +177,12 @@ export default function PostCard({
                 revalidationPath={revalidationPath}
                 postId={post.id}
                 userId={user?.id}
-                initialSaved={postStatus.isSaved}
+                initialSaved={isSaved}
               />
               <LikeButton
                 postId={post.id}
                 userId={user?.id || ""}
-                initialLiked={postStatus.isLiked}
+                initialLiked={isLiked}
                 initialCount={post.likes_count || 0}
                 isPostOwner={isPostOwner}
               />
