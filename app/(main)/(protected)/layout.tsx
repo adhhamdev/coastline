@@ -1,15 +1,14 @@
-import BottomNav from '@/components/common/bottom-nav';
+import BottomNav from "@/components/common/bottom-nav";
 
 export default function ProtectedLayout({
-    children,
+  children,
 }: {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-
-    return (
-        <div className='mt-12'>
-            {children}
-            <BottomNav />
-        </div>
-    );
-} 
+  return (
+    <div className="mt-12">
+      {children}
+      <BottomNav />
+    </div>
+  );
+}

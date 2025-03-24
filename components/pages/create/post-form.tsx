@@ -17,7 +17,7 @@ import AttachImageButton from "./attach-image-button";
 import ProductSelector from "./product-selector";
 
 interface PostFormProps {
-  user: User;
+  user: User | null;
 }
 
 function SubmitButton() {
@@ -59,7 +59,7 @@ export function PostForm({ user }: PostFormProps) {
     const { data } = await supabase
       .from("products")
       .select("*")
-      .eq("user", user.id)
+      .eq("user", user?.id)
       .order("created_at", { ascending: false });
 
     if (data) {
@@ -84,7 +84,7 @@ export function PostForm({ user }: PostFormProps) {
 
           const fileExt = file.name.split(".").pop();
           const fileName = `${Math.random()}.${fileExt}`;
-          const filePath = `${user.id}/${fileName}`;
+          const filePath = `${user?.id}/${fileName}`;
 
           const { error: uploadError } = await supabase.storage
             .from("post-images")
@@ -103,7 +103,7 @@ export function PostForm({ user }: PostFormProps) {
       const result = await createPost(
         content,
         images,
-        user.id,
+        user?.id,
         selectedProduct?.id
       );
 

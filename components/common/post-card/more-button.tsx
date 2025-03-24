@@ -33,7 +33,7 @@ export default function MoreButton({
 }: {
   isPostOwner: boolean;
   post: Post<true, true>;
-  user: User;
+  user: User | null;
   revalidationPath?: string;
   isFollowed: boolean;
 }) {
@@ -44,7 +44,7 @@ export default function MoreButton({
   const handleDelete = async () => {
     try {
       startTransition(async () => {
-        await deletePost(post.id, user.id, revalidationPath);
+        await deletePost(post.id, user?.id, revalidationPath);
       });
       toast({
         title: "Success",

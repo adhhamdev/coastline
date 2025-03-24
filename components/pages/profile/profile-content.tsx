@@ -6,7 +6,7 @@ import { Calendar, Link as LinkIcon, Mail, MapPin } from "lucide-react";
 import Link from "next/link";
 
 interface ProfileContentProps {
-  user: User;
+  user: User | null;
   profile: Profile | null;
 }
 
@@ -58,7 +58,7 @@ export default function ProfileContent({ user, profile }: ProfileContentProps) {
             <div className="grid gap-4">
               <div className="flex items-center text-sm">
                 <Mail className="h-4 w-4 mr-2 text-muted-foreground" />
-                <span>{user.email}</span>
+                <span>{user?.email}</span>
               </div>
               {profile?.location && (
                 <div className="flex items-center text-sm">

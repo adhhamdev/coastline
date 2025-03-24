@@ -39,8 +39,8 @@ const formSchema = z.object({
 });
 
 interface ProfileFormProps {
-  user: User;
-  profile: Profile;
+  user: User | null;
+  profile: Profile | null;
 }
 
 export default function ProfileForm({ user, profile }: ProfileFormProps) {
@@ -83,7 +83,7 @@ export default function ProfileForm({ user, profile }: ProfileFormProps) {
           website: values.website,
           updated_at: new Date().toISOString(),
         })
-        .eq("id", user.id);
+        .eq("id", user?.id);
 
       if (profileError) throw profileError;
 

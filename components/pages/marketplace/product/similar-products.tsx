@@ -8,7 +8,7 @@ export default async function SimilarProducts({
   user,
 }: {
   product: Product<true>;
-  user: User;
+  user: User | null;
 }) {
   const supabase = await createClient();
 

@@ -57,10 +57,16 @@ export default async function SideTrends() {
 
       <div className="rounded-lg bg-muted p-4 mt-4">
         <h2 className="font-semibold mb-4">Suggested Users</h2>
-        <div className="space-y-4">
+        <div>
           {users?.map((user) => (
-            <div key={user.id} className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
+            <div
+              key={user.id}
+              className="flex items-center justify-between hover:bg-primary/10 rounded-lg py-1 px-2"
+            >
+              <Link
+                href={`/profile/${user.username}`}
+                className="flex items-center gap-2"
+              >
                 <Image
                   src={user.avatar_url}
                   alt={user.full_name}
@@ -74,7 +80,7 @@ export default async function SideTrends() {
                     {user.username}
                   </p>
                 </div>
-              </div>
+              </Link>
               <Button variant="outline" size="sm">
                 Follow
               </Button>

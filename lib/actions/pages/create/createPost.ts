@@ -8,7 +8,7 @@ import { createClient } from "@/utils/supabase/server";
 export default async function createPost(
   content: string,
   images: string[],
-  userId: string,
+  userId: string | undefined,
   productId?: string
 ) {
   try {

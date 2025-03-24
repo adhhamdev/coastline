@@ -17,7 +17,7 @@ interface ProductData {
 export default async function createProduct(
   data: ProductData,
   images: string[],
-  userId: string
+  userId: string | undefined
 ) {
   try {
     const supabase = await createClient();

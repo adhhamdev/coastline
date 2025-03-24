@@ -1,6 +1,6 @@
 import ProfileContent from "@/components/pages/profile/profile-content";
 import ProfileHeader from "@/components/pages/profile/profile-header";
-import protectPage from "@/lib/helpers/protectPage";
+import { getUser } from "@/lib/actions/auth";
 import { Profile } from "@/lib/types/database.types";
 import { createClient } from "@/utils/supabase/server";
 import { Metadata } from "next";
@@ -11,14 +11,14 @@ export const metadata: Metadata = {
 };
 
 export default async function ProfilePage() {
-  const user = await protectPage();
+  const user = await getUser();
 
   // Fetch user profile data with additional fields
   const supabase = await createClient();
   const { data: profile }: { data: Profile | null } = await supabase
     .from("profiles")
     .select(`*`)
-    .eq("id", user.id)
+    .eq("id", user?.id)
     .single();
 
   return (

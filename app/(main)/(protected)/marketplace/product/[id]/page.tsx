@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import protectPage from "@/lib/helpers/protectPage";
+import { getUser } from "@/lib/actions/auth";
 import { createClient } from "@/utils/supabase/server";
 import { formatDistanceToNow } from "date-fns";
 import { Heart, MapPin, Share2, Star, UserIcon } from "lucide-react";
@@ -22,7 +22,7 @@ interface ProductPageProps {
 
 export default async function ProductPage(props: ProductPageProps) {
   const params = await props.params;
-  const user = await protectPage();
+  const user = await getUser();
   const supabase = await createClient();
 
   // Fetch product details with seller information

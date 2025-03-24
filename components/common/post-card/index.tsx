@@ -17,7 +17,7 @@ import SaveButton from "./save-post-button";
 
 interface PostCardProps {
   post: Post<true, true>;
-  user: User;
+  user: User | null;
   revalidationPath?: string;
 }
 

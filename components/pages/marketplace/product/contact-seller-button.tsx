@@ -8,7 +8,7 @@ import { MessageCircle } from "lucide-react";
 export default function ContactSellerButton({
   currentUser,
 }: {
-  currentUser: User;
+  currentUser: User | null;
 }) {
   const { toast } = useToast();
 

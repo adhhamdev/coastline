@@ -23,7 +23,7 @@ import { useFormStatus } from "react-dom";
 import AttachImageButton from "./attach-image-button";
 
 interface ProductFormProps {
-  user: User;
+  user: User | null;
 }
 
 function SubmitButton() {
@@ -82,7 +82,7 @@ export function ProductForm({ user }: ProductFormProps) {
 
           const fileExt = file.name.split(".").pop();
           const fileName = `${Math.random()}.${fileExt}`;
-          const filePath = `${user.id}/${fileName}`;
+          const filePath = `${user?.id}/${fileName}`;
 
           const { error: uploadError } = await supabase.storage
             .from("product-images")
@@ -101,7 +101,7 @@ export function ProductForm({ user }: ProductFormProps) {
       const result = await createProduct(
         { title, description, price, category, stock, location },
         images,
-        user.id
+        user?.id
       );
 
       if (!result.success) {

@@ -15,7 +15,7 @@ export default function SavedTabs({
   user,
 }: {
   savedPosts: SavedPost<true, true>[];
-  user: User;
+  user: User | null;
 }) {
   return (
     <Tabs defaultValue="posts" className="space-y-4 w-full">

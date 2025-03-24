@@ -10,8 +10,8 @@ import Image from "next/image";
 import { useState } from "react";
 
 interface EditProfileHeaderProps {
-  user: User;
-  profile: Profile;
+  user: User | null;
+  profile: Profile | null;
 }
 
 export default function EditProfileHeader({
@@ -32,7 +32,7 @@ export default function EditProfileHeader({
       if (!file) return;
 
       const fileExt = file.name.split(".").pop();
-      const filePath = `${user.id}/${Math.random()}.${fileExt}`;
+      const filePath = `${user?.id}/${Math.random()}.${fileExt}`;
 
       const { error: uploadError, data } = await supabase.storage
         .from("banners")
@@ -49,7 +49,7 @@ export default function EditProfileHeader({
         .update({
           [`${type}_url`]: publicUrl,
         })
-        .eq("id", user.id);
+        .eq("id", user?.id);
 
       if (updateError) throw updateError;
 
@@ -109,7 +109,7 @@ export default function EditProfileHeader({
             <Avatar className="h-32 w-32 rounded-full ring-4 ring-background">
               <AvatarImage src={profile?.avatar_url || ""} />
               <AvatarFallback className="text-4xl">
-                {user.email?.[0].toUpperCase()}
+                {user?.email?.[0].toUpperCase()}
               </AvatarFallback>
             </Avatar>
             <label

@@ -42,7 +42,7 @@ export default function FeedPosts({
   posts,
   error,
 }: {
-  user: User;
+  user: User | null;
   posts: Post<true, true>[] | null;
   error: PostgrestError | null;
 }) {

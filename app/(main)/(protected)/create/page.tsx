@@ -4,12 +4,12 @@ import { ProductForm } from "@/components/pages/create/product-form";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import protectPage from "@/lib/helpers/protectPage";
+import { getUser } from "@/lib/actions/auth";
 import { createClient } from "@/utils/supabase/server";
 import { MessageSquare, ShoppingBag } from "lucide-react";
 
 export default async function CreatePage() {
-  const user = await protectPage();
+  const user = await getUser();
   const supabase = await createClient();
   const { data: profile, error } = await supabase
     .from("profiles")
@@ -27,12 +27,12 @@ export default async function CreatePage() {
                 <AvatarImage src={profile?.avatar_url} />
                 <AvatarFallback>
                   {profile?.username?.[0]?.toUpperCase() ||
-                    user.email?.[0]?.toUpperCase()}
+                    user?.email?.[0]?.toUpperCase()}
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium truncate">
-                  {profile?.full_name || profile?.username || user.email}
+                  {profile?.full_name || profile?.username || user?.email}
                 </p>
               </div>
             </div>

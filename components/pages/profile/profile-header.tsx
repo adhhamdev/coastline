@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface ProfileHeaderProps {
-  user: User;
+  user: User | null;
   profile: Profile | null;
 }
 
@@ -36,7 +36,7 @@ export default function ProfileHeader({ user, profile }: ProfileHeaderProps) {
               <Avatar className="h-32 w-32 sm:h-40 sm:w-40 rounded-full ring-4 ring-background">
                 <AvatarImage src={profile?.avatar_url || ""} />
                 <AvatarFallback className="text-4xl">
-                  {user.email?.[0].toUpperCase()}
+                  {user?.email?.[0].toUpperCase()}
                 </AvatarFallback>
               </Avatar>
             </div>
@@ -46,10 +46,10 @@ export default function ProfileHeader({ user, profile }: ProfileHeaderProps) {
               <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between">
                 <div>
                   <h1 className="text-2xl font-bold text-center sm:text-left">
-                    {profile?.full_name || user.user_metadata?.full_name}
+                    {profile?.full_name || user?.user_metadata?.full_name}
                   </h1>
                   <p className="text-muted-foreground text-center sm:text-left">
-                    @{profile?.username || user.email?.split("@")[0]}
+                    @{profile?.username || user?.email?.split("@")[0]}
                   </p>
                 </div>
                 <div className="mt-4 sm:mt-0 flex justify-center sm:justify-start space-x-3">

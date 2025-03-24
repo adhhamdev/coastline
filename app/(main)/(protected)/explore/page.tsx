@@ -1,7 +1,7 @@
 import ProductCard from "@/components/common/product-card";
 import UserCard from "@/components/common/user-card";
+import { getUser } from "@/lib/actions/auth";
 import searchExplore from "@/lib/helpers/pages/explore/search";
-import protectPage from "@/lib/helpers/protectPage";
 import { createClient } from "@/utils/supabase/server";
 
 type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
@@ -11,7 +11,7 @@ export default async function ExplorePage({
 }: {
   searchParams: SearchParams;
 }) {
-  const user = await protectPage();
+  const user = await getUser();
   const supabase = await createClient();
   const filterParams = await searchParams;
 

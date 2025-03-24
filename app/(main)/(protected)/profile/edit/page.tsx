@@ -2,7 +2,7 @@ import DashboardHeader from "@/components/pages/dashboard/header";
 import DashboardShell from "@/components/pages/dashboard/shell";
 import EditProfileHeader from "@/components/pages/profile/edit-profile-header";
 import ProfileForm from "@/components/pages/profile/profile-form";
-import protectPage from "@/lib/helpers/protectPage";
+import { getUser } from "@/lib/actions/auth";
 import { createClient } from "@/utils/supabase/server";
 import { Metadata } from "next";
 
@@ -12,14 +12,14 @@ export const metadata: Metadata = {
 };
 
 export default async function EditProfilePage() {
-  const user = await protectPage();
+  const user = await getUser();
   const supabase = await createClient();
 
   // Fetch user profile data
   const { data: profile } = await supabase
     .from("profiles")
     .select("*")
-    .eq("id", user.id)
+    .eq("id", user?.id)
     .single();
 
   return (
