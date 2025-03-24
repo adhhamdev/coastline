@@ -115,7 +115,7 @@ export default async function PostCard({
         </Link>
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between text-sm">
-            <div className="flex gap-1 w-full">
+            <div className="flex gap-1 max-w-11/12">
               <Link
                 href={`/profile/${post.user.username}`}
                 className="truncate font-semibold hover:underline"
@@ -124,7 +124,7 @@ export default async function PostCard({
               </Link>
               <Link
                 href={`/profile/${post.user.username}`}
-                className="truncate text-muted-foreground hover:underline"
+                className="truncate text-muted-foreground hover:underline block max-w-4/5 md:max-w-none"
               >
                 @{post.user.username}
               </Link>

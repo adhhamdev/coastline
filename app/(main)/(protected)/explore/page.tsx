@@ -29,7 +29,7 @@ export default async function ExplorePage({
       <div className="mx-2 sm:w-[640px]">
         <div className="mt-6 space-y-14">
           {/* Products Section */}
-          {searchResults?.products.length && (
+          {searchResults?.products.length > 0 && (
             <section className="space-y-3">
               <div className="flex items-center justify-between px-4 md:px-6">
                 <h3 className="text-lg font-semibold">Products</h3>
@@ -47,7 +47,7 @@ export default async function ExplorePage({
           )}
 
           {/* Users Section */}
-          {searchResults?.users.length && (
+          {searchResults?.users.length > 0 && (
             <section className="space-y-3">
               <div className="flex items-center justify-between px-4 md:px-6">
                 <h3 className="text-lg font-semibold">People</h3>

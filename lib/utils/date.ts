@@ -4,7 +4,7 @@ export function formatRelativeTime(date: string): string {
   const diffInSeconds = Math.floor((now.getTime() - postDate.getTime()) / 1000);
 
   if (diffInSeconds < 60) {
-    return 'just now';
+    return 'now';
   } else if (diffInSeconds < 3600) {
     const minutes = Math.floor(diffInSeconds / 60);
     return `${minutes}m`;
