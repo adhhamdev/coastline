@@ -3,6 +3,9 @@ import RealTimeFeed from "@/components/pages/feed/real-time-feed";
 import { getUser } from "@/lib/actions/auth";
 import getPosts from "@/lib/helpers/pages/feed/getPosts";
 
+export const dynamic = "force-static";
+export const fetchCache = "force-cache";
+
 export default async function FeedPage() {
   const user = await getUser();
   const { posts, error } = await getPosts();

@@ -1,5 +1,5 @@
+import { Post } from "@/lib/types/database.types";
 import { createClient } from "@/utils/supabase/server";
-import { Post, Product, Profile } from "@/lib/types/database.types";
 import { User } from "@supabase/supabase-js";
 
 export default async function getFollowingPosts(user: User) {
