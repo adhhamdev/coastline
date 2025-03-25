@@ -46,7 +46,7 @@ export default function LikeButton({
   const handleLike = async () => {
     if (!userId) {
       toast({
-        title: "Authentication required",
+        title: "Sign In",
         description: "Please sign in to like posts",
       });
       return;

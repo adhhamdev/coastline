@@ -24,9 +24,8 @@ export default function SavePostButton({
   const handleSave = async () => {
     if (!userId) {
       toast({
-        title: "Error",
-        description: "Please login to save posts",
-        variant: "destructive",
+        title: "Sign In",
+        description: "Please sign in to save posts",
       });
       return;
     }
