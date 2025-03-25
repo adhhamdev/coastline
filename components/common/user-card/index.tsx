@@ -44,7 +44,11 @@ export default async function UserCard({
           <AvatarFallback>{profile.username?.[0].toUpperCase()}</AvatarFallback>
         </Avatar>
         <div className="mt-3 space-y-1.5">
-          <Link href={`/${profile.username}`} className="hover:underline">
+          <Link
+            prefetch={true}
+            href={`/${profile.username}`}
+            className="hover:underline"
+          >
             <h3 className="font-semibold truncate">{profile.username}</h3>
           </Link>
           {profile.business_type && (

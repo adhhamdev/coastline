@@ -21,6 +21,7 @@ export default function BottomNav() {
         <div className="flex h-16 items-center justify-around px-4">
           {navLinks.map((link) => (
             <Link
+              prefetch={true}
               key={link.href}
               href={link.href}
               className={cn(

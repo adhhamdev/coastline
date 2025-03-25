@@ -28,7 +28,7 @@ export default async function SideNavbar() {
               className="w-full justify-start md:justify-center lg:justify-start gap-2 text-base"
               asChild
             >
-              <Link href={link.href} prefetch>
+              <Link href={link.href} prefetch={true}>
                 <link.icon className="h-5 w-5" />
                 <span className="hidden lg:inline">{link.label}</span>
               </Link>

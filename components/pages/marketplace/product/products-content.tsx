@@ -68,7 +68,9 @@ export default function ProductsContent({
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-3xl font-bold tracking-tight">Products</h1>
         <Button asChild>
-          <Link href="/create">List New Product</Link>
+          <Link prefetch={true} href="/create">
+            List New Product
+          </Link>
         </Button>
       </div>
 

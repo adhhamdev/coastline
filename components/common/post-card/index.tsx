@@ -89,6 +89,7 @@ export default async function PostCard({
     <article className="border-b p-3 hover:bg-muted/5">
       <div className="flex gap-3">
         <Link
+          prefetch={true}
           href={`/profile/${post.user.username}`}
           className="relative h-10 w-10 shrink-0 bg-muted rounded-full"
         >
@@ -117,12 +118,14 @@ export default async function PostCard({
           <div className="flex items-center justify-between text-sm">
             <div className="flex gap-1 max-w-11/12">
               <Link
+                prefetch={true}
                 href={`/profile/${post.user.username}`}
                 className="truncate font-semibold hover:underline"
               >
                 {post.user.full_name}
               </Link>
               <Link
+                prefetch={true}
                 href={`/profile/${post.user.username}`}
                 className="truncate text-muted-foreground hover:underline block max-w-4/5 md:max-w-none"
               >

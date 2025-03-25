@@ -53,7 +53,7 @@ export default function ProfileHeader({ user, profile }: ProfileHeaderProps) {
                   </p>
                 </div>
                 <div className="mt-4 sm:mt-0 flex justify-center sm:justify-start space-x-3">
-                  <Link href="/profile/edit">
+                  <Link prefetch={true} href="/profile/edit">
                     <Button variant="outline" size="sm">
                       <Edit className="h-4 w-4 mr-2" />
                       Edit Profile
@@ -79,6 +79,7 @@ export default function ProfileHeader({ user, profile }: ProfileHeaderProps) {
                   )}
                   {profile?.website && (
                     <Link
+                      prefetch={true}
                       href={profile.website}
                       className="flex items-center text-sm text-primary hover:underline"
                       target="_blank"

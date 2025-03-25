@@ -35,6 +35,7 @@ export default function ProductCard({
           {product.stock === 0 ? "Out of Stock" : `${product.stock} in Stock`}
         </Badge>
         <Link
+          prefetch={true}
           href={`/marketplace/product/${product.id}`}
           className="absolute inset-0"
         >
@@ -65,6 +66,7 @@ export default function ProductCard({
           </div>
 
           <Link
+            prefetch={true}
             href={`/marketplace/product/${product.id}`}
             className="hover:underline line-clamp-2 text-sm leading-snug block"
           >
@@ -93,6 +95,7 @@ export default function ProductCard({
               </AvatarFallback>
             </Avatar>
             <Link
+              prefetch={true}
               href={`/profile/${product.user?.username || product.user?.id}`}
               className="text-xs hover:underline truncate text-muted-foreground"
             >

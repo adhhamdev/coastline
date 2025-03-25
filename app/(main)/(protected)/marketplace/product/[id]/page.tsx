@@ -104,6 +104,7 @@ export default async function ProductPage(props: ProductPageProps) {
             <Card className="p-6 transition-shadow hover:shadow-md">
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                 <Link
+                  prefetch={true}
                   href={`/${product.profiles.username}`}
                   className="flex items-center space-x-4 group"
                 >

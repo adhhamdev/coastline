@@ -17,7 +17,9 @@ function EmptyFeed() {
         Be the first one to share something with the community!
       </p>
       <Button asChild>
-        <Link href="/create">Create a Post</Link>
+        <Link prefetch={true} href="/create">
+          Create a Post
+        </Link>
       </Button>
     </div>
   );

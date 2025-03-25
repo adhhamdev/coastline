@@ -41,6 +41,7 @@ export default async function SideTrends() {
           {trends.length > 0 ? (
             trends?.map((product) => (
               <Link
+                prefetch={true}
                 key={product.id}
                 href={`/marketplace/product/${product.id}`}
                 className="flex items-center gap-3 hover:bg-primary/10 p-1 rounded-lg"
@@ -82,6 +83,7 @@ export default async function SideTrends() {
                 className="flex items-center justify-between hover:bg-primary/10 rounded-lg py-2 px-3 transition-all duration-200 w-full"
               >
                 <Link
+                  prefetch={true}
                   href={`/profile/${user.username}`}
                   className="flex items-center gap-3 w-full"
                 >

@@ -70,6 +70,7 @@ export default function ProfileContent({ user, profile }: ProfileContentProps) {
                 <div className="flex items-center text-sm">
                   <LinkIcon className="h-4 w-4 mr-2 text-muted-foreground" />
                   <Link
+                    prefetch={true}
                     href={profile.website}
                     className="text-primary hover:underline"
                     target="_blank"

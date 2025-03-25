@@ -56,6 +56,7 @@ export default function UserNav({ user, ...props }: UserNavProps) {
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
             <Link
+              prefetch={true}
               href="/dashboard"
               className="w-full flex items-center cursor-pointer py-2"
             >
@@ -65,6 +66,7 @@ export default function UserNav({ user, ...props }: UserNavProps) {
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link
+              prefetch={true}
               href="/saved"
               className="w-full flex items-center cursor-pointer py-2"
             >
@@ -74,6 +76,7 @@ export default function UserNav({ user, ...props }: UserNavProps) {
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link
+              prefetch={true}
               href="/profile"
               className="w-full flex items-center cursor-pointer py-2"
             >
@@ -83,6 +86,7 @@ export default function UserNav({ user, ...props }: UserNavProps) {
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link
+              prefetch={true}
               href="/billing"
               className="w-full flex items-center cursor-pointer py-2"
             >
@@ -92,6 +96,7 @@ export default function UserNav({ user, ...props }: UserNavProps) {
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link
+              prefetch={true}
               href="/settings"
               className="w-full flex items-center cursor-pointer py-2"
             >

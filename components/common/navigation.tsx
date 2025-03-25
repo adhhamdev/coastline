@@ -20,7 +20,7 @@ export default function Navigation({ user }: { user: User | null }) {
   return (
     <header className="fixed top-0 z-50 w-full backdrop-blur-sm bg-background/80">
       <div className="flex justify-between items-center h-14 px-4">
-        <Link href="/" className="flex items-center space-x-2">
+        <Link prefetch={true} href="/" className="flex items-center space-x-2">
           <span className="text-xl font-bold text-foreground">Coastline.</span>
         </Link>
 
@@ -29,6 +29,7 @@ export default function Navigation({ user }: { user: User | null }) {
           <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
             {navLinks.map((link) => (
               <Link
+                prefetch={true}
                 key={link.href}
                 href={link.href}
                 className={`flex items-center space-x-2 ${
@@ -55,7 +56,9 @@ export default function Navigation({ user }: { user: User | null }) {
               className="flex shadow-lg hover:bg-secondary-foreground rounded-full px-5"
             >
               <LogIn />
-              <Link href="/auth/login">Login</Link>
+              <Link prefetch={true} href="/auth/login">
+                Login
+              </Link>
             </Button>
           )}
         </div>

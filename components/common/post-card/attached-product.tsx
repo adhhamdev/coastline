@@ -9,6 +9,7 @@ export default function AttachedProduct({ post }: { post: Post<true, true> }) {
 
   return (
     <Link
+      prefetch={true}
       href={`/marketplace/product/${product.id}`}
       className="group relative flex items-start gap-3 rounded-lg border p-3 hover:bg-muted/50 "
       title={product.title}
